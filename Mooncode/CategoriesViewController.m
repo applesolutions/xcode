@@ -415,11 +415,23 @@
                         
                         BOOL reloadData = ! self.collectionView.hidden;
                         
-//                        download the first image of the collection
-                        [self getImageWithImageUrl:[[[[dicProductsCorrespondingToCollections objectForKey:collection_id] firstObject] objectForKey:@"image"] objectForKey:@"src"]
-                                       andObjectId:[[[dicProductsCorrespondingToCollections objectForKey:collection_id] firstObject] objectForKey:@"id"]
-                               lastImageToDownload:reloadData
-                                ImageForCollection:YES]; //modif
+                        //check for a collection image
+                        if ([[dicCollections objectForKey:collection_id] objectForKey:@"image"]) {
+                            
+                            NSDictionary *dicCollection = [dicCollections objectForKey:collection_id];
+                            
+                            [self getImageWithImageUrl:[[dicCollection objectForKey:@"image"] objectForKey:@"src"]
+                                           andObjectId:collection_id
+                                   lastImageToDownload:reloadData
+                                    ImageForCollection:YES]; //modif
+                        }else{
+                            
+                            //  download the first image of the first product
+                            [self getImageWithImageUrl:[[[[dicProductsCorrespondingToCollections objectForKey:collection_id] firstObject] objectForKey:@"image"] objectForKey:@"src"]
+                                           andObjectId:[[[dicProductsCorrespondingToCollections objectForKey:collection_id] firstObject] objectForKey:@"id"]
+                                   lastImageToDownload:reloadData
+                                    ImageForCollection:YES]; //modif
+                        }
                         
                         NSLog(@"count for collections after dec: %d", count_collectionsToDownload);
                     }
@@ -829,17 +841,24 @@
             cell.displayLabel.hidden = NO;
         }
         
-        for (NSDictionary *dicProduct in [dicProductsCorrespondingToCollections objectForKey:keyCategory]) {
+        //check for specific collection image
+        UIImage *collectionImage =[ImageManagement getImageFromMemoryWithName:keyCategory];
+        if (collectionImage != nil) {
             
-            NSString *productId = [dicProduct objectForKey:@"id"];
+            cell.imageView.image = [ImageManagement getImageFromMemoryWithName:keyCategory];
+        }else{ //take the fist product image available
             
-            if ([ImageManagement getImageFromMemoryWithName:productId] != nil) {
+            for (NSDictionary *dicProduct in [dicProductsCorrespondingToCollections objectForKey:keyCategory]) {
                 
-                cell.imageView.image = [ImageManagement getImageFromMemoryWithName:productId];
-                break;
+                NSString *productId = [dicProduct objectForKey:@"id"];
+                
+                if ([ImageManagement getImageFromMemoryWithName:productId] != nil) {
+                    
+                    cell.imageView.image = [ImageManagement getImageFromMemoryWithName:productId];
+                    break;
+                }
             }
         }
-        
         return cell;
     }
 }
