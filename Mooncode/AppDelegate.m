@@ -25,26 +25,30 @@
 //    NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
 //    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
     
-    [[NSUserDefaults standardUserDefaults] setObject:@"https://fedbythreads.myshopify.com" forKey:@"website_url"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"73aeb1d0858d068d68dddc7a805e68b7" forKey:@"shopify_token"];
+    
+//    [[NSUserDefaults standardUserDefaults] setObject:@"https://fedbythreads.myshopify.com" forKey:@"website_url"];//FEDBYTHREADS
+//    [[NSUserDefaults standardUserDefaults] setObject:@"73aeb1d0858d068d68dddc7a805e68b7" forKey:@"shopify_token"];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_url"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"307c1fa5b94457770026fc6c5292adca" forKey:@"shopify_token"];
     [[NSUserDefaults standardUserDefaults] setObject:@"http://fedbythreads.com" forKey:@"website_cart_url"];
     [[NSUserDefaults standardUserDefaults] setObject:@"checkout" forKey:@"id_button_checkout"];
     [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"urlForTerms"];
     [[NSUserDefaults standardUserDefaults] setObject:@"FedByThreads" forKey:@"twitterName"];
     [[NSUserDefaults standardUserDefaults] setObject:@"info@fedbythreads.com" forKey:@"supportUrl"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"custom_collections" forKey:@"collectionType"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"smart_collections" forKey:@"collectionType"];
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"areCollectionsDisplayed"];
     
     [[NSUserDefaults standardUserDefaults] setObject:@"$" forKey:@"currency"];
     
-    [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @44 ,  @"red"   ,
-                                                                                                    @44 ,  @"green" ,
-                                                                                                    @44 ,  @"blue"  ,  nil]
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @48 ,  @"red"   ,
+                                                                                                    @48 ,  @"green" ,
+                                                                                                    @48 ,  @"blue"  ,  nil]
                                               forKey:@"colorNavBar"];
 
-    [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @156 ,  @"red"   ,
-                                                                                                    @31 ,  @"green" ,
-                                                                                                    @57 ,  @"blue"  ,  nil]
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @48 ,  @"red"   ,
+                                                                                                    @48 ,  @"green" ,
+                                                                                                    @48 ,  @"blue"  ,  nil]
                                               forKey:@"colorSettingsView"];
     
     [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @156 ,  @"red"   ,

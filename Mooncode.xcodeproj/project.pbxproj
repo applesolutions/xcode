@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA0F4B251A5D413100D5C7E1 /* ShopifyImages.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0F4B241A5D413100D5C7E1 /* ShopifyImages.m */; };
 		AA13FD4A1A0441D500696FE1 /* NavControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA13FD491A0441D500696FE1 /* NavControllerViewController.m */; };
 		AA13FD4D1A04B86600696FE1 /* PickerViewOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA13FD4C1A04B86600696FE1 /* PickerViewOptions.m */; };
 		AA13FD511A04B8A900696FE1 /* PickerViewForOptions.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA13FD501A04B8A900696FE1 /* PickerViewForOptions.xib */; };
@@ -72,6 +73,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA0F4B231A5D413100D5C7E1 /* ShopifyImages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopifyImages.h; sourceTree = "<group>"; };
+		AA0F4B241A5D413100D5C7E1 /* ShopifyImages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopifyImages.m; sourceTree = "<group>"; };
 		AA13FD481A0441D500696FE1 /* NavControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NavControllerViewController.h; path = ../NavControllerViewController.h; sourceTree = "<group>"; };
 		AA13FD491A0441D500696FE1 /* NavControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NavControllerViewController.m; path = ../NavControllerViewController.m; sourceTree = "<group>"; };
 		AA13FD4B1A04B86600696FE1 /* PickerViewOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickerViewOptions.h; sourceTree = "<group>"; };
@@ -239,6 +242,8 @@
 			children = (
 				AA6390D21A385DD1008462BF /* ImageManagement.h */,
 				AA6390D31A385DD1008462BF /* ImageManagement.m */,
+				AA0F4B231A5D413100D5C7E1 /* ShopifyImages.h */,
+				AA0F4B241A5D413100D5C7E1 /* ShopifyImages.m */,
 				AA6390DC1A38880B008462BF /* SocialMedias.h */,
 				AA6390DD1A38880B008462BF /* SocialMedias.m */,
 			);
@@ -476,6 +481,7 @@
 				AAA1C34819EF460800C257FE /* ScrollViewController.m in Sources */,
 				AA7EFFCD19ED051400CB3A2B /* SettingsViewController.m in Sources */,
 				AA9F65111A0099A300242FBA /* CategoryProductsViewController.m in Sources */,
+				AA0F4B251A5D413100D5C7E1 /* ShopifyImages.m in Sources */,
 				AA13FD4A1A0441D500696FE1 /* NavControllerViewController.m in Sources */,
 				AA930A4919E9F00E0084A250 /* AppDelegate.m in Sources */,
 				AA6390DB1A38670C008462BF /* NSString+URL_Shopify.m in Sources */,
