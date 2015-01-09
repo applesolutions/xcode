@@ -59,7 +59,6 @@
 		AABE085319F1ACBB009AF8D1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABE085219F1ACBB009AF8D1 /* Security.framework */; };
 		AABE085719F1ACCD009AF8D1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABE085619F1ACCD009AF8D1 /* SystemConfiguration.framework */; };
 		AAC89DDA1A375D8F00D33C36 /* LaunchImage.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC89DD91A375D8F00D33C36 /* LaunchImage.m */; };
-		AAC89DDD1A375F2000D33C36 /* LaunchImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC89DDC1A375F2000D33C36 /* LaunchImageViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -154,8 +153,6 @@
 		AABE085619F1ACCD009AF8D1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		AAC89DD81A375D8F00D33C36 /* LaunchImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchImage.h; sourceTree = "<group>"; };
 		AAC89DD91A375D8F00D33C36 /* LaunchImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchImage.m; sourceTree = "<group>"; };
-		AAC89DDB1A375F2000D33C36 /* LaunchImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchImageViewController.h; sourceTree = "<group>"; };
-		AAC89DDC1A375F2000D33C36 /* LaunchImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchImageViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -253,8 +250,6 @@
 		AA930A3719E9F00E0084A250 = {
 			isa = PBXGroup;
 			children = (
-				AAC89DDB1A375F2000D33C36 /* LaunchImageViewController.h */,
-				AAC89DDC1A375F2000D33C36 /* LaunchImageViewController.m */,
 				AA82E3A21A2677AD00BFE601 /* StoreKit.framework */,
 				AA930A4219E9F00E0084A250 /* Mooncode */,
 				AA930A5C19E9F00E0084A250 /* 208Tests */,
@@ -492,7 +487,6 @@
 				AA96651119FCBB2F0008ED03 /* CartViewController.m in Sources */,
 				AA13FD571A05752200696FE1 /* ModifyProductInCartViewController.m in Sources */,
 				AA13FD5A1A05BB2500696FE1 /* NSString+HTML.m in Sources */,
-				AAC89DDD1A375F2000D33C36 /* LaunchImageViewController.m in Sources */,
 				AA96650819FCAE6E0008ED03 /* ProductDetailsViewController.m in Sources */,
 				AA6390E11A389ECB008462BF /* NSString+Custom.m in Sources */,
 				AA13FD611A05F7E100696FE1 /* AcceptedPayementView.m in Sources */,
