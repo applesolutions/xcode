@@ -47,6 +47,7 @@
 		AAA1C34C19F07F5B00C257FE /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAA1C34B19F07F5B00C257FE /* Twitter.framework */; };
 		AAA1C34E19F082FB00C257FE /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAA1C34D19F082FB00C257FE /* Social.framework */; };
 		AAABB3D71A36F44E005B53E1 /* Storyboard_autolayout.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAABB3D61A36F44E005B53E1 /* Storyboard_autolayout.storyboard */; };
+		AAAD436F1A60706900B8AB56 /* NSUserDefaultsMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAD436E1A60706900B8AB56 /* NSUserDefaultsMethods.m */; };
 		AABE084219F1AC79009AF8D1 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABE084019F1AC79009AF8D1 /* Bolts.framework */; };
 		AABE084319F1AC79009AF8D1 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABE084119F1AC79009AF8D1 /* Parse.framework */; };
 		AABE084519F1AC8B009AF8D1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABE084419F1AC8B009AF8D1 /* AudioToolbox.framework */; };
@@ -140,6 +141,8 @@
 		AAA1C34B19F07F5B00C257FE /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		AAA1C34D19F082FB00C257FE /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		AAABB3D61A36F44E005B53E1 /* Storyboard_autolayout.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard_autolayout.storyboard; sourceTree = "<group>"; };
+		AAAD436D1A60706900B8AB56 /* NSUserDefaultsMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSUserDefaultsMethods.h; sourceTree = "<group>"; };
+		AAAD436E1A60706900B8AB56 /* NSUserDefaultsMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSUserDefaultsMethods.m; sourceTree = "<group>"; };
 		AABE084019F1AC79009AF8D1 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		AABE084119F1AC79009AF8D1 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		AABE084419F1AC8B009AF8D1 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -243,6 +246,8 @@
 				AA0F4B241A5D413100D5C7E1 /* ShopifyImages.m */,
 				AA6390DC1A38880B008462BF /* SocialMedias.h */,
 				AA6390DD1A38880B008462BF /* SocialMedias.m */,
+				AAAD436D1A60706900B8AB56 /* NSUserDefaultsMethods.h */,
+				AAAD436E1A60706900B8AB56 /* NSUserDefaultsMethods.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -484,6 +489,7 @@
 				AA85EF4819FCCDF600C06F60 /* CHTCollectionViewWaterfallCell.m in Sources */,
 				AA85EF4A19FCCDF600C06F60 /* CHTCollectionViewWaterfallFooter.m in Sources */,
 				AA13FD5E1A05BB4600696FE1 /* GTMNSString+HTML.m in Sources */,
+				AAAD436F1A60706900B8AB56 /* NSUserDefaultsMethods.m in Sources */,
 				AA96651119FCBB2F0008ED03 /* CartViewController.m in Sources */,
 				AA13FD571A05752200696FE1 /* ModifyProductInCartViewController.m in Sources */,
 				AA13FD5A1A05BB2500696FE1 /* NSString+HTML.m in Sources */,
