@@ -489,7 +489,7 @@
 //    NSLog(@"date tot compare : %@", [dateToCompare description]);
 //    NSLog(@"date tot ref : %@", [dateReference description]);
     
-    NSLog(@" time difference : %f",[dateToCompare timeIntervalSinceDate:dateReference] );
+//    NSLog(@" time difference : %f",[dateToCompare timeIntervalSinceDate:dateReference] );
     if ([dateToCompare timeIntervalSinceDate:dateReference] > 0 || stringDateReference == nil) { //collection has to be updated in iPhone !
 //        NSLog(@"aupdate !!!");
         return YES;
