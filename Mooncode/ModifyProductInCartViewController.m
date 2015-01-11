@@ -120,7 +120,11 @@
     
     [self definePriceForVariant:[[self.dicProduct objectForKey:@"variants"] firstObject]];
     
-    self.textViewDescription.text = [[self.dicProduct objectForKey:@"body_html"] stringByConvertingHTMLToPlainText];
+    if ( ! [[self.dicProduct objectForKey:@"body_html"] isKindOfClass:[NSNull class]]) {
+        self.textViewDescription.text = [[self.dicProduct objectForKey:@"body_html"] stringByConvertingHTMLToPlainText];
+    }else{
+        self.textViewDescription.text = nil;
+    }
     
     self.textViewDescription.editable=YES;
     self.textViewDescription.textAlignment = UITextAlignmentCenter;

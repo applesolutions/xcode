@@ -1002,7 +1002,7 @@ Make sure you are
                                     </mask>
                                 </variation>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="text-madeMooncode" translatesAutoresizingMaskIntoConstraints="NO" id="ert-zI-UyO">
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="text-madeMooncode-white" translatesAutoresizingMaskIntoConstraints="NO" id="ert-zI-UyO">
                                 <rect key="frame" x="180" y="506" width="240" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="28" id="LVh-Q4-EZ7"/>
@@ -1225,95 +1225,6 @@ Make sure you are
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9pn-ZQ-2Zd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2052" y="1914"/>
-        </scene>
-        <!--Test View Controller-->
-        <scene sceneID="8dq-UT-uei">
-            <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="3AQ-UY-Cjo" customClass="TestViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="KJR-gH-ntK"/>
-                        <viewControllerLayoutGuide type="bottom" id="PvZ-Hi-gww"/>
-                    </layoutGuides>
-                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="eQw-pz-cnb">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LUg-ut-3sb">
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Iqr-5B-QZU">
-                                <rect key="frame" x="0.0" y="332" width="600" height="234"/>
-                                <subviews>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dbi-qt-Qz4">
-                                        <rect key="frame" x="0.0" y="32" width="555" height="132.5"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="128" id="21g-dZ-4YW"/>
-                                            <constraint firstAttribute="width" constant="555" id="72k-pa-veM"/>
-                                            <constraint firstAttribute="width" constant="413" id="BMu-K8-uJA"/>
-                                            <constraint firstAttribute="height" constant="132.5" id="Euo-5e-1If"/>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="240" id="KnC-cH-bIs"/>
-                                            <constraint firstAttribute="height" constant="132.5" id="h3K-Zp-vnv"/>
-                                            <constraint firstAttribute="height" constant="128" id="nTn-S0-qfs"/>
-                                            <constraint firstAttribute="width" constant="240" id="vPu-KA-3Kx"/>
-                                        </constraints>
-                                        <variation key="default">
-                                            <mask key="constraints">
-                                                <exclude reference="21g-dZ-4YW"/>
-                                                <exclude reference="BMu-K8-uJA"/>
-                                                <exclude reference="Euo-5e-1If"/>
-                                                <exclude reference="KnC-cH-bIs"/>
-                                                <exclude reference="nTn-S0-qfs"/>
-                                                <exclude reference="vPu-KA-3Kx"/>
-                                            </mask>
-                                        </variation>
-                                    </scrollView>
-                                </subviews>
-                                <color key="backgroundColor" red="0.79215686269999996" green="0.10980392160000001" blue="0.20784313730000001" alpha="1" colorSpace="deviceRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="234" id="8I3-87-AR6"/>
-                                    <constraint firstAttribute="trailing" secondItem="Dbi-qt-Qz4" secondAttribute="trailing" constant="22" id="FlT-WM-gAR"/>
-                                    <constraint firstItem="Dbi-qt-Qz4" firstAttribute="top" secondItem="Iqr-5B-QZU" secondAttribute="top" constant="32" id="KM0-af-8hZ"/>
-                                    <constraint firstItem="Dbi-qt-Qz4" firstAttribute="leading" secondItem="Iqr-5B-QZU" secondAttribute="leading" id="W2D-54-yHY"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="555" id="YF3-Il-5rE"/>
-                                    <constraint firstAttribute="height" constant="234" id="act-7Z-1UZ"/>
-                                    <constraint firstAttribute="width" constant="555" id="fus-yQ-Pts"/>
-                                    <constraint firstAttribute="bottom" secondItem="Dbi-qt-Qz4" secondAttribute="bottom" constant="900" id="tFY-UU-ZVK"/>
-                                </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="8I3-87-AR6"/>
-                                        <exclude reference="YF3-Il-5rE"/>
-                                        <exclude reference="fus-yQ-Pts"/>
-                                    </mask>
-                                </variation>
-                            </scrollView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="LUg-ut-3sb" firstAttribute="top" secondItem="eQw-pz-cnb" secondAttribute="top" id="AGs-yP-uiI"/>
-                            <constraint firstItem="Iqr-5B-QZU" firstAttribute="top" secondItem="KJR-gH-ntK" secondAttribute="bottom" constant="312" id="EPB-wO-zkZ"/>
-                            <constraint firstItem="Iqr-5B-QZU" firstAttribute="leading" secondItem="eQw-pz-cnb" secondAttribute="leadingMargin" constant="13" id="HVc-y9-icO"/>
-                            <constraint firstAttribute="width" secondItem="Iqr-5B-QZU" secondAttribute="width" id="ga4-w0-1bw"/>
-                            <constraint firstAttribute="trailing" secondItem="LUg-ut-3sb" secondAttribute="trailing" constant="600" id="v9c-3S-iUz"/>
-                            <constraint firstItem="Iqr-5B-QZU" firstAttribute="leading" secondItem="eQw-pz-cnb" secondAttribute="leadingMargin" constant="-16" id="zqK-Xr-T3H"/>
-                        </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="HVc-y9-icO"/>
-                            </mask>
-                        </variation>
-                    </view>
-                    <toolbarItems/>
-                    <connections>
-                        <outlet property="constraint_height_ViewContainingScrollViewPaging" destination="h3K-Zp-vnv" id="rGm-im-YjU"/>
-                        <outlet property="constraint_width_ViewContainingScrollViewPaging" destination="72k-pa-veM" id="TE1-Gz-Qro"/>
-                        <outlet property="scrollViewPaging" destination="Dbi-qt-Qz4" id="CAe-cj-hBS"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="D22-Wf-BPj" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5037" y="1179"/>
         </scene>
         <!--Modify Product In Cart View Controller-->
         <scene sceneID="g1a-o5-tct">
@@ -1595,7 +1506,7 @@ Make sure you are
         <image name="nav-icon-down" width="22" height="12"/>
         <image name="nav-icon-next" width="11" height="22"/>
         <image name="nav-icon-settings" width="22" height="24"/>
-        <image name="text-madeMooncode" width="171" height="13"/>
+        <image name="text-madeMooncode-white" width="171" height="13"/>
         <image name="waiting" width="320" height="507"/>
     </resources>
 </document>

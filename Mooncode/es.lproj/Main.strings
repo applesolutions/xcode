@@ -1,0 +1,78 @@
+
+/* Class = "IBUILabel"; text = "Thank you for downloading our App!\n\nNow downloading the content, it should take less than a minute and only happen once.\n\nMake sure you are\n connected to the Internet !"; ObjectID = "56k-kb-7yb"; */
+"56k-kb-7yb.text" = "Thank you for downloading our App!\n\nNow downloading the content, it should take less than a minute and only happen once.\n\nMake sure you are\n connected to the Internet !";
+
+/* Class = "IBUINavigationItem"; title = "Category name"; ObjectID = "6M8-wg-sSv"; */
+"6M8-wg-sSv.title" = "Category name";
+
+/* Class = "IBUILabel"; text = "Label"; ObjectID = "B2k-mn-i31"; */
+"B2k-mn-i31.text" = "Label";
+
+/* Class = "IBUILabel"; text = "About"; ObjectID = "EQR-aB-Hom"; */
+"EQR-aB-Hom.text" = "About";
+
+/* Class = "IBUILabel"; text = "Version"; ObjectID = "IHp-qD-v1T"; */
+"IHp-qD-v1T.text" = "Version";
+
+/* Class = "IBUITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "IJP-0N-ySq"; */
+"IJP-0N-ySq.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "IBUILabel"; text = "Price"; ObjectID = "Mmw-oU-SLA"; */
+"Mmw-oU-SLA.text" = "Price";
+
+/* Class = "IBUILabel"; text = "Size"; ObjectID = "S7F-2M-uUk"; */
+"S7F-2M-uUk.text" = "Size";
+
+/* Class = "IBUIButton"; normalTitle = "Contact support"; ObjectID = "VYC-aI-h5a"; */
+"VYC-aI-h5a.normalTitle" = "Contact support";
+
+/* Class = "IBUILabel"; text = "Label"; ObjectID = "Wii-X6-ivt"; */
+"Wii-X6-ivt.text" = "Label";
+
+/* Class = "IBUILabel"; text = "Title"; ObjectID = "XZK-Sm-GoW"; */
+"XZK-Sm-GoW.text" = "Title";
+
+/* Class = "IBUILabel"; text = "Label"; ObjectID = "ZYk-AA-QHc"; */
+"ZYk-AA-QHc.text" = "Label";
+
+/* Class = "IBUILabel"; text = "Get in touch"; ObjectID = "cUb-mu-8xA"; */
+"cUb-mu-8xA.text" = "Get in touch";
+
+/* Class = "IBUILabel"; text = "Label"; ObjectID = "eRp-f1-72M"; */
+"eRp-f1-72M.text" = "Label";
+
+/* Class = "IBUILabel"; text = "Qte"; ObjectID = "gBb-1M-3L0"; */
+"gBb-1M-3L0.text" = "Qte";
+
+/* Class = "IBUINavigationItem"; title = "Pay"; ObjectID = "iYZ-ve-rGP"; */
+"iYZ-ve-rGP.title" = "Pay";
+
+/* Class = "IBUINavigationItem"; title = "Shopping cart"; ObjectID = "kh3-yy-hdf"; */
+"kh3-yy-hdf.title" = "Shopping cart";
+
+/* Class = "IBUILabel"; text = "Label"; ObjectID = "lMU-zC-Jol"; */
+"lMU-zC-Jol.text" = "Label";
+
+/* Class = "IBUILabel"; text = "Label"; ObjectID = "qFe-xr-7e1"; */
+"qFe-xr-7e1.text" = "Label";
+
+/* Class = "IBUILabel"; text = "2.3"; ObjectID = "qx8-AE-Re2"; */
+"qx8-AE-Re2.text" = "2.3";
+
+/* Class = "IBUILabel"; text = "Label"; ObjectID = "tvu-GW-uey"; */
+"tvu-GW-uey.text" = "Label";
+
+/* Class = "IBUITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "u9z-5x-yM2"; */
+"u9z-5x-yM2.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "IBUILabel"; text = "Label"; ObjectID = "uTb-a9-tdw"; */
+"uTb-a9-tdw.text" = "Label";
+
+/* Class = "IBUINavigationItem"; title = "Let's shop"; ObjectID = "vRC-Eb-xms"; */
+"vRC-Eb-xms.title" = "Let's shop";
+
+/* Class = "IBUINavigationItem"; title = "Privacy"; ObjectID = "yDe-Zo-oSU"; */
+"yDe-Zo-oSU.title" = "Privacy";
+
+/* Class = "IBUILabel"; text = "Settings"; ObjectID = "zvs-e0-VG8"; */
+"zvs-e0-VG8.text" = "Settings";
