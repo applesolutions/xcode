@@ -27,17 +27,17 @@
 //    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
     //*************************
     
-    [[NSUserDefaults standardUserDefaults] setObject:@"https://fedbythreads.myshopify.com" forKey:@"website_url"];//FEDBYTHREADS
-    [[NSUserDefaults standardUserDefaults] setObject:@"73aeb1d0858d068d68dddc7a805e68b7" forKey:@"shopify_token"];
+//    [[NSUserDefaults standardUserDefaults] setObject:@"https://fedbythreads.myshopify.com" forKey:@"website_url"];//FEDBYTHREADS
+//    [[NSUserDefaults standardUserDefaults] setObject:@"73aeb1d0858d068d68dddc7a805e68b7" forKey:@"shopify_token"];
     
-//    [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_url"];
-//    [[NSUserDefaults standardUserDefaults] setObject:@"307c1fa5b94457770026fc6c5292adca" forKey:@"shopify_token"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_url"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"14f27c433cf58b1cf66da2d39228ce32" forKey:@"shopify_token"];
     [[NSUserDefaults standardUserDefaults] setObject:@"http://fedbythreads.com" forKey:@"website_cart_url"];
     [[NSUserDefaults standardUserDefaults] setObject:@"checkout" forKey:@"id_button_checkout"];
     [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"urlForTerms"];
     [[NSUserDefaults standardUserDefaults] setObject:@"FedByThreads" forKey:@"twitterName"];
     [[NSUserDefaults standardUserDefaults] setObject:@"info@fedbythreads.com" forKey:@"supportUrl"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"custom_collections" forKey:@"collectionType"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"smart_collections" forKey:@"collectionType"];
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"areCollectionsDisplayed"];
     
     [[NSUserDefaults standardUserDefaults] setObject:@"$" forKey:@"currency"];
@@ -61,19 +61,19 @@
     //**************************************************************************************************************
     
     NSArray *arrayCustomCollectionsIds = [NSArray arrayWithObjects:
-                                          @"5714232",
-                                          @"9202724",
-                                          @"7935780",
-                                          @"26412852",
-                                          @"26297760",
-                                          @"8192184",
-                                          @"26179840",
-                                          @"26909296",
-                                          @"12889797",
-                                          @"23039669",
-                                          @"14395853",
-                                          @"23181225",
-                                          @"124",
+//                                          @"5714232",
+//                                          @"9202724",
+//                                          @"7935780",
+//                                          @"26412852",
+//                                          @"26297760",
+//                                          @"8192184",
+//                                          @"26179840",
+//                                          @"26909296",
+//                                          @"12889797",
+//                                          @"23039669",
+//                                          @"14395853",
+//                                          @"23181225",
+//                                          @"124",
                                           nil];
     
     // NEVER REMOVE THIS LINE !!!! ********

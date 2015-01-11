@@ -48,6 +48,7 @@
 		AAA1C34E19F082FB00C257FE /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAA1C34D19F082FB00C257FE /* Social.framework */; };
 		AAABB3D71A36F44E005B53E1 /* Storyboard_autolayout.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAABB3D61A36F44E005B53E1 /* Storyboard_autolayout.storyboard */; };
 		AAAD436F1A60706900B8AB56 /* NSUserDefaultsMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAD436E1A60706900B8AB56 /* NSUserDefaultsMethods.m */; };
+		AAAD43A51A61844100B8AB56 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AAAD43A71A61844100B8AB56 /* Localizable.strings */; };
 		AABE084219F1AC79009AF8D1 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABE084019F1AC79009AF8D1 /* Bolts.framework */; };
 		AABE084319F1AC79009AF8D1 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABE084119F1AC79009AF8D1 /* Parse.framework */; };
 		AABE084519F1AC8B009AF8D1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABE084419F1AC8B009AF8D1 /* AudioToolbox.framework */; };
@@ -143,6 +144,9 @@
 		AAABB3D61A36F44E005B53E1 /* Storyboard_autolayout.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard_autolayout.storyboard; sourceTree = "<group>"; };
 		AAAD436D1A60706900B8AB56 /* NSUserDefaultsMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSUserDefaultsMethods.h; sourceTree = "<group>"; };
 		AAAD436E1A60706900B8AB56 /* NSUserDefaultsMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSUserDefaultsMethods.m; sourceTree = "<group>"; };
+		AAAD43A31A61841200B8AB56 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
+		AAAD43A41A61841200B8AB56 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		AAAD43A61A61844100B8AB56 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AABE084019F1AC79009AF8D1 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		AABE084119F1AC79009AF8D1 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		AABE084419F1AC8B009AF8D1 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -255,6 +259,7 @@
 		AA930A3719E9F00E0084A250 = {
 			isa = PBXGroup;
 			children = (
+				AAAD43A71A61844100B8AB56 /* Localizable.strings */,
 				AA82E3A21A2677AD00BFE601 /* StoreKit.framework */,
 				AA930A4219E9F00E0084A250 /* Mooncode */,
 				AA930A5C19E9F00E0084A250 /* 208Tests */,
@@ -454,6 +459,7 @@
 				AA13FD511A04B8A900696FE1 /* PickerViewForOptions.xib in Resources */,
 				AA3DFA3E19EE3D1B003F4920 /* ProximaNova-Semibold.otf in Resources */,
 				AA3DFA3D19EE3D1B003F4920 /* ProximaNova-Regular.otf in Resources */,
+				AAAD43A51A61844100B8AB56 /* Localizable.strings in Resources */,
 				AAABB3D71A36F44E005B53E1 /* Storyboard_autolayout.storyboard in Resources */,
 				AA930A5419E9F00E0084A250 /* LaunchScreen.xib in Resources */,
 				AA3DFA3C19EE3D1B003F4920 /* ProximaNova-Bold.otf in Resources */,
@@ -528,6 +534,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				AA930A4E19E9F00E0084A250 /* Base */,
+				AAAD43A31A61841200B8AB56 /* es */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -536,8 +543,17 @@
 			isa = PBXVariantGroup;
 			children = (
 				AA930A5319E9F00E0084A250 /* Base */,
+				AAAD43A41A61841200B8AB56 /* es */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		AAAD43A71A61844100B8AB56 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AAAD43A61A61844100B8AB56 /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
