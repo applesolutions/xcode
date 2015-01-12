@@ -338,7 +338,7 @@
     NSDictionary *dicProduct = [NSDictionary dictionaryWithObjectsAndKeys:
                                 [self.dicProduct objectForKey:@"id"], @"productId",
                                 dicVariant, @"dicVariant",
-//                                self.dicProduct, @"dicProduct",
+                                self.dicProduct, @"dicProduct",
                                 [self.dicProduct objectForKey:@"title"], @"productTitle",
                                 number, @"qte", nil];
     
