@@ -42,10 +42,6 @@
     [self.activity startAnimating];
     [self.view addSubview:self.activity];
     
-    [[NSUserDefaults standardUserDefaults] setObject:@"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/534.55.3 (KHTML, like Gecko) Version/5.1.3 Safari/534.53.10" forKey:@"UserAgent"];
-    [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"UserAgent"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
     NSURL * url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/cart/clear.js",website_cart]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:url];
@@ -80,12 +76,8 @@
             
             [self makeRequestToAddToCart:[self.arrayProductsInCart objectAtIndex:(index+1)] atIndex:(index+1)];
         }else{
-            
-            [[NSUserDefaults standardUserDefaults] setObject:@"Mozilla/5.0 (iPhone; CPU iPhone OS 7_0 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53" forKey:@"UserAgent"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-//
+
             NSMutableURLRequest *request_cart = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[website_cart stringByAppendingString:@"/checkout"]]];
-//            [request_add_product_To_cart setValue:@"Mozilla/5.0 (iPhone; CPU iPhone OS 8_0_2 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12A366 Safari/600.1.4" forHTTPHeaderField:@"User-Agent"];
             [self.webView loadRequest:request_cart];
         }
     }];

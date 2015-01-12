@@ -27,11 +27,11 @@
 //    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
     //*************************
     
-//    [[NSUserDefaults standardUserDefaults] setObject:@"https://fedbythreads.myshopify.com" forKey:@"website_url"];//FEDBYTHREADS
-//    [[NSUserDefaults standardUserDefaults] setObject:@"73aeb1d0858d068d68dddc7a805e68b7" forKey:@"shopify_token"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"https://fedbythreads.myshopify.com" forKey:@"website_url"];//FEDBYTHREADS
+    [[NSUserDefaults standardUserDefaults] setObject:@"73aeb1d0858d068d68dddc7a805e68b7" forKey:@"shopify_token"];
     
-    [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_url"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"14f27c433cf58b1cf66da2d39228ce32" forKey:@"shopify_token"];
+//    [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_url"];
+//    [[NSUserDefaults standardUserDefaults] setObject:@"14f27c433cf58b1cf66da2d39228ce32" forKey:@"shopify_token"];
     [[NSUserDefaults standardUserDefaults] setObject:@"http://fedbythreads.com" forKey:@"website_cart_url"];
     [[NSUserDefaults standardUserDefaults] setObject:@"checkout" forKey:@"id_button_checkout"];
     [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"urlForTerms"];
