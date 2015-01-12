@@ -63,7 +63,8 @@
     
     NSURL *url_add_product_To_cart = [NSURL URLWithString:[website_cart stringByAppendingString:@"/cart/add.js"]];
 //    NSString *body = [NSString stringWithFormat: @"quantity=%@&id=%@", [dicObject objectForKey:@"qte"],[dicVariant objectForKey:@"id"]];
-    NSString *body = [NSString stringWithFormat: @"quantity=%@&id=%@", [dicObject objectForKey:@"qte"],[dicObject objectForKey:@"variantId"]];
+    NSString *body = [NSString stringWithFormat: @"quantity=%@&id=%@", [dicObject objectForKey:@"qte"],[[dicObject objectForKey:@"dicVariant"] objectForKey:@"id"]];
+
     
     //    NSLog(@"url with product : %@",body );
     NSMutableURLRequest *request_add_product_To_cart  = [[NSMutableURLRequest alloc]initWithURL: url_add_product_To_cart];
