@@ -32,7 +32,6 @@
 		AA85EF4A19FCCDF600C06F60 /* CHTCollectionViewWaterfallFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA85EF4719FCCDF600C06F60 /* CHTCollectionViewWaterfallFooter.m */; };
 		AA930A4619E9F00E0084A250 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AA930A4519E9F00E0084A250 /* main.m */; };
 		AA930A4919E9F00E0084A250 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA930A4819E9F00E0084A250 /* AppDelegate.m */; };
-		AA930A4F19E9F00E0084A250 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA930A4D19E9F00E0084A250 /* Main.storyboard */; };
 		AA930A5419E9F00E0084A250 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA930A5219E9F00E0084A250 /* LaunchScreen.xib */; };
 		AA930A6019E9F00E0084A250 /* _08Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA930A5F19E9F00E0084A250 /* _08Tests.m */; };
 		AA96650819FCAE6E0008ED03 /* ProductDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA96650719FCAE6E0008ED03 /* ProductDetailsViewController.m */; };
@@ -119,7 +118,6 @@
 		AA930A4519E9F00E0084A250 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		AA930A4719E9F00E0084A250 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		AA930A4819E9F00E0084A250 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		AA930A4E19E9F00E0084A250 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AA930A5319E9F00E0084A250 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		AA930A5919E9F00E0084A250 /* MooncodeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MooncodeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA930A5E19E9F00E0084A250 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -144,7 +142,6 @@
 		AAABB3D61A36F44E005B53E1 /* Storyboard_autolayout.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard_autolayout.storyboard; sourceTree = "<group>"; };
 		AAAD436D1A60706900B8AB56 /* NSUserDefaultsMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSUserDefaultsMethods.h; sourceTree = "<group>"; };
 		AAAD436E1A60706900B8AB56 /* NSUserDefaultsMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSUserDefaultsMethods.m; sourceTree = "<group>"; };
-		AAAD43A31A61841200B8AB56 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
 		AAAD43A41A61841200B8AB56 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		AAAD43A61A61844100B8AB56 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AABE084019F1AC79009AF8D1 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
@@ -284,7 +281,6 @@
 				AA13FD621A05F80600696FE1 /* Masonry CollectionView */,
 				AA13FD631A05F83000696FE1 /* Customs Views */,
 				AA13FD5B1A05BB2B00696FE1 /* Categories */,
-				AA930A4D19E9F00E0084A250 /* Main.storyboard */,
 				AAABB3D61A36F44E005B53E1 /* Storyboard_autolayout.storyboard */,
 				AAA1C34619EF460800C257FE /* ScrollViewController.h */,
 				AAA1C34719EF460800C257FE /* ScrollViewController.m */,
@@ -456,7 +452,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA72E00C1A6439F5000D90FA /* Images.xcassets in Resources */,
-				AA930A4F19E9F00E0084A250 /* Main.storyboard in Resources */,
 				AA13FD511A04B8A900696FE1 /* PickerViewForOptions.xib in Resources */,
 				AA3DFA3E19EE3D1B003F4920 /* ProximaNova-Semibold.otf in Resources */,
 				AA3DFA3D19EE3D1B003F4920 /* ProximaNova-Regular.otf in Resources */,
@@ -530,15 +525,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		AA930A4D19E9F00E0084A250 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AA930A4E19E9F00E0084A250 /* Base */,
-				AAAD43A31A61841200B8AB56 /* es */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		AA930A5219E9F00E0084A250 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (

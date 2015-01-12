@@ -36,6 +36,8 @@
 @property (strong, nonatomic) IBOutlet UIView *viewForLabel;
 
 @property (strong, nonatomic) IBOutlet UIView *ViewNavBar;
+
+@property (strong, nonatomic) IBOutlet UIButton *buttonReload;
 @end
 
 #define CELL_IDENTIFIER @"WaterfallCell"
@@ -262,6 +264,7 @@
             //NSLog(@"error occured : %@", [error description]);
             self.activityLoading.hidden = YES;
             self.labelLoading.text = @"No Internet connection detected.";
+            self.buttonReload.hidden = NO;
         }
     }];
 }
@@ -644,6 +647,8 @@
     self.imageBackgroundForLoading.hidden = NO;
     self.viewForLabel.hidden = NO;
     self.collectionView.hidden = YES;
+    
+    self.buttonReload.hidden = YES;
 }
 
 -(void) hideLoading{
@@ -653,6 +658,8 @@
     self.imageBackgroundForLoading.hidden = YES;
     self.viewForLabel.hidden = YES;
     self.collectionView.hidden = NO;
+    
+    self.buttonReload.hidden = YES;
 }
 
 -(void) saveTimeUpdateIPhone{
@@ -707,6 +714,12 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self presentViewController:vc1 animated:YES completion:nil];
     });
+}
+- (IBAction)reload:(id)sender {
+    self.buttonReload.hidden = YES;
+    self.labelLoading.text = @"Thank you for downloading our App!\n \nNow downloading the content, it should take less than a minute and only happen once. \n \nMake sure you are connected to the Internet !";
+    [self showLoading];
+    [self makeRequestForPage:1];
 }
 
 #pragma mark collection View delegate

@@ -27,6 +27,11 @@
 @property (strong, nonatomic) IBOutlet UIImageView *imageMadeWithLove;
 
 @property (strong, nonatomic) IBOutlet UILabel *LabelVersion;
+
+//constraints
+
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *constraint_delta_middleView;
+
 @end
 
 @implementation SettingsViewController
@@ -34,6 +39,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    if ([[UIDevice currentDevice].model hasPrefix:@"iPad"]) {
+        self.constraint_delta_middleView.constant = 150;
+    }
 
     self.view.backgroundColor =
     [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorSettingsView"] objectForKey:@"red"] floatValue] / 255

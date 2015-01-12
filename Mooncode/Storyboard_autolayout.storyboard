@@ -177,7 +177,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c9Q-Xl-c4H">
-                                <rect key="frame" x="168" y="233" width="264" height="248"/>
+                                <rect key="frame" x="168" y="249" width="264" height="248"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yib-sJ-VrB">
                                         <rect key="frame" x="114" y="203" width="37" height="37"/>
@@ -199,6 +199,15 @@ Make sure you are
                                         <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JdL-SD-p9W">
+                                        <rect key="frame" x="109" y="137" width="46" height="43"/>
+                                        <state key="normal" title="reload">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="reload:" destination="T1h-gT-lOV" eventType="touchUpInside" id="fx9-6n-LD2"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.70999999999999996" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -219,7 +228,9 @@ Make sure you are
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="centerY" secondItem="c9Q-Xl-c4H" secondAttribute="centerY" constant="-70" id="57b-kT-JVI"/>
-                            <constraint firstItem="c9Q-Xl-c4H" firstAttribute="top" secondItem="M3P-EZ-bGE" secondAttribute="bottom" constant="169" id="7Kb-Ff-WHw"/>
+                            <constraint firstItem="c9Q-Xl-c4H" firstAttribute="top" secondItem="M3P-EZ-bGE" secondAttribute="bottom" constant="185" id="7Kb-Ff-WHw">
+                                <variation key="heightClass=regular-widthClass=regular" constant="350"/>
+                            </constraint>
                             <constraint firstItem="M3P-EZ-bGE" firstAttribute="width" secondItem="UQC-X8-poQ" secondAttribute="width" id="HSg-RK-OHa"/>
                             <constraint firstAttribute="centerX" secondItem="c9Q-Xl-c4H" secondAttribute="centerX" id="Izg-cH-fEF"/>
                             <constraint firstAttribute="centerX" secondItem="c9Q-Xl-c4H" secondAttribute="centerX" id="K0e-0J-FHi"/>
@@ -254,6 +265,11 @@ Make sure you are
                                 <include reference="Y3D-ou-IX8"/>
                             </mask>
                         </variation>
+                        <variation key="heightClass=regular-widthClass=regular">
+                            <mask key="constraints">
+                                <exclude reference="R0b-3g-6e7"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="3ZL-pP-58x"/>
                     <nil key="simulatedTopBarMetrics"/>
@@ -261,6 +277,7 @@ Make sure you are
                         <outlet property="ViewNavBar" destination="M3P-EZ-bGE" id="wfy-Lv-otY"/>
                         <outlet property="activityLoading" destination="yib-sJ-VrB" id="y5f-Za-FpE"/>
                         <outlet property="buttonCart" destination="tmC-61-10z" id="K3X-rV-70Y"/>
+                        <outlet property="buttonReload" destination="JdL-SD-p9W" id="C7A-fc-0T0"/>
                         <outlet property="imageBackgroundForLoading" destination="vIk-07-TWq" id="v66-Jf-JLB"/>
                         <outlet property="labelLoading" destination="303-5k-hVM" id="Q2R-Qr-UqM"/>
                         <outlet property="viewForLabel" destination="c9Q-Xl-c4H" id="m6P-8V-pyh"/>
@@ -329,6 +346,12 @@ Make sure you are
                                                 <exclude reference="E9f-oj-yc4"/>
                                                 <exclude reference="c1S-n8-yaH"/>
                                             </mask>
+                                        </variation>
+                                        <variation key="widthClass=compact" misplaced="YES">
+                                            <rect key="frame" x="148" y="367.5" width="105" height="39"/>
+                                        </variation>
+                                        <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
+                                            <rect key="frame" x="347" y="367" width="105" height="39"/>
                                         </variation>
                                         <connections>
                                             <action selector="tweet:" destination="yTa-3H-rUi" eventType="touchUpInside" id="KPy-4q-uPh"/>
@@ -404,6 +427,12 @@ Make sure you are
                                         <fontDescription key="fontDescription" name="ProximaNova-Semibold" family="Proxima Nova" pointSize="19"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
+                                        <variation key="widthClass=compact" misplaced="YES">
+                                            <rect key="frame" x="23" y="325" width="555" height="22.5"/>
+                                        </variation>
+                                        <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
+                                            <rect key="frame" x="23" y="325" width="555" height="22.5"/>
+                                        </variation>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y7e-Ff-G7W">
                                         <rect key="frame" x="273" y="272" width="54" height="21"/>
@@ -456,11 +485,17 @@ Make sure you are
                                         <exclude reference="tlQ-Vd-pa8"/>
                                     </mask>
                                 </variation>
+                                <variation key="widthClass=compact" ambiguous="YES">
+                                    <rect key="frame" x="0.0" y="64" width="400" height="491"/>
+                                </variation>
                                 <variation key="widthClass=regular" ambiguous="YES">
                                     <rect key="frame" x="0.0" y="64" width="800" height="491"/>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact" ambiguous="YES">
                                     <rect key="frame" x="0.0" y="64" width="400" height="691"/>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=regular" ambiguous="YES">
+                                    <rect key="frame" x="0.0" y="64" width="800" height="691"/>
                                 </variation>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tPE-7Z-HWx">
@@ -856,7 +891,7 @@ Make sure you are
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get in touch" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XaY-3b-T0d">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Get in touch" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XaY-3b-T0d">
                                 <rect key="frame" x="20" y="123" width="119" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="B55-Du-xJS"/>
@@ -874,7 +909,7 @@ Make sure you are
                                     </mask>
                                 </variation>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OEQ-zv-u2C">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OEQ-zv-u2C">
                                 <rect key="frame" x="0.0" y="152" width="600" height="35"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fhW-Wc-4rQ">
@@ -889,6 +924,9 @@ Make sure you are
                                         </variation>
                                         <variation key="heightClass=regular-widthClass=compact" ambiguous="YES">
                                             <rect key="frame" x="19" y="3" width="364" height="30"/>
+                                        </variation>
+                                        <variation key="heightClass=regular-widthClass=regular" ambiguous="YES">
+                                            <rect key="frame" x="20" y="3" width="763" height="30"/>
                                         </variation>
                                         <connections>
                                             <action selector="ActionContactUs:" destination="hzE-sX-deO" eventType="touchUpInside" id="V9U-l7-2qU"/>
@@ -910,6 +948,9 @@ Make sure you are
                                         <exclude reference="PgR-Lu-okG"/>
                                         <exclude reference="hJY-zp-o15"/>
                                     </mask>
+                                </variation>
+                                <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="0.0" y="152" width="400" height="35"/>
                                 </variation>
                                 <variation key="widthClass=regular" ambiguous="YES">
                                     <rect key="frame" x="0.0" y="152" width="800" height="35"/>
@@ -938,7 +979,7 @@ Make sure you are
                                     <constraint firstAttribute="height" constant="23" id="amY-dF-meg"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Iq-Y6-UDs">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="About" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Iq-Y6-UDs">
                                 <rect key="frame" x="20" y="223" width="84" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="1qi-Yn-n2r"/>
@@ -956,7 +997,7 @@ Make sure you are
                                     </mask>
                                 </variation>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fth-LT-EOU">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fth-LT-EOU">
                                 <rect key="frame" x="0.0" y="252" width="600" height="35"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Version" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2so-Qf-RKo">
@@ -968,6 +1009,9 @@ Make sure you are
                                         <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="17"/>
                                         <color key="textColor" red="0.42352941179999998" green="0.42352941179999998" blue="0.42352941179999998" alpha="1" colorSpace="deviceRGB"/>
                                         <nil key="highlightedColor"/>
+                                        <variation key="heightClass=regular-widthClass=regular" ambiguous="YES">
+                                            <rect key="frame" x="20" y="8" width="57" height="21"/>
+                                        </variation>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -982,6 +1026,12 @@ Make sure you are
                                         <exclude reference="GEr-YU-5rh"/>
                                     </mask>
                                 </variation>
+                                <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="0.0" y="252" width="400" height="35"/>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=regular" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="0.0" y="252" width="800" height="35"/>
+                                </variation>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="text-madeMooncode-white" translatesAutoresizingMaskIntoConstraints="NO" id="ert-zI-UyO">
                                 <rect key="frame" x="180" y="518" width="240" height="28"/>
@@ -990,7 +1040,7 @@ Make sure you are
                                     <constraint firstAttribute="width" constant="240" id="sw5-Zk-Ab1"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MNF-3L-89p">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="1.0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MNF-3L-89p">
                                 <rect key="frame" x="465" y="258" width="119" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="L1V-01-ICg"/>
@@ -1007,7 +1057,43 @@ Make sure you are
                                         <exclude reference="zYr-vn-Xjx"/>
                                     </mask>
                                 </variation>
+                                <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="265" y="258" width="119" height="21"/>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=regular" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="665" y="258" width="119" height="21"/>
+                                </variation>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hnA-Lt-Z3m">
+                                <rect key="frame" x="226" y="417" width="148" height="37"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="297" id="kXG-Fb-pn0"/>
+                                    <constraint firstAttribute="height" constant="168" id="nYy-s3-bLN"/>
+                                </constraints>
+                                <state key="normal" image="button-share-twitter-white">
+                                    <color key="titleShadowColor" red="0.015686274510000001" green="0.20784313730000001" blue="0.29411764709999999" alpha="1" colorSpace="deviceRGB"/>
+                                </state>
+                                <state key="highlighted" image="button-share-twitter-full"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="kXG-Fb-pn0"/>
+                                        <exclude reference="nYy-s3-bLN"/>
+                                    </mask>
+                                </variation>
+                                <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="126" y="417" width="148" height="37"/>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=regular" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="251.5" y="417" width="297" height="168"/>
+                                    <mask key="constraints">
+                                        <include reference="kXG-Fb-pn0"/>
+                                        <include reference="nYy-s3-bLN"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="tweet:" destination="hzE-sX-deO" eventType="touchUpInside" id="8V5-0k-oCW"/>
+                                </connections>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Settings" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dbz-Fw-ZGi">
                                 <rect key="frame" x="253" y="60" width="95" height="31"/>
                                 <constraints>
@@ -1018,92 +1104,45 @@ Make sure you are
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hnA-Lt-Z3m">
-                                <rect key="frame" x="212" y="370" width="176" height="58"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="58" id="LaR-py-8ye"/>
-                                    <constraint firstAttribute="width" constant="176" id="wS9-Wn-qg1"/>
-                                </constraints>
-                                <state key="normal" image="button-share-twitter-white">
-                                    <color key="titleShadowColor" red="0.015686274510000001" green="0.20784313730000001" blue="0.29411764709999999" alpha="1" colorSpace="deviceRGB"/>
-                                </state>
-                                <state key="highlighted" image="button-share-twitter-full"/>
-                                <connections>
-                                    <action selector="tweet:" destination="hzE-sX-deO" eventType="touchUpInside" id="8V5-0k-oCW"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.61176470589999998" green="0.1215686275" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="MNF-3L-89p" firstAttribute="top" secondItem="Fth-LT-EOU" secondAttribute="top" constant="7" id="2Lc-qh-7PI"/>
-                            <constraint firstItem="MNF-3L-89p" firstAttribute="top" secondItem="1I8-i4-5Fq" secondAttribute="top" constant="289" id="2kH-Hy-rZI"/>
                             <constraint firstItem="MNF-3L-89p" firstAttribute="trailing" secondItem="1I8-i4-5Fq" secondAttribute="trailingMargin" id="9ba-W9-fKv"/>
                             <constraint firstAttribute="centerX" secondItem="dbz-Fw-ZGi" secondAttribute="centerX" id="BBW-pO-2cn"/>
-                            <constraint firstItem="MNF-3L-89p" firstAttribute="trailing" secondItem="1I8-i4-5Fq" secondAttribute="trailingMargin" id="Bmi-7Z-8Nw"/>
-                            <constraint firstItem="XaY-3b-T0d" firstAttribute="leading" secondItem="1I8-i4-5Fq" secondAttribute="leadingMargin" id="De5-7w-exm"/>
                             <constraint firstAttribute="centerX" secondItem="ert-zI-UyO" secondAttribute="centerX" id="F4a-dN-0eI"/>
                             <constraint firstItem="Z9s-bT-alj" firstAttribute="top" secondItem="Gps-Yo-DJ7" secondAttribute="bottom" constant="8" id="FRR-vl-dLq"/>
                             <constraint firstItem="OEQ-zv-u2C" firstAttribute="width" secondItem="1I8-i4-5Fq" secondAttribute="width" id="Ff3-O0-k40"/>
                             <constraint firstAttribute="centerX" secondItem="hnA-Lt-Z3m" secondAttribute="centerX" id="FsY-GL-vYQ"/>
-                            <constraint firstItem="4Iq-Y6-UDs" firstAttribute="leading" secondItem="1I8-i4-5Fq" secondAttribute="leadingMargin" constant="5" id="GHl-rj-3V5"/>
-                            <constraint firstItem="Fth-LT-EOU" firstAttribute="top" secondItem="MNF-3L-89p" secondAttribute="top" constant="-7" id="GUQ-cn-YWn"/>
-                            <constraint firstAttribute="centerY" secondItem="Fth-LT-EOU" secondAttribute="centerY" constant="30" id="KSU-ab-D51"/>
+                            <constraint firstAttribute="centerY" secondItem="Fth-LT-EOU" secondAttribute="centerY" id="GU7-gU-tEA" userLabel="(modify)Center Y Alignment - View - View"/>
                             <constraint firstAttribute="centerX" secondItem="Fth-LT-EOU" secondAttribute="centerX" id="LsK-YD-xch"/>
-                            <constraint firstItem="XaY-3b-T0d" firstAttribute="leading" secondItem="1I8-i4-5Fq" secondAttribute="leadingMargin" id="OOX-sf-2lq"/>
                             <constraint firstItem="dbz-Fw-ZGi" firstAttribute="top" secondItem="Ny3-JR-E5u" secondAttribute="bottom" constant="40" id="QIb-m8-2J3"/>
                             <constraint firstItem="Gps-Yo-DJ7" firstAttribute="trailing" secondItem="1I8-i4-5Fq" secondAttribute="trailingMargin" id="Qbl-ek-ZJG"/>
-                            <constraint firstItem="hnA-Lt-Z3m" firstAttribute="top" secondItem="Fth-LT-EOU" secondAttribute="bottom" constant="83" id="R6K-rW-jLn"/>
-                            <constraint firstAttribute="centerY" secondItem="Fth-LT-EOU" secondAttribute="centerY" constant="30" id="VxE-Xu-NcN"/>
+                            <constraint firstItem="hnA-Lt-Z3m" firstAttribute="top" secondItem="Fth-LT-EOU" secondAttribute="bottom" constant="130" id="R6K-rW-jLn"/>
                             <constraint firstAttribute="centerX" secondItem="8sM-YS-dTU" secondAttribute="centerX" id="WS8-ff-6Ny"/>
-                            <constraint firstItem="4Iq-Y6-UDs" firstAttribute="leading" secondItem="1I8-i4-5Fq" secondAttribute="leadingMargin" id="XAg-Id-Q3C"/>
                             <constraint firstItem="Fth-LT-EOU" firstAttribute="width" secondItem="1I8-i4-5Fq" secondAttribute="width" id="XkB-GJ-Xgn"/>
                             <constraint firstItem="Z9s-bT-alj" firstAttribute="top" secondItem="8sM-YS-dTU" secondAttribute="bottom" constant="16" id="YEh-K7-lxv"/>
-                            <constraint firstItem="Fth-LT-EOU" firstAttribute="top" secondItem="4Iq-Y6-UDs" secondAttribute="bottom" constant="8" id="Ykf-cQ-pZh"/>
                             <constraint firstItem="8sM-YS-dTU" firstAttribute="top" secondItem="ert-zI-UyO" secondAttribute="bottom" constant="15" id="aCV-Uu-9Rg"/>
                             <constraint firstAttribute="centerX" secondItem="OEQ-zv-u2C" secondAttribute="centerX" id="dao-wX-WEU"/>
                             <constraint firstItem="OEQ-zv-u2C" firstAttribute="top" secondItem="XaY-3b-T0d" secondAttribute="bottom" constant="8" id="eZ2-n1-c61"/>
-                            <constraint firstItem="OEQ-zv-u2C" firstAttribute="leading" secondItem="1I8-i4-5Fq" secondAttribute="leadingMargin" id="lP4-WB-Dq8"/>
                             <constraint firstItem="XaY-3b-T0d" firstAttribute="leading" secondItem="1I8-i4-5Fq" secondAttribute="leading" constant="20" id="m9R-Pk-h44"/>
-                            <constraint firstItem="4Iq-Y6-UDs" firstAttribute="top" secondItem="OEQ-zv-u2C" secondAttribute="bottom" constant="36" id="pxH-W1-aqe"/>
                             <constraint firstItem="Fth-LT-EOU" firstAttribute="top" secondItem="OEQ-zv-u2C" secondAttribute="bottom" constant="65" id="qCy-89-nox"/>
                             <constraint firstItem="Fth-LT-EOU" firstAttribute="top" secondItem="MNF-3L-89p" secondAttribute="top" constant="-6" id="r4H-FR-pOK"/>
-                            <constraint firstItem="MNF-3L-89p" firstAttribute="trailing" secondItem="Gps-Yo-DJ7" secondAttribute="trailing" id="suB-nb-5Rb"/>
-                            <constraint firstItem="OEQ-zv-u2C" firstAttribute="leading" secondItem="1I8-i4-5Fq" secondAttribute="leadingMargin" constant="-16" id="t0N-LP-nRj"/>
                             <constraint firstItem="4Iq-Y6-UDs" firstAttribute="leading" secondItem="1I8-i4-5Fq" secondAttribute="leading" constant="20" id="yrS-00-XPe"/>
-                            <constraint firstItem="OEQ-zv-u2C" firstAttribute="top" secondItem="XaY-3b-T0d" secondAttribute="bottom" constant="8" id="ywq-aY-Ou7"/>
                             <constraint firstItem="Fth-LT-EOU" firstAttribute="top" secondItem="4Iq-Y6-UDs" secondAttribute="bottom" constant="8" id="zWh-5t-5qq"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="De5-7w-exm"/>
-                                <exclude reference="OOX-sf-2lq"/>
-                                <exclude reference="lP4-WB-Dq8"/>
-                                <exclude reference="t0N-LP-nRj"/>
-                                <exclude reference="ywq-aY-Ou7"/>
-                                <exclude reference="GHl-rj-3V5"/>
-                                <exclude reference="XAg-Id-Q3C"/>
-                                <exclude reference="pxH-W1-aqe"/>
-                                <exclude reference="GUQ-cn-YWn"/>
-                                <exclude reference="VxE-Xu-NcN"/>
-                                <exclude reference="Ykf-cQ-pZh"/>
-                                <exclude reference="2Lc-qh-7PI"/>
-                                <exclude reference="2kH-Hy-rZI"/>
-                                <exclude reference="Bmi-7Z-8Nw"/>
-                                <exclude reference="suB-nb-5Rb"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="LabelVersion" destination="MNF-3L-89p" id="kEs-Mn-ez0"/>
                         <outlet property="buttonRight" destination="Gps-Yo-DJ7" id="Az0-QD-juc"/>
                         <outlet property="buttonTwitter" destination="hnA-Lt-Z3m" id="rUj-Ut-ftW"/>
+                        <outlet property="constraint_delta_middleView" destination="GU7-gU-tEA" id="qg1-Cy-Vm2"/>
                         <outlet property="iconSettings" destination="8sM-YS-dTU" id="qvy-qU-HMg"/>
                         <outlet property="imageMadeWithLove" destination="ert-zI-UyO" id="mM1-em-MPC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YvU-Sg-tcE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1180" y="1128"/>
+            <point key="canvasLocation" x="1179.75" y="1128"/>
         </scene>
         <!--Scroll View Controller-->
         <scene sceneID="tT7-q7-ZgO">
@@ -1319,6 +1358,12 @@ Make sure you are
                                                 <exclude reference="uBk-hE-ST5"/>
                                             </mask>
                                         </variation>
+                                        <variation key="widthClass=compact" misplaced="YES">
+                                            <rect key="frame" x="148" y="367.5" width="105" height="39"/>
+                                        </variation>
+                                        <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
+                                            <rect key="frame" x="347" y="367" width="105" height="39"/>
+                                        </variation>
                                         <connections>
                                             <action selector="tweet:" destination="MUs-FU-fvb" eventType="touchUpInside" id="jre-Ke-dR0"/>
                                         </connections>
@@ -1392,6 +1437,12 @@ Make sure you are
                                         <fontDescription key="fontDescription" name="ProximaNova-Semibold" family="Proxima Nova" pointSize="19"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
+                                        <variation key="widthClass=compact" misplaced="YES">
+                                            <rect key="frame" x="23" y="325" width="555" height="22.5"/>
+                                        </variation>
+                                        <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
+                                            <rect key="frame" x="23" y="325" width="555" height="22.5"/>
+                                        </variation>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oIi-QO-Drw">
                                         <rect key="frame" x="276.5" y="272" width="48.5" height="21"/>
@@ -1444,11 +1495,17 @@ Make sure you are
                                         <exclude reference="zWx-7s-9uR"/>
                                     </mask>
                                 </variation>
+                                <variation key="widthClass=compact" ambiguous="YES">
+                                    <rect key="frame" x="0.0" y="64" width="400" height="491"/>
+                                </variation>
                                 <variation key="widthClass=regular" ambiguous="YES">
                                     <rect key="frame" x="0.0" y="64" width="800" height="491"/>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact" ambiguous="YES">
                                     <rect key="frame" x="0.0" y="64" width="400" height="691"/>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=regular" ambiguous="YES">
+                                    <rect key="frame" x="0.0" y="64" width="800" height="691"/>
                                 </variation>
                             </scrollView>
                         </subviews>
