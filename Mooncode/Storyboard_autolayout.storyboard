@@ -199,9 +199,9 @@ Make sure you are
                                         <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JdL-SD-p9W">
-                                        <rect key="frame" x="109" y="137" width="46" height="43"/>
-                                        <state key="normal" title="reload">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JdL-SD-p9W">
+                                        <rect key="frame" x="103" y="137" width="59" height="76"/>
+                                        <state key="normal" image="icon-reload">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -1553,6 +1553,7 @@ Make sure you are
         <image name="button-share-twitter-blue" width="36" height="36"/>
         <image name="button-share-twitter-full" width="320" height="44"/>
         <image name="button-share-twitter-white" width="148" height="37"/>
+        <image name="icon-reload" width="59" height="76"/>
         <image name="loading" width="768" height="960"/>
         <image name="nav-icon-back" width="11" height="22"/>
         <image name="nav-icon-cancel-white" width="17" height="17"/>
