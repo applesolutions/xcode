@@ -49,6 +49,7 @@ const NSInteger unionSize = 20;
 
 - (void)setMinimumInteritemSpacing:(CGFloat)minimumInteritemSpacing {
   if (_minimumInteritemSpacing != minimumInteritemSpacing) {
+      NSLog(@"minimumInteritemSpacing : %f", minimumInteritemSpacing);
     _minimumInteritemSpacing = minimumInteritemSpacing;
     [self invalidateLayout];
   }
@@ -166,8 +167,8 @@ const NSInteger unionSize = 20;
 #pragma mark - Init
 - (void)commonInit {
   _columnCount = 2;
-  _minimumColumnSpacing = 10;
-  _minimumInteritemSpacing = 10;
+  _minimumColumnSpacing = 50;
+  _minimumInteritemSpacing = 50;
   _headerHeight = 0;
   _footerHeight = 0;
   _sectionInset = UIEdgeInsetsZero;

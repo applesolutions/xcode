@@ -42,20 +42,40 @@
     
     [[NSUserDefaults standardUserDefaults] setObject:@"$" forKey:@"currency"];
     
-    [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @48 ,  @"red"   ,
-                                                                                                    @48 ,  @"green" ,
-                                                                                                    @48 ,  @"blue"  ,  nil]
+    //colorNavBar
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @172 ,  @"red"   ,
+                                                                                                    @34 ,  @"green" ,
+                                                                                                    @52 ,  @"blue"  ,  nil]
                                               forKey:@"colorNavBar"];
 
+    //colorSettingsView
     [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @48 ,  @"red"   ,
                                                                                                     @48 ,  @"green" ,
                                                                                                     @48 ,  @"blue"  ,  nil]
                                               forKey:@"colorSettingsView"];
     
+    //colorButtons
     [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @156 ,  @"red"   ,
                                                                                                     @31 ,  @"green" ,
                                                                                                     @57 ,  @"blue"  ,  nil]
                                               forKey:@"colorButtons"];
+    
+    //colorViewTitleCollection
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @172 ,  @"red"   ,
+                                                                                                    @34 ,  @"green" ,
+                                                                                                    @52 ,  @"blue"  ,  nil]
+                                              forKey:@"colorViewTitleCollection"];
+    //ColorLabelCollections
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @255 ,  @"red"   ,
+                                                                                                    @255 ,  @"green" ,
+                                                                                                    @255 ,  @"blue"  ,  nil]
+                                              forKey:@"colorLabelCollections"];
+    //backgroundColor
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @235 ,  @"red"   ,
+                                                                                                    @235 ,  @"green" ,
+                                                                                                    @235 ,  @"blue"  ,
+                                                                                                    @1 ,  @"alpha", nil]
+                                              forKey:@"backgroundColor"];
     
     //CUSTOM collections ******************************************************************************************
     //**************************************************************************************************************
@@ -125,7 +145,7 @@
     
     [[UINavigationBar appearance] setTitleTextAttributes: @{
                                                             NSForegroundColorAttributeName: [UIColor whiteColor],
-                                                            NSFontAttributeName: [UIFont fontWithName:@"ProximaNova-SemiBold" size:17.0f],
+                                                            NSFontAttributeName: [UIFont fontWithName:@"ProximaNova-Regular" size:19.0f],
                                                             }];
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];

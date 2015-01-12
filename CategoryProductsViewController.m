@@ -248,11 +248,11 @@
     if (!_collectionView) {
         CHTCollectionViewWaterfallLayout *layout = [[CHTCollectionViewWaterfallLayout alloc] init];
         
-        layout.sectionInset = UIEdgeInsetsMake(2, 2, 2, 2);
+        layout.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
         layout.headerHeight = 0;
         layout.footerHeight = 0;
-        layout.minimumColumnSpacing = 2;
-        layout.minimumInteritemSpacing = 2;
+        layout.minimumColumnSpacing = 5;
+        layout.minimumInteritemSpacing = 5;
         if ([[UIDevice currentDevice].model hasPrefix:@"iPad"]) {
             layout.columnCount = 3;
         }else{
@@ -263,10 +263,10 @@
         _collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
-        _collectionView.backgroundColor = [UIColor colorWithRed:235.0f/255.0f
-                                                          green:235.0f/255.0f
-                                                           blue:235.0f/255.0f
-                                                          alpha:1.0f];
+        _collectionView.backgroundColor =  [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"backgroundColor"] objectForKey:@"red"] floatValue] / 255
+                                                           green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"backgroundColor"] objectForKey:@"green"] floatValue] / 255
+                                                            blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"backgroundColor"] objectForKey:@"blue"] floatValue] / 255
+                                                           alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"backgroundColor"] objectForKey:@"alpha"] floatValue]];
         [_collectionView registerClass:[CHTCollectionViewWaterfallCell class]
             forCellWithReuseIdentifier:CELL_IDENTIFIER];
         [_collectionView registerClass:[CHTCollectionViewWaterfallHeader class]

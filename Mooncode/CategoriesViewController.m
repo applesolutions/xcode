@@ -261,7 +261,7 @@
         }else{
             //NSLog(@"error occured : %@", [error description]);
             self.activityLoading.hidden = YES;
-            self.labelLoading.text = @"Please, connect to the \n internet or try later";
+            self.labelLoading.text = @"No Internet connection detected.";
         }
     }];
 }
@@ -860,11 +860,11 @@
     if (!_collectionView) {
         CHTCollectionViewWaterfallLayout *layout = [[CHTCollectionViewWaterfallLayout alloc] init];
         
-        layout.sectionInset = UIEdgeInsetsMake(2, 2, 2, 2);
+        layout.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
         layout.headerHeight = 0;
         layout.footerHeight = 0;
-        layout.minimumColumnSpacing = 2;
-        layout.minimumInteritemSpacing = 2;
+        layout.minimumColumnSpacing = 5;
+        layout.minimumInteritemSpacing = 5;
         if ([[UIDevice currentDevice].model hasPrefix:@"iPad"]) {
             layout.columnCount = 3;
         }else{

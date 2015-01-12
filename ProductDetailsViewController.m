@@ -106,6 +106,11 @@
                     green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorButtons"] objectForKey:@"green"] floatValue] / 255
                      blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorButtons"] objectForKey:@"blue"] floatValue] / 255
                     alpha:1];
+    
+    self.pageIndicator.currentPageIndicatorTintColor =    [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"red"] floatValue] / 255
+                                                                          green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"green"] floatValue] / 255
+                                                                           blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"blue"] floatValue] / 255
+                                                                          alpha:1];
 }
 
 - (void)viewDidLoad {
@@ -140,6 +145,7 @@
     self.textViewDescription.editable = NO;
     
     self.labelTitleProduct.text = [self.dicProduct objectForKey:@"title"];
+    [self.labelTitleProduct sizeToFit];
     
     //Scrollview for images
     self.scrollView.delegate=self;

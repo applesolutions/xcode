@@ -49,25 +49,32 @@
         _displayLabel.font = [UIFont fontWithName:@"ProximaNova-SemiBold" size:13];
         _displayLabel.adjustsFontSizeToFitWidth = YES;
         _displayLabel.numberOfLines = 2;
+        _displayLabel.textColor = [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorLabelCollections"] objectForKey:@"red"] floatValue] / 255
+                                                  green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorLabelCollections"] objectForKey:@"green"] floatValue] / 255
+                                                   blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorLabelCollections"] objectForKey:@"blue"] floatValue] / 255
+                                                  alpha:1];
         
-        if ([[UIDevice currentDevice].model hasPrefix:@"iPad"]) {
-            
+//        if ([[UIDevice currentDevice].model hasPrefix:@"iPad"]) {
+        
             _viewWhite.translatesAutoresizingMaskIntoConstraints = NO;
             _viewWhite = [[UIView alloc]initWithFrame:CGRectMake(0, self.frame.size.height - 0.2*self.frame.size.height , self.frame.size.width, 0.2*self.frame.size.height)];
-            _viewWhite.backgroundColor = [UIColor whiteColor];
+            _viewWhite.backgroundColor = [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"red"] floatValue] / 255
+                                                     green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"green"] floatValue] / 255
+                                                      blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"blue"] floatValue] / 255
+                                                     alpha:1];
             _viewWhite.alpha = 0.7;
             
-            _displayLabel.font = [UIFont fontWithName:@"ProximaNova-SemiBold" size:17];
+            _displayLabel.font = [UIFont fontWithName:@"ProximaNova-Regular" size:17];
             _displayLabel.adjustsFontSizeToFitWidth = YES;
             
             _displayLabel.center = _viewWhite.center;
-        }else{
-            
-            _viewWhite = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.displayLabel.frame.size.width + 4, 24)];
-            _viewWhite.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
-            _viewWhite.backgroundColor = [UIColor whiteColor];
-            _viewWhite.alpha = 0.7;
-        }
+//        }else{
+//            
+//            _viewWhite = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.displayLabel.frame.size.width + 4, 24)];
+//            _viewWhite.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
+//            _viewWhite.backgroundColor = [UIColor whiteColor];
+//            _viewWhite.alpha = 0.7;
+//        }
 
         [self addSubview:_viewWhite];
         [self bringSubviewToFront:self.displayLabel];

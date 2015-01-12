@@ -23,6 +23,7 @@
 		AA6390DB1A38670C008462BF /* NSString+URL_Shopify.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6390DA1A38670C008462BF /* NSString+URL_Shopify.m */; };
 		AA6390DE1A38880B008462BF /* SocialMedias.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6390DD1A38880B008462BF /* SocialMedias.m */; };
 		AA6390E11A389ECB008462BF /* NSString+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6390E01A389ECB008462BF /* NSString+Custom.m */; };
+		AA72E00C1A6439F5000D90FA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA72E00B1A6439F5000D90FA /* Images.xcassets */; };
 		AA7EFFCD19ED051400CB3A2B /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7EFFCC19ED051400CB3A2B /* SettingsViewController.m */; };
 		AA82E3A31A2677AD00BFE601 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA82E3A21A2677AD00BFE601 /* StoreKit.framework */; };
 		AA85EF4119FCCA4C00C06F60 /* CHTCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = AA85EF4019FCCA4C00C06F60 /* CHTCollectionViewWaterfallLayout.m */; };
@@ -32,7 +33,6 @@
 		AA930A4619E9F00E0084A250 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AA930A4519E9F00E0084A250 /* main.m */; };
 		AA930A4919E9F00E0084A250 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA930A4819E9F00E0084A250 /* AppDelegate.m */; };
 		AA930A4F19E9F00E0084A250 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA930A4D19E9F00E0084A250 /* Main.storyboard */; };
-		AA930A5119E9F00E0084A250 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA930A5019E9F00E0084A250 /* Images.xcassets */; };
 		AA930A5419E9F00E0084A250 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA930A5219E9F00E0084A250 /* LaunchScreen.xib */; };
 		AA930A6019E9F00E0084A250 /* _08Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA930A5F19E9F00E0084A250 /* _08Tests.m */; };
 		AA96650819FCAE6E0008ED03 /* ProductDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA96650719FCAE6E0008ED03 /* ProductDetailsViewController.m */; };
@@ -102,6 +102,7 @@
 		AA6390DD1A38880B008462BF /* SocialMedias.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocialMedias.m; sourceTree = "<group>"; };
 		AA6390DF1A389ECB008462BF /* NSString+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Custom.h"; sourceTree = "<group>"; };
 		AA6390E01A389ECB008462BF /* NSString+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Custom.m"; sourceTree = "<group>"; };
+		AA72E00B1A6439F5000D90FA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		AA7EFFCB19ED051400CB3A2B /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		AA7EFFCC19ED051400CB3A2B /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		AA82E3A21A2677AD00BFE601 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -119,7 +120,6 @@
 		AA930A4719E9F00E0084A250 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		AA930A4819E9F00E0084A250 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		AA930A4E19E9F00E0084A250 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		AA930A5019E9F00E0084A250 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		AA930A5319E9F00E0084A250 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		AA930A5919E9F00E0084A250 /* MooncodeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MooncodeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA930A5E19E9F00E0084A250 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -314,6 +314,7 @@
 		AA930A4319E9F00E0084A250 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AA72E00B1A6439F5000D90FA /* Images.xcassets */,
 				AA930A4719E9F00E0084A250 /* AppDelegate.h */,
 				AA930A4819E9F00E0084A250 /* AppDelegate.m */,
 				AA3DFA3919EE3D1B003F4920 /* ProximaNova-Bold.otf */,
@@ -321,7 +322,6 @@
 				AA3DFA3B19EE3D1B003F4920 /* ProximaNova-Semibold.otf */,
 				AA930A4419E9F00E0084A250 /* Info.plist */,
 				AA930A4519E9F00E0084A250 /* main.m */,
-				AA930A5019E9F00E0084A250 /* Images.xcassets */,
 				AA930A5219E9F00E0084A250 /* LaunchScreen.xib */,
 				AAC89DD81A375D8F00D33C36 /* LaunchImage.h */,
 				AAC89DD91A375D8F00D33C36 /* LaunchImage.m */,
@@ -455,6 +455,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA72E00C1A6439F5000D90FA /* Images.xcassets in Resources */,
 				AA930A4F19E9F00E0084A250 /* Main.storyboard in Resources */,
 				AA13FD511A04B8A900696FE1 /* PickerViewForOptions.xib in Resources */,
 				AA3DFA3E19EE3D1B003F4920 /* ProximaNova-Semibold.otf in Resources */,
@@ -463,7 +464,6 @@
 				AAABB3D71A36F44E005B53E1 /* Storyboard_autolayout.storyboard in Resources */,
 				AA930A5419E9F00E0084A250 /* LaunchScreen.xib in Resources */,
 				AA3DFA3C19EE3D1B003F4920 /* ProximaNova-Bold.otf in Resources */,
-				AA930A5119E9F00E0084A250 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
