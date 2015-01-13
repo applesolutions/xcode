@@ -9,9 +9,6 @@
 #import "SettingsViewController.h"
 
 
-//send email
-#import <MessageUI/MessageUI.h>
-#import <MessageUI/MFMailComposeViewController.h>
 #import "ScrollViewController.h"
 
 #import "SocialMedias.h"
@@ -77,19 +74,23 @@
 - (IBAction)ActionContactUs:(id)sender {
     
     if([MFMailComposeViewController canSendMail]) {
+        
         MFMailComposeViewController *mailCont = [[MFMailComposeViewController alloc] init];
         mailCont.mailComposeDelegate = self;
         mailCont.navigationBar.translucent = NO;
         [mailCont.navigationBar setTintColor:[UIColor whiteColor]];
         
+//        mailCont.topViewController.navigationController
         
-        mailCont.navigationBar.topItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
+        [[UINavigationBar appearance] setTitleTextAttributes:@{
+                                                        NSForegroundColorAttributeName: [UIColor whiteColor],
+                                                        NSFontAttributeName: [UIFont fontWithName:@"ProximaNova-Regular" size:19.0f],
+                                                        }];
         
         [mailCont setSubject:@"Support - feedback"];
         [mailCont setToRecipients:[NSArray arrayWithObject:[[NSUserDefaults standardUserDefaults]objectForKey:@"supportUrl"]]];
         
-        
-        [self presentModalViewController:mailCont animated:YES];
+        [self presentViewController:mailCont animated:YES completion:nil];
     }
 }
 

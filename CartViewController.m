@@ -34,6 +34,7 @@
     self.TableView.delegate = self;
     self.TableView.dataSource = self;
     self.TableView.allowsSelection = YES;
+
     
     CGRect frame = self.buttonAddCart.frame;
     frame.origin.y = self.view.frame.size.height - self.buttonAddCart.frame.size.height;
@@ -135,6 +136,14 @@
     }
     
     cell.backgroundColor = [UIColor clearColor];
+    
+    
+    UIView *bgColorView = [[UIView alloc] init];
+    bgColorView.backgroundColor =  [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"red"] floatValue] / 255
+                                                   green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"green"] floatValue] / 255
+                                                    blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"blue"] floatValue] / 255
+                                                   alpha:0.3];
+    [cell setSelectedBackgroundView:bgColorView];
     
     NSString *itemIdForPicture = [[arrayProductsInCart objectAtIndex:indexPath.row] objectForKey:@"productId"];
     NSDictionary *DicItem = [[arrayProductsInCart objectAtIndex:indexPath.row] objectForKey:@"dicVariant"];

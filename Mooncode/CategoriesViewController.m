@@ -441,9 +441,11 @@
                                         continue;
                                     }
                                     
-                                    [arrayIdsToBeDownloaded addObject:[dicProduct objectForKey:@"id"]];
-                                    [arrayUrlsToBeDownloaded addObject:[[dicProduct objectForKey:@"image"] objectForKey:@"src"]];
-//                                    //NSLog(@"src to download : %@", [[dicProduct objectForKey:@"image"] objectForKey:@"src"]);
+                                    if ([dicProduct objectForKey:@"image"]) {
+                                        
+                                        [arrayIdsToBeDownloaded addObject:[dicProduct objectForKey:@"id"]];
+                                        [arrayUrlsToBeDownloaded addObject:[[dicProduct objectForKey:@"image"] objectForKey:@"src"]];
+                                    }
                                 }
                             }
                         }];

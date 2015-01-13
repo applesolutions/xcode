@@ -33,7 +33,6 @@
 //    [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_url"];
 //    [[NSUserDefaults standardUserDefaults] setObject:@"14f27c433cf58b1cf66da2d39228ce32" forKey:@"shopify_token"];
     [[NSUserDefaults standardUserDefaults] setObject:@"http://fedbythreads.com" forKey:@"website_cart_url"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"checkout" forKey:@"id_button_checkout"];
     [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"urlForTerms"];
     [[NSUserDefaults standardUserDefaults] setObject:@"FedByThreads" forKey:@"twitterName"];
     [[NSUserDefaults standardUserDefaults] setObject:@"info@fedbythreads.com" forKey:@"supportUrl"];
