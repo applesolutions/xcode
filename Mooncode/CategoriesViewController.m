@@ -193,8 +193,11 @@
 
 -(void) makeRequestForPage: (int) pageNumber{
     
+//    NSArray *arrayCustomCollectionsIds = [[NSUserDefaults standardUserDefaults] objectForKey:@"arrayCustomCollectionsIds"];
+    __block NSMutableArray *arrayAddedOrModifiedCollections = [NSMutableArray new];
+    
     //ask for the published collections
-    NSString *collectionType = [[NSUserDefaults standardUserDefaults] stringForKey:@"collectionType"];
+    NSString *collectionType = @"smart_collections";
     NSString *string_url =  [NSString stringWithFormat:@"%@/admin/%@.json?published_status=published&page=%d&limit=250", website_string, collectionType, pageNumber];
     NSURL *url = [NSURL URLWithString:string_url];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
@@ -205,50 +208,91 @@
         if (!error){
             
             NSMutableDictionary* dicFromServer = [[NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error] mutableCopy];
+
             
-            //NSLog(@"all collections : %@ and count collections : %lu", [dicFromServer description], [[dicFromServer objectForKey:collectionType] count]);
+            NSLog(@"all collections : %@ and count collections : %lu", [dicFromServer description], [[dicFromServer objectForKey:collectionType] count]);
+            if ([NSThread isMainThread]) {
+                NSLog(@"main thread");
+            }
             
-            dispatch_sync(dispatch_get_global_queue(0, 0), ^{
-                
                 //CHECK FOR ADDED/MODIFIED COLLECTIONS ****************************************************
-                NSMutableArray *arrayAddedOrModifiedCollections = [NSMutableArray new];
-                
-                NSArray *arrayCustomCollectionsIds = [[NSUserDefaults standardUserDefaults] objectForKey:@"arrayCustomCollectionsIds"];
-                
-                for (NSDictionary *dicCollection in [dicFromServer objectForKey:collectionType]) {
-                    
-                    //CUSTOM collections ******************************************************************************************
-                    //**************************************************************************************************************
-                    
-                    if (    [arrayCustomCollectionsIds count] > 0 &&
-                        ! [arrayCustomCollectionsIds containsObject:[dicCollection[@"id"]  stringValue]]) {
-                        
-                        [dicFromServer removeObjectForKey:dicCollection[@"id"]];
-                        //NSLog(@"remove collection");
-                        continue;
-                    }
-                    //**************************************************************************************************************
-                    //**************************************************************************************************************
-                    
-                    [arrayAddedOrModifiedCollections addObject:dicCollection];
-                    [dic_Updated_Collections setObject:dicCollection forKey: [[dicCollection objectForKey:@"id"] stringValue]];
-                }
-                count_collectionsToDownload = (int)[arrayAddedOrModifiedCollections count];
+            
+            
+            arrayAddedOrModifiedCollections = [self arrayCollectionsWithInitialArray:arrayAddedOrModifiedCollections handleCollections:[dicFromServer objectForKey:@"smart_collections"] andCollectionType:@"smart_collections"];
+            
+//            for (NSDictionary *dicCollection in [dicFromServer objectForKey:collectionType]) {
+//                
+//                //CUSTOM collections ******************************************************************************************
+//                //**************************************************************************************************************
+//                
+//                if (    [arrayCustomCollectionsIds count] > 0 &&
+//                    ! [arrayCustomCollectionsIds containsObject:[dicCollection[@"id"]  stringValue]]) {
+//                    
+//                    [dicFromServer removeObjectForKey:dicCollection[@"id"]];
+//                    //NSLog(@"remove collection");
+//                    continue;
+//                }
+//                //**************************************************************************************************************
+//                //**************************************************************************************************************
+//                
+//                [arrayAddedOrModifiedCollections addObject:dicCollection];
+//                [dic_Updated_Collections setObject:dicCollection forKey: [[dicCollection objectForKey:@"id"] stringValue]];
+//                count_collectionsToDownload ++;
+//            }
+            
                 
 
-                //check if no collection are available from the server ****************************************
-                if (count_collectionsToDownload == 0) {
-                    //NSLog(@"display no display");
-                    [self noCollectionAvailable];
-                    return;
-                }
                 
-                int numberProductAtActualPage = (int)[[dicFromServer objectForKey:collectionType] count];
-                if (numberProductAtActualPage == 250){
+                //ask for the custom collections
+                NSString *collectionType_custom = @"custom_collections";
+                NSString *string_url_custom =  [NSString stringWithFormat:@"%@/admin/%@.json?published_status=published&page=%d&limit=250", website_string, collectionType_custom, 1 ];
+                NSURL *url_custom = [NSURL URLWithString:string_url_custom];
+                NSMutableURLRequest *request_custom = [[NSMutableURLRequest alloc] initWithURL:url_custom];
+                [request_custom setValue:token forHTTPHeaderField:@"X-Shopify-Access-Token"];
+                [NSURLConnection sendAsynchronousRequest:request_custom queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response_custom, NSData *data_custom, NSError *error_custom){
                     
-                    [self makeRequestForPage:(pageNumber + 1 )];
-                }
-                else{ //GET THE PRODUCTS FOR EACH COLLECTION !  ****************************************************
+                    if (!error_custom){
+                        
+                        NSMutableDictionary* dicFromServer_custom = [[NSJSONSerialization JSONObjectWithData:data_custom options:kNilOptions error:&error_custom] mutableCopy];
+
+                        NSLog(@"dicFromServer_custom : %@", [dicFromServer_custom description]);
+                        if ([NSThread isMainThread]) {
+                            NSLog(@"main thread");
+                        }
+                        
+                        arrayAddedOrModifiedCollections = [self arrayCollectionsWithInitialArray:arrayAddedOrModifiedCollections handleCollections:[dicFromServer_custom objectForKey:@"custom_collections"] andCollectionType:@"custom_collections"];
+                        
+//                        for (NSDictionary *dicCollection in [dicFromServer_custom objectForKey:collectionType_custom]) {
+//                            
+//                            //CUSTOM collections ******************************************************************************************
+//                            //**************************************************************************************************************
+//                            
+//                            if (    [arrayCustomCollectionsIds count] > 0 &&
+//                                ! [arrayCustomCollectionsIds containsObject:[dicCollection[@"id"]  stringValue]]) {
+//                                
+//                                [dicFromServer removeObjectForKey:dicCollection[@"id"]];
+//                                //NSLog(@"remove collection");
+//                                continue;
+//                            }
+//                            //**************************************************************************************************************
+//                            //**************************************************************************************************************
+//                            
+//                            [arrayAddedOrModifiedCollections addObject:dicCollection];
+//                            [dic_Updated_Collections setObject:dicCollection forKey: [[dicCollection objectForKey:@"id"] stringValue]];
+//                            count_collectionsToDownload++;
+//                        }
+                        
+                    }
+                    
+                    
+                    //check if no collection are available from the server ****************************************
+                    if (count_collectionsToDownload == 0) {
+                        //NSLog(@"display no display");
+                        [self noCollectionAvailable];
+                        return;
+                    }
+                    
+                    //GET THE PRODUCTS FOR EACH COLLECTION !  ****************************************************
                     
                     for (NSDictionary *dicCollection in arrayAddedOrModifiedCollections) { // download products only for new/updated collections
                         
@@ -256,9 +300,11 @@
                         NSString *collectionId = [NSString stringWithFormat:@"%@", [dicCollection objectForKey:@"id"]];
                         [self getProductsInCollectionWithCollectionId:collectionId andPageNumber:1];
                     }
-                }
-                
-            });
+                    
+                    
+                }];
+
+            
             
         }else{
             //NSLog(@"error occured : %@", [error description]);
@@ -267,6 +313,31 @@
             self.buttonReload.hidden = NO;
         }
     }];
+}
+
+-(NSMutableArray*) arrayCollectionsWithInitialArray:(NSMutableArray*)arrayAddedOrModifiedCollections handleCollections:(NSArray*) arrayCollections andCollectionType:(NSString*)collectionType{
+    
+    NSArray *arrayCustomCollectionsIds = [[NSUserDefaults standardUserDefaults] objectForKey:@"arrayCustomCollectionsIds"];
+    
+    for (NSDictionary *dicCollection in arrayCollections) {
+        
+        //CUSTOM collections ******************************************************************************************
+        //**************************************************************************************************************
+        
+        if (    [arrayCustomCollectionsIds count] > 0 &&
+            ! [arrayCustomCollectionsIds containsObject:[dicCollection[@"id"]  stringValue]]) {
+            
+            NSLog(@"remove collection");
+            continue;
+        }
+        //**************************************************************************************************************
+        //**************************************************************************************************************
+        
+        [arrayAddedOrModifiedCollections addObject:dicCollection];
+        [dic_Updated_Collections setObject:dicCollection forKey: [[dicCollection objectForKey:@"id"] stringValue]];
+        count_collectionsToDownload ++;
+    }
+    return arrayAddedOrModifiedCollections;
 }
 
 -(void) noCollectionAvailable{
@@ -322,6 +393,8 @@
                 
                 if ([arrayForProducts count] != 0){  //check if the collection is empty
                     
+                    NSLog(@"products to display !");
+                    
                     //check if the collection exists in this dictionary and store it with the products
                     if ( [dic_Updated_ProductsCorrespondingToCollections objectForKey: collection_id] ) {
                         
@@ -334,6 +407,8 @@
                         //NSLog(@"first time !");
                         [dic_Updated_ProductsCorrespondingToCollections setObject:arrayForProducts forKey:collection_id];
                     }
+                }else{
+                    NSLog(@"no product for this collection : %@", [[dic_Updated_Collections objectForKey:collection_id] description]);
                 }
                 
                 if ([arrayForProducts count] == 250){ //we still have products to download for this collection
@@ -550,7 +625,7 @@
                                    
                                    if ( ! error )
                                    {
-                                       UIImage *image = [UIImage imageWithData:data];
+//                                       UIImage *image = [UIImage imageWithData:data];
                                        //NSLog(@"image asynch : %@", [image description]);
                                        
                                        //save image in memory
