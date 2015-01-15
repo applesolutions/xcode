@@ -41,6 +41,8 @@
 
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 
+@property (nonatomic) __block BOOL loading;
+
 @end
 
 #define CELL_IDENTIFIER @"WaterfallCell"
@@ -61,7 +63,6 @@
     __block NSMutableDictionary *dic_Updated_Collections;
     __block NSMutableArray *sorted_Updated_KeysForCategories;
     
-    __block NSMutableArray *arrayTempProductsFormServer;
     __block NSMutableArray *sortedKeysForCategories;
     __block NSMutableArray *arrayIndexesActiclesOnSales;
     
@@ -95,10 +96,10 @@
     [self.collectionView reloadData];
     
     self.ViewNavBar.backgroundColor =
-        [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"red"] floatValue] / 255
-                        green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"green"] floatValue] / 255
-                         blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"blue"] floatValue] / 255
-                        alpha:1];
+    [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"red"] floatValue] / 255
+                    green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"green"] floatValue] / 255
+                     blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"blue"] floatValue] / 255
+                    alpha:1];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -114,6 +115,7 @@
     frame.origin.y = 64;
     frame.size.height = self.view.frame.size.height - 64;
     self.collectionView.frame = frame;
+    
     [self.view addSubview:self.collectionView];
     
     self.refreshControl = [[UIRefreshControl alloc]init];
@@ -127,12 +129,17 @@
         
         arrayProducts = [NSMutableArray new];
         
-        arrayTempProductsFormServer = [[NSMutableArray alloc] init];
         sortedKeysForCategories = [NSMutableArray new];
         arrayIndexesActiclesOnSales = [NSMutableArray new];
         
+        dicProductsCorrespondingToCollections = [NSMutableDictionary new];
+        dicCollections = [[NSMutableDictionary alloc] init];
+        
         website_string = [[NSUserDefaults standardUserDefaults] stringForKey:@"website_url"];
         token = [[NSUserDefaults standardUserDefaults] stringForKey:@"shopify_token"];
+        
+        
+        [self makeRequestForPage:1];
         
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -161,7 +168,7 @@
                 [self checkForProductsInSales];
             }
             
-//            //NSLog(@"array products : %@", [dicCollections description]);
+            //            //NSLog(@"array products : %@", [dicCollections description]);
             //            //NSLog(@"products : %@", [dicProductsCorrespondingToCollections description]);
             
             sortedKeysForCategories = [[[dicProductsCorrespondingToCollections allKeys] sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
@@ -173,12 +180,11 @@
             [self hideLoading];
             
         }else{
-            dicProductsCorrespondingToCollections = [NSMutableDictionary new];
-            dicCollections = [[NSMutableDictionary alloc] init];
+            
             [self showLoading];
         }
         
-        [self makeRequestForPage:1];
+        
     });
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -197,18 +203,37 @@
 
 
 - (void)refreshTable {
-    //TODO: refresh your data
-    [self makeRequestForPage:1];
     
     [self.refreshControl endRefreshing];
-    [self.collectionView reloadData];
-
+    
+    if ( self.loading == NO) {
+        
+        [dic_Updated_Collections removeAllObjects];
+        [dic_Updated_ProductsCorrespondingToCollections removeAllObjects];
+        [sorted_Updated_KeysForCategories removeAllObjects];
+        dic_Updated_Collections = [NSMutableDictionary new];
+        dic_Updated_ProductsCorrespondingToCollections = [NSMutableDictionary new];
+        sorted_Updated_KeysForCategories = [NSMutableArray new];
+        
+        //NSLog(@"refresh - dic_Updated_Collections.count : %lu", (unsigned long)[dic_Updated_Collections count]);
+        //NSLog(@"refresh - dicCollections.count : %lu", (unsigned long)[dicCollections count]);
+        //NSLog(@"refresh - count_collectionsToDownload : %d", count_collectionsToDownload);
+        count_collectionsToDownload = 0;
+        
+        //TODO: refresh your data
+        [self makeRequestForPage:1];
+        
+    }else{
+        //NSLog(@"being downloaded");
+    }
 }
 
 
 #pragma mark request collections
 
 -(void) makeRequestForPage: (int) pageNumber{
+    
+    self.loading = YES;
     
     __block NSMutableArray *arrayAddedOrModifiedCollections = [NSMutableArray new];
     
@@ -224,10 +249,12 @@
         if (!error){
             
             NSMutableDictionary* dicFromServer = [[NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error] mutableCopy];
-//            NSLog(@"all collections : %@ and count collections : %lu", [dicFromServer description], [[dicFromServer objectForKey:collectionType] count]);
+            //            //NSLog(@"all collections : %@ and count collections : %lu", [dicFromServer description], [[dicFromServer objectForKey:collectionType] count]);
             
             //CHECK COLLECTIONS ****************************************************
             arrayAddedOrModifiedCollections = [self arrayCollectionsWithInitialArray:arrayAddedOrModifiedCollections handleCollections:[dicFromServer objectForKey:@"smart_collections"] andCollectionType:@"smart_collections"];
+            
+            
             
             //ask for the custom collections
             NSString *collectionType_custom = @"custom_collections";
@@ -241,8 +268,8 @@
                     
                     NSMutableDictionary* dicFromServer_custom = [[NSJSONSerialization JSONObjectWithData:data_custom options:kNilOptions error:&error_custom] mutableCopy];
                     
-//                    NSLog(@"dicFromServer_custom : %@", [dicFromServer_custom description]);
-
+                    //                    //NSLog(@"dicFromServer_custom : %@", [dicFromServer_custom description]);
+                    
                     //CHECK COLLECTIONS ****************************************************
                     arrayAddedOrModifiedCollections = [self arrayCollectionsWithInitialArray:arrayAddedOrModifiedCollections handleCollections:[dicFromServer_custom objectForKey:@"custom_collections"] andCollectionType:@"custom_collections"];
                     
@@ -256,11 +283,18 @@
                 }
                 
                 //GET THE PRODUCTS FOR EACH COLLECTION !  ****************************************************
-                
-                for (NSDictionary *dicCollection in arrayAddedOrModifiedCollections) { // download products only for new/updated collections
+                //NSLog(@"collections nb : %d ", (int)[arrayAddedOrModifiedCollections count]);
+                //NSLog(@"collections : %@", [arrayAddedOrModifiedCollections description]);
+                //NSLog(@"count collections to download : %d", count_collectionsToDownload);
+                for (NSDictionary *dicCollectionToDownload in arrayAddedOrModifiedCollections) { // download products only for new/updated collections
+                    
+                    if ([[dicCollections allKeys] count] > 0) {
+                        [NSThread sleepForTimeInterval:0.3f];
+                    }
+                    
                     
                     //NSLog(@"download products for new/updated collections");
-                    NSString *collectionId = [NSString stringWithFormat:@"%@", [dicCollection objectForKey:@"id"]];
+                    NSString *collectionId = [NSString stringWithFormat:@"%@", [dicCollectionToDownload objectForKey:@"id"]];
                     [self getProductsInCollectionWithCollectionId:collectionId andPageNumber:1];
                 }
             }];
@@ -271,10 +305,13 @@
                 self.activityLoading.hidden = YES;
                 self.labelLoading.text = @"No Internet connection detected.";
                 self.buttonReload.hidden = NO;
+                
+                self.loading = NO;
             }
         }
     }];
 }
+
 
 -(NSMutableArray*) arrayCollectionsWithInitialArray:(NSMutableArray*)arrayAddedOrModifiedCollections handleCollections:(NSArray*) arrayCollections andCollectionType:(NSString*)collectionType{
     
@@ -288,7 +325,7 @@
         if (    [arrayCustomCollectionsIds count] > 0 &&
             ! [arrayCustomCollectionsIds containsObject:[dicCollection[@"id"]  stringValue]]) {
             
-            NSLog(@"remove collection");
+            //NSLog(@"remove collection");
             continue;
         }
         //**************************************************************************************************************
@@ -345,177 +382,200 @@
     [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
         
         if (!error){
-            NSDictionary* dicFromServer = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+            NSDictionary* dicFromServer_products = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
             
-            dispatch_sync(dispatch_get_global_queue(0, 0), ^{
+            
+            NSArray *arrayForProducts = [dicFromServer_products objectForKey:@"products"];
+            //                //NSLog(@"products : %@", [arrayForProducts description]);
+            
+            if ([arrayForProducts count] != 0){  //check if the collection is empty
                 
-                NSArray *arrayForProducts = [dicFromServer objectForKey:@"products"];
-//                //NSLog(@"collection : %@ products : %@", [[dicCollections objectForKey:collection_id] objectForKey:@"handle"], [arrayForProducts description]);
+                //NSLog(@"products to display !");
                 
-                if ([arrayForProducts count] != 0){  //check if the collection is empty
+                //check if the collection exists in this dictionary and store it with the products
+                if ( [dic_Updated_ProductsCorrespondingToCollections objectForKey: collection_id] ) {
                     
-                    NSLog(@"products to display !");
+                    NSMutableArray *array = [[dic_Updated_ProductsCorrespondingToCollections objectForKey:collection_id] mutableCopy];
+                    [array addObjectsFromArray:arrayForProducts];
+                    [dic_Updated_ProductsCorrespondingToCollections setObject:array forKey:collection_id];
+                    //NSLog(@"not first time !");
                     
-                    //check if the collection exists in this dictionary and store it with the products
-                    if ( [dic_Updated_ProductsCorrespondingToCollections objectForKey: collection_id] ) {
+                }else{
+                    //NSLog(@"first time !");
+                    [dic_Updated_ProductsCorrespondingToCollections setObject:arrayForProducts forKey:collection_id];
+                }
+            }else{
+                //NSLog(@"no product for this collection ! : %@", [dicFromServer_products description]);
+            }
+            
+            if ([arrayForProducts count] == 250){ //we still have products to download for this collection
+                [self getProductsInCollectionWithCollectionId:collection_id andPageNumber:(pageNumber + 1)];
+            }else{//all the products have been downloaded
+                
+                count_collectionsToDownload--;
+                //NSLog(@"count_collectionsToDownload : %d", count_collectionsToDownload );
+                
+                if ([arrayForProducts count] == 0) {
+                    //NSLog(@"remove !!!");
+                    [dic_Updated_Collections removeObjectForKey:collection_id];
+                    [dic_Updated_ProductsCorrespondingToCollections removeObjectForKey:collection_id];
+                    //NSLog(@"delete collection for id : %@", collection_id);
+                }else{
+                    
+                    //replace the right collection updated !
+                    sorted_Updated_KeysForCategories = [[[dic_Updated_ProductsCorrespondingToCollections allKeys] sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+                        return [[[dic_Updated_Collections objectForKey:a] objectForKey:@"title"] compare:[[dic_Updated_Collections objectForKey:b] objectForKey:@"title"]];
+                    }] mutableCopy];
+                    
+                    //check if the collection has been updated !!
+                    NSData *dicUpdateIPhone = [[NSUserDefaults standardUserDefaults] dataForKey:@"dateLastUpdateIPhone"];
+                    
+                    
+                    NSString * stringDateLastUpdateIPhone = [[NSKeyedUnarchiver unarchiveObjectWithData:dicUpdateIPhone] objectForKey:@"dateLastUpdateIPhone"];
+                    NSString *stringDateProductUpdate = [[dic_Updated_Collections objectForKey:collection_id ] objectForKey:@"updated_at"];
+                    //NSLog(@"date in iphone collection : %@", stringDateLastUpdateIPhone);
+                    //NSLog(@"date update collection : %@", stringDateProductUpdate);
+                    
+                    if ([self hasBeenUpdatedWithStringDateReference:stringDateLastUpdateIPhone andStringDate:stringDateProductUpdate]){ //collection updated
                         
-                            NSMutableArray *array = [[dic_Updated_ProductsCorrespondingToCollections objectForKey:collection_id] mutableCopy];
-                            [array addObjectsFromArray:arrayForProducts];
-                            [dic_Updated_ProductsCorrespondingToCollections setObject:array forKey:collection_id];
-                            //NSLog(@"not first time !");
+                        //NSLog(@"collection updated");
+                        
+                        //check for a collection image
+                        if ([[dic_Updated_Collections objectForKey:collection_id] objectForKey:@"image"]) {
+                            
+                            NSDictionary *dicCollection = [dic_Updated_Collections objectForKey:collection_id];
+                            
+                            [self getImageWithImageUrl:[[dicCollection objectForKey:@"image"] objectForKey:@"src"]
+                                           andObjectId:collection_id
+                                   lastImageToDownload:YES
+                                    ImageForCollection:YES];
+                        }else{
+                            
+                            //  download the first image of the first product
+                            [self getImageWithImageUrl:[[[[dic_Updated_ProductsCorrespondingToCollections objectForKey:collection_id] firstObject] objectForKey:@"image"] objectForKey:@"src"]
+                                           andObjectId:[[[dic_Updated_ProductsCorrespondingToCollections objectForKey:collection_id] firstObject] objectForKey:@"id"]
+                                   lastImageToDownload:YES
+                                    ImageForCollection:YES];
+                        }
                         
                     }else{
-                        //NSLog(@"first time !");
-                        [dic_Updated_ProductsCorrespondingToCollections setObject:arrayForProducts forKey:collection_id];
+                        //NSLog(@"collection not updated");
                     }
-                }else{
-                    NSLog(@"no product for this collection : %@", [[dic_Updated_Collections objectForKey:collection_id] description]);
+                    
                 }
                 
-                if ([arrayForProducts count] == 250){ //we still have products to download for this collection
-                    [self getProductsInCollectionWithCollectionId:collection_id andPageNumber:(pageNumber + 1)];
-                }else{//all the products have been downloaded
+                //NSLog(@"dic_Updated_Collections.count = %lu", (unsigned long)[[dic_Updated_Collections allKeys] count]);
+                //NSLog(@"count sorted keys : %lu", [sorted_Updated_KeysForCategories count] );
+                
+                if (count_collectionsToDownload == 0) { //all collections have been downloaded -> save the date of download !
+                    //                 if ( (int)[[dic_Updated_Collections allKeys] count] == count_collectionsToDownload){
                     
-                    count_collectionsToDownload--;
                     
-                    if ([arrayForProducts count] == 0) {
-                        [dic_Updated_Collections removeObjectForKey:collection_id];
-                        [dic_Updated_ProductsCorrespondingToCollections removeObjectForKey:collection_id];
-                        //NSLog(@"delete collection for id : %@", collection_id);
+                    //NSLog(@"ENTERED !!!");
+                    
+                    
+                    //SAVE THE SERVER IN MEMORY
+                    [NSUserDefaultsMethods saveObjectInMemory:dic_Updated_ProductsCorrespondingToCollections toFolder:@"datasForProductsAndCollections"];
+                    [NSUserDefaultsMethods saveObjectInMemory:dic_Updated_Collections toFolder:@"datasForDicCollections"];
+                    
+                    //TAKE THE SERVER TO SCREEN !
+                    //                    dicCollections = [dic_Updated_Collections mutableCopy];
+                    //                    dicProductsCorrespondingToCollections = [dic_Updated_ProductsCorrespondingToCollections mutableCopy];
+                    //                    sortedKeysForCategories = [sorted_Updated_KeysForCategories mutableCopy];
+                    
+                    dicCollections = [NSMutableDictionary dictionaryWithDictionary:[dic_Updated_Collections mutableCopy]];
+                    dicProductsCorrespondingToCollections = [NSMutableDictionary dictionaryWithDictionary:[dic_Updated_ProductsCorrespondingToCollections mutableCopy]];
+                    sortedKeysForCategories = [NSMutableArray arrayWithArray:[sorted_Updated_KeysForCategories mutableCopy]];
+                    
+                    //NSLog(@"dic collections to diplay : %@", [dicProductsCorrespondingToCollections description]);
+                    
+                    //                    [dic_Updated_Collections removeAllObjects];
+                    //                    [dic_Updated_ProductsCorrespondingToCollections removeAllObjects];
+                    //                    [sorted_Updated_KeysForCategories removeAllObjects];
+                    //                    dic_Updated_Collections = [NSMutableDictionary new];
+                    //                    dic_Updated_ProductsCorrespondingToCollections = [NSMutableDictionary new];
+                    //                    sorted_Updated_KeysForCategories = [NSMutableArray new];
+                    
+                    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
                         
-                    }else{
-                        
-                        //replace the right collection updated !
-                        sorted_Updated_KeysForCategories = [[[dic_Updated_ProductsCorrespondingToCollections allKeys] sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-                            return [[[dic_Updated_Collections objectForKey:a] objectForKey:@"title"] compare:[[dic_Updated_Collections objectForKey:b] objectForKey:@"title"]];
-                        }] mutableCopy];
-                        
-                        BOOL reloadData = ! self.collectionView.hidden;
-                        
-                        //check if the collection has been updated !!
-                        NSData *dicUpdateIPhone = [[NSUserDefaults standardUserDefaults] dataForKey:@"dateLastUpdateIPhone"];
-                            
-                            
-                        NSString * stringDateLastUpdateIPhone = [[NSKeyedUnarchiver unarchiveObjectWithData:dicUpdateIPhone] objectForKey:@"dateLastUpdateIPhone"];
-                        NSString *stringDateProductUpdate = [[dic_Updated_Collections objectForKey:collection_id ] objectForKey:@"updated_at"];
-                        //NSLog(@"date in iphone collection : %@", stringDateLastUpdateIPhone);
-                        //NSLog(@"date update collection : %@", stringDateProductUpdate);
-                        
-                        if ([self hasBeenUpdatedWithStringDateReference:stringDateLastUpdateIPhone andStringDate:stringDateProductUpdate]){ //collection updated
-                            //NSLog(@"collection updated");
-                            
-                            //check for a collection image
-                            if ([[dic_Updated_Collections objectForKey:collection_id] objectForKey:@"image"]) {
-                                
-                                NSDictionary *dicCollection = [dic_Updated_Collections objectForKey:collection_id];
-                                
-                                [self getImageWithImageUrl:[[dicCollection objectForKey:@"image"] objectForKey:@"src"]
-                                               andObjectId:collection_id
-                                       lastImageToDownload:reloadData
-                                        ImageForCollection:YES];
-                            }else{
-                                
-                                //  download the first image of the first product
-                                [self getImageWithImageUrl:[[[[dic_Updated_ProductsCorrespondingToCollections objectForKey:collection_id] firstObject] objectForKey:@"image"] objectForKey:@"src"]
-                                               andObjectId:[[[dic_Updated_ProductsCorrespondingToCollections objectForKey:collection_id] firstObject] objectForKey:@"id"]
-                                       lastImageToDownload:YES
-                                        ImageForCollection:YES];
-                            }
-                            
-                        }else{
-                            //NSLog(@"collection not updated");
-                        }
-                        
+                        [arrayProducts removeAllObjects];
+                        [dicProductsCorrespondingToCollections enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                            [arrayProducts addObjectsFromArray:obj];
+                        }];
+                        [self checkForProductsInSales];
                     }
                     
+                    //GET ALL IMAGES TO DOWNLOAD
+                    NSData *dicUpdateIPhone = [[NSUserDefaults standardUserDefaults] dataForKey:@"dateLastUpdateIPhone"];
+                    NSString * stringDateLastUpdateIPhone = [[NSKeyedUnarchiver unarchiveObjectWithData:dicUpdateIPhone] objectForKey:@"dateLastUpdateIPhone"];
                     
-                    if (count_collectionsToDownload == 0) { //all collections have been downloaded -> save the date of download !
-                        
-                        //SAVE THE SERVER IN MEMORY
-                        [NSUserDefaultsMethods saveObjectInMemory:dic_Updated_ProductsCorrespondingToCollections toFolder:@"datasForProductsAndCollections"];
-                        [NSUserDefaultsMethods saveObjectInMemory:dic_Updated_Collections toFolder:@"datasForDicCollections"];
-                        
-                        //TAKE THE SERVER TO SCREEN !
-                        dicCollections = dic_Updated_Collections;
-                        dicProductsCorrespondingToCollections = dic_Updated_ProductsCorrespondingToCollections;
-                        sortedKeysForCategories = sorted_Updated_KeysForCategories;
-                        
-                        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
+                    //get all unique images ! avoid to download each image several times !
+                    __block NSMutableArray *arrayIdsToBeDownloaded = [[NSMutableArray alloc] init];
+                    __block NSMutableArray *arrayUrlsToBeDownloaded = [[NSMutableArray alloc] init];
+                    
+                    for (NSString *key in [dicProductsCorrespondingToCollections allKeys]) { //ENUMERATE ALL THE PRODUCTS TO KNOW IF UPDATED !
+                        //                        //NSLog(@"key : %@", key);
+                        for (NSDictionary *dicProduct in [dicProductsCorrespondingToCollections objectForKey:key]) {
                             
-                            [arrayProducts removeAllObjects];
-                            [dicProductsCorrespondingToCollections enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-                                [arrayProducts addObjectsFromArray:obj];
-                            }];
-                            [self checkForProductsInSales];
-                        }
-                        
-                        //GET ALL IMAGES TO DOWNLOAD
-                        
-                        //get all unique images ! avoid to download each image several times !
-                        __block NSMutableArray *arrayIdsToBeDownloaded = [[NSMutableArray alloc] init];
-                        __block NSMutableArray *arrayUrlsToBeDownloaded = [[NSMutableArray alloc] init];
-                        [dicProductsCorrespondingToCollections enumerateKeysAndObjectsUsingBlock:^(id key, id arrayProductsForCollection, BOOL* stop) {
+                            //                            //NSLog(@"dic product : %@", [dicProduct description]);
                             
-                            NSData *dicUpdateIPhone = [[NSUserDefaults standardUserDefaults] dataForKey:@"dateLastUpdateIPhone"];
+                            NSString *stringDateProductUpdate = [dicProduct objectForKey:@"updated_at"];
                             
-                            for (NSDictionary *dicProduct in arrayProductsForCollection) {
+                            //                                //NSLog(@"date in iphone : %@", stringDateLastUpdateIPhone);
+                            //                                //NSLog(@"date update product : %@", stringDateProductUpdate);
+                            //                                //NSLog(@"title product to update : %@", [dicProduct objectForKey:@"title"]);
+                            
+                            if ([self hasBeenUpdatedWithStringDateReference:stringDateLastUpdateIPhone andStringDate:stringDateProductUpdate]   || ( // update !
+                                                                                                                                                    [ImageManagement getImageFromMemoryWithName:[dicProduct objectForKey:@"id"]] == nil                             && //first time !
+                                                                                                                                                    [dicProduct objectForKey:@"id"] != nil && [dicProduct objectForKey:@"image"] != nil ) )
+                            {
+                                if ([arrayIdsToBeDownloaded containsObject:[dicProduct objectForKey:@"id"]]) { //objectId already to download !
+                                    //NSLog(@"image already downloaded !");
+                                    continue;
+                                }
                                 
-                                
-                                NSString * stringDateLastUpdateIPhone = [[NSKeyedUnarchiver unarchiveObjectWithData:dicUpdateIPhone]
-                                                                         objectForKey:@"dateLastUpdateIPhone"];
-                                NSString *stringDateProductUpdate = [dicProduct objectForKey:@"updated_at"];
-                                
-//                                //NSLog(@"date in iphone : %@", stringDateLastUpdateIPhone);
-//                                //NSLog(@"date update product : %@", stringDateProductUpdate);
-//                                //NSLog(@"title product to update : %@", [dicProduct objectForKey:@"title"]);
-                                
-                                if ([self hasBeenUpdatedWithStringDateReference:stringDateLastUpdateIPhone andStringDate:stringDateProductUpdate]   || ( // update !
-                                    [ImageManagement getImageFromMemoryWithName:[dicProduct objectForKey:@"id"]] == nil                             && //first time !
-                                    [dicProduct objectForKey:@"id"] != nil && [dicProduct objectForKey:@"image"] != nil ) )
-                                {
-                                    if ([arrayIdsToBeDownloaded containsObject:[dicProduct objectForKey:@"id"]]) { //objectId already to download !
-                                        continue;
-                                    }
-                                    
-                                    if ([dicProduct objectForKey:@"image"]) {
-                                        
-                                        [arrayIdsToBeDownloaded addObject:[dicProduct objectForKey:@"id"]];
-                                        [arrayUrlsToBeDownloaded addObject:[[dicProduct objectForKey:@"image"] objectForKey:@"src"]];
-                                    }
+                                if ([dicProduct objectForKey:@"image"]) {
+                                    //NSLog(@"image not already downloaded !");
+                                    [arrayIdsToBeDownloaded addObject:[dicProduct objectForKey:@"id"]];
+                                    [arrayUrlsToBeDownloaded addObject:[[dicProduct objectForKey:@"image"] objectForKey:@"src"]];
                                 }
                             }
-                        }];
-                        
-                        //DOWNLOAD IMAGES
-                        
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            
-                            if ([arrayIdsToBeDownloaded count] > 0) {
-                                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible: YES];
-                            }
-                            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == YES) {
-                                
-                                [self hideLoading];
-                                [self.collectionView reloadData];
-                                //NSLog(@"test aaaaa");
-                            }
-                        });
-                        
-                        for (NSString *id_ImageToDownload in arrayIdsToBeDownloaded) {
-                            
-                            //NSLog(@"download loop : %@", id_ImageToDownload);
-                            
-                            [self getImageWithImageUrl: [arrayUrlsToBeDownloaded objectAtIndex:[arrayIdsToBeDownloaded indexOfObject:id_ImageToDownload]]
-                                           andObjectId: id_ImageToDownload
-                                   lastImageToDownload: NO   // does not matter
-                                    ImageForCollection: NO]; // modif
-                            
                         }
-                        
-                        [self saveTimeUpdateIPhone];
                     }
+                    
+                    
+                    //DOWNLOAD IMAGES
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        if ([arrayIdsToBeDownloaded count] > 0) {
+                            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible: YES];
+                        }
+                        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == YES) {
+                            
+                            [self hideLoading];
+                            [self.collectionView reloadData];
+                            //NSLog(@"test aaaaa");
+                        }
+                    });
+                    
+                    for (NSString *id_ImageToDownload in arrayIdsToBeDownloaded) {
+                        
+                        //NSLog(@"download loop : %@", id_ImageToDownload);
+                        
+                        [self getImageWithImageUrl: [arrayUrlsToBeDownloaded objectAtIndex:[arrayIdsToBeDownloaded indexOfObject:id_ImageToDownload]]
+                                       andObjectId: id_ImageToDownload
+                               lastImageToDownload: NO   // does not matter
+                                ImageForCollection: NO]; // modif
+                        
+                    }
+                    
+                    //EVERYTHING IS DOWNLOADED !
+                    [self saveTimeUpdateIPhone];
+                    self.loading = NO;
                 }
-            });
+            }
+            
         }
     }];
 }
@@ -530,15 +590,15 @@
     NSDate *dateToCompare = [dateFormat dateFromString:stringDateToCompare];
     NSDate *dateReference = [dateFormat dateFromString:stringDateReference];
     
-//    //NSLog(@"date tot compare : %@", [dateToCompare description]);
-//    //NSLog(@"date tot ref : %@", [dateReference description]);
+    //    //NSLog(@"date tot compare : %@", [dateToCompare description]);
+    //    //NSLog(@"date tot ref : %@", [dateReference description]);
     
-//    //NSLog(@" time difference : %f",[dateToCompare timeIntervalSinceDate:dateReference] );
+    //    //NSLog(@" time difference : %f",[dateToCompare timeIntervalSinceDate:dateReference] );
     if ([dateToCompare timeIntervalSinceDate:dateReference] > 0 || stringDateReference == nil) { //collection has to be updated in iPhone !
-//        //NSLog(@"aupdate !!!");
+        //        //NSLog(@"aupdate !!!");
         return YES;
     }else{
-//        //NSLog(@"no update !!!");
+        //        //NSLog(@"no update !!!");
         return NO;
     }
     
@@ -571,7 +631,7 @@
                                    //NSLog(@"count images to be downloaded after download : %d", count_imagesToBeDownloaded);
                                    
                                    if (count_imagesToBeDownloaded == 0) {
-
+                                       
                                        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible: NO];
                                        
                                        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
@@ -586,7 +646,7 @@
                                    
                                    if ( ! error )
                                    {
-//                                       UIImage *image = [UIImage imageWithData:data];
+                                       //                                       UIImage *image = [UIImage imageWithData:data];
                                        //NSLog(@"image asynch : %@", [image description]);
                                        
                                        //save image in memory
@@ -600,7 +660,7 @@
                                        if (isLastImmage == YES || isImageForCollection == YES ) { //Last ImageFromCollection is downloaded
                                            //NSLog(@"end download !");
                                            dispatch_async(dispatch_get_main_queue(), ^{
-
+                                               
                                                //NSLog(@"reload data for collection");
                                                [self.collectionView reloadData];
                                            });
@@ -721,7 +781,7 @@
 }
 
 -(void) checkForProductsInSales{
-   
+    
     
     [arrayProducts enumerateObjectsUsingBlock:^(id dicProduct, NSUInteger idx, BOOL *stop) {
         
@@ -735,7 +795,7 @@
         }];
         
     }];
-     
+    
 }
 
 #pragma mark IBActions
@@ -797,7 +857,8 @@
         return count_products;
         
     }else{
-
+        //NSLog(@"count cells : %d", (int)[[dicCollections allKeys] count]);
+        //NSLog(@"sorted keys : %d", (int)[sortedKeysForCategories count]);
         return [sortedKeysForCategories count];
     }
 }
@@ -901,6 +962,8 @@
     return reusableView;
 }
 
+
+
 #pragma mark - CHTCollectionViewDelegateWaterfallLayout
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -908,7 +971,9 @@
 }
 
 - (UICollectionView *)collectionView {
+    
     if (!_collectionView) {
+        
         CHTCollectionViewWaterfallLayout *layout = [[CHTCollectionViewWaterfallLayout alloc] init];
         
         layout.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
@@ -916,13 +981,16 @@
         layout.footerHeight = 0;
         layout.minimumColumnSpacing = 5;
         layout.minimumInteritemSpacing = 5;
+        
         if ([[UIDevice currentDevice].model hasPrefix:@"iPad"]) {
             layout.columnCount = 3;
         }else{
             layout.columnCount = 2;
         }
         
+        
         _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
+        _collectionView.alwaysBounceVertical = YES;
         _collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
@@ -930,6 +998,7 @@
                                                           green:235.0f/255.0f
                                                            blue:235.0f/255.0f
                                                           alpha:1.0f];
+        
         [_collectionView registerClass:[CHTCollectionViewWaterfallCell class]
             forCellWithReuseIdentifier:CELL_IDENTIFIER];
         [_collectionView registerClass:[CHTCollectionViewWaterfallHeader class]
