@@ -41,6 +41,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:@"info@fedbythreads.com" forKey:@"supportUrl"];
     [[NSUserDefaults standardUserDefaults] setObject:@"smart_collections" forKey:@"collectionType"];
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"areCollectionsDisplayed"];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isInstagramIntegrated"];
     
     [[NSUserDefaults standardUserDefaults] setObject:@"$" forKey:@"currency"];
     
