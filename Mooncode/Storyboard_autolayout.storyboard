@@ -280,6 +280,7 @@ Make sure you are
                         <outlet property="buttonReload" destination="JdL-SD-p9W" id="C7A-fc-0T0"/>
                         <outlet property="imageBackgroundForLoading" destination="vIk-07-TWq" id="v66-Jf-JLB"/>
                         <outlet property="labelLoading" destination="303-5k-hVM" id="Q2R-Qr-UqM"/>
+                        <outlet property="navBarButtonLeft" destination="6f2-cF-XFw" id="eU7-2C-52v"/>
                         <outlet property="viewForLabel" destination="c9Q-Xl-c4H" id="m6P-8V-pyh"/>
                     </connections>
                 </viewController>

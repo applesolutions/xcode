@@ -39,9 +39,9 @@
     [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"urlForTerms"];
     [[NSUserDefaults standardUserDefaults] setObject:@"FedByThreads" forKey:@"twitterName"];
     [[NSUserDefaults standardUserDefaults] setObject:@"info@fedbythreads.com" forKey:@"supportUrl"];
-//    [[NSUserDefaults standardUserDefaults] setObject:@"smart_collections" forKey:@"collectionType"];
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"areCollectionsDisplayed"];
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"isInstagramIntegrated"];
+    
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"areCollectionsDisplayed"];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isInstagramIntegrated"];
     
     [[NSUserDefaults standardUserDefaults] setObject:@"$" forKey:@"currency"];
     

@@ -43,6 +43,8 @@
 
 @property (nonatomic) __block BOOL loading;
 
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *navBarButtonLeft;
+
 @end
 
 #define CELL_IDENTIFIER @"WaterfallCell"
@@ -101,6 +103,10 @@
                     green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"green"] floatValue] / 255
                      blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"blue"] floatValue] / 255
                     alpha:1];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isInstagramIntegrated"] == YES) {
+        self.navBarButtonLeft.image = [UIImage imageNamed:@"icon-instagram"];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -123,7 +129,7 @@
     [self.collectionView addSubview:self.refreshControl];
     [self.refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
     
-//    [[self navigationController] setNavigationBarHidden:YES animated:YES];
+    [[self navigationController] setNavigationBarHidden:YES animated:YES]; //do not remove
     
     
     dispatch_sync(dispatch_get_global_queue(0, 0), ^{
@@ -269,7 +275,7 @@
             
             NSDictionary* dicFromServer = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
             [array_Updated_Products addObjectsFromArray:[dicFromServer objectForKey:@"products"]];
-            NSLog(@"products from server : %@ ", [dicFromServer description]);
+//            NSLog(@"products from server : %@ ", [dicFromServer description]);
             
             int numberProductAtActualPage = (int)[[dicFromServer objectForKey:@"products"] count];
             if (numberProductAtActualPage == 250){
