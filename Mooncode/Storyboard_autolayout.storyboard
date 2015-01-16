@@ -1548,6 +1548,144 @@ Make sure you are
             </objects>
             <point key="canvasLocation" x="3522" y="1914"/>
         </scene>
+        <!--Login View Controller-->
+        <scene sceneID="U8P-Al-Wx3">
+            <objects>
+                <viewController storyboardIdentifier="IKLoginViewController" id="Av2-je-CIX" customClass="IKLoginViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="iCl-j4-WqT"/>
+                        <viewControllerLayoutGuide type="bottom" id="QI5-08-uF5"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="rlg-8V-CvT">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fym-dh-bn3">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </webView>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="641-kQ-kaD">
+                                <rect key="frame" x="0.0" y="-1" width="600" height="64"/>
+                                <subviews>
+                                    <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M39-Vl-4oR">
+                                        <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="x2s-he-geP"/>
+                                        </constraints>
+                                        <color key="barTintColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.17254901959999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <textAttributes key="titleTextAttributes">
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </textAttributes>
+                                        <items>
+                                            <navigationItem title="Log in" id="8o8-N2-JJj">
+                                                <barButtonItem key="leftBarButtonItem" image="nav-icon-down" id="tnZ-IM-1lo">
+                                                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <connections>
+                                                        <action selector="back:" destination="Av2-je-CIX" id="nOh-oG-xGk"/>
+                                                    </connections>
+                                                </barButtonItem>
+                                            </navigationItem>
+                                        </items>
+                                    </navigationBar>
+                                </subviews>
+                                <color key="backgroundColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.17254901959999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="M39-Vl-4oR" firstAttribute="width" secondItem="641-kQ-kaD" secondAttribute="width" id="39F-dd-pI4"/>
+                                    <constraint firstAttribute="centerX" secondItem="M39-Vl-4oR" secondAttribute="centerX" id="e7a-RL-Wz7"/>
+                                    <constraint firstAttribute="bottom" secondItem="M39-Vl-4oR" secondAttribute="bottom" id="oZa-HR-ysv"/>
+                                    <constraint firstAttribute="height" constant="64" id="zKQ-my-QGG"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="641-kQ-kaD" firstAttribute="leading" secondItem="rlg-8V-CvT" secondAttribute="leading" id="HBV-8G-NMj"/>
+                            <constraint firstItem="Fym-dh-bn3" firstAttribute="top" secondItem="rlg-8V-CvT" secondAttribute="top" constant="64" id="HR2-ls-Eud"/>
+                            <constraint firstAttribute="trailing" secondItem="Fym-dh-bn3" secondAttribute="trailing" id="JeI-8e-IG7"/>
+                            <constraint firstAttribute="trailing" secondItem="641-kQ-kaD" secondAttribute="trailing" id="KvT-dL-jdr"/>
+                            <constraint firstItem="641-kQ-kaD" firstAttribute="top" secondItem="rlg-8V-CvT" secondAttribute="top" id="Pek-3g-4G4"/>
+                            <constraint firstItem="QI5-08-uF5" firstAttribute="top" secondItem="Fym-dh-bn3" secondAttribute="bottom" id="aEz-vl-rmh"/>
+                            <constraint firstItem="Fym-dh-bn3" firstAttribute="leading" secondItem="rlg-8V-CvT" secondAttribute="leading" id="dAY-TA-dUQ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="ViewNavBar" destination="641-kQ-kaD" id="mgn-aP-h4Z"/>
+                        <outlet property="mWebView" destination="Fym-dh-bn3" id="DqP-PU-Lqg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Z7j-be-XRg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="400" y="735"/>
+        </scene>
+        <!--Media Web View Controller-->
+        <scene sceneID="1WU-4C-p41">
+            <objects>
+                <viewController storyboardIdentifier="MediaWebViewController" id="7EP-9q-K8M" customClass="MediaWebViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="WzB-07-Ou4"/>
+                        <viewControllerLayoutGuide type="bottom" id="abG-8t-wqU"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Fp6-hK-Uqs">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BSb-tV-Flo">
+                                <rect key="frame" x="0.0" y="-1" width="600" height="64"/>
+                                <subviews>
+                                    <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EeL-fy-4Y4">
+                                        <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="Kaj-z8-DKB"/>
+                                        </constraints>
+                                        <color key="barTintColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.17254901959999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <textAttributes key="titleTextAttributes">
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </textAttributes>
+                                        <items>
+                                            <navigationItem title="Instagram" id="Ikv-9p-JQp">
+                                                <barButtonItem key="leftBarButtonItem" image="nav-icon-down" id="aBo-vc-Qkm">
+                                                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <connections>
+                                                        <action selector="back:" destination="7EP-9q-K8M" id="1lc-uG-1a6"/>
+                                                    </connections>
+                                                </barButtonItem>
+                                            </navigationItem>
+                                        </items>
+                                    </navigationBar>
+                                </subviews>
+                                <color key="backgroundColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.17254901959999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="EeL-fy-4Y4" secondAttribute="bottom" id="gax-so-J1F"/>
+                                    <constraint firstAttribute="centerX" secondItem="EeL-fy-4Y4" secondAttribute="centerX" id="nWG-r7-Q0q"/>
+                                    <constraint firstItem="EeL-fy-4Y4" firstAttribute="width" secondItem="BSb-tV-Flo" secondAttribute="width" id="rtG-XH-TXD"/>
+                                    <constraint firstAttribute="height" constant="64" id="wI9-C4-vMA"/>
+                                </constraints>
+                            </view>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dYM-MC-LLq">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="abG-8t-wqU" firstAttribute="top" secondItem="dYM-MC-LLq" secondAttribute="bottom" id="8Bf-Jn-hpT"/>
+                            <constraint firstItem="BSb-tV-Flo" firstAttribute="top" secondItem="Fp6-hK-Uqs" secondAttribute="top" id="9kY-PF-7Nm"/>
+                            <constraint firstAttribute="trailing" secondItem="BSb-tV-Flo" secondAttribute="trailing" id="GlH-Dx-MO1"/>
+                            <constraint firstItem="dYM-MC-LLq" firstAttribute="top" secondItem="Fp6-hK-Uqs" secondAttribute="top" constant="64" id="NZg-aZ-0jq"/>
+                            <constraint firstItem="dYM-MC-LLq" firstAttribute="leading" secondItem="Fp6-hK-Uqs" secondAttribute="leading" id="byd-YZ-Xbf"/>
+                            <constraint firstItem="BSb-tV-Flo" firstAttribute="leading" secondItem="Fp6-hK-Uqs" secondAttribute="leading" id="itB-d8-28l"/>
+                            <constraint firstAttribute="trailing" secondItem="dYM-MC-LLq" secondAttribute="trailing" id="qKN-eb-jOK"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="ViewNavBar" destination="BSb-tV-Flo" id="xST-re-oDd"/>
+                        <outlet property="webView" destination="dYM-MC-LLq" id="xMS-Fy-eSG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BQm-LP-BNq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="400" y="1398"/>
+        </scene>
     </scenes>
     <resources>
         <image name="button-share-twitter-blue" width="36" height="36"/>

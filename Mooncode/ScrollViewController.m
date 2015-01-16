@@ -13,9 +13,15 @@
 
 #import "NavControllerViewController.h"
 
+#import "SBInstagramImageViewController.h"
+
+#import "SBInstagramController.h"
+
 @interface ScrollViewController ()
 
-@property (strong,nonatomic) SettingsViewController *vc0;
+@property (strong,nonatomic) UINavigationController *vc0;
+
+//@property (strong,nonatomic) SettingsViewController *vc0;
 @property (strong,nonatomic) NavControllerViewController *vc1;
 
 @end
@@ -37,15 +43,62 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+
+    
+    SBInstagramController *instagram = [SBInstagramController instagram];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isInstagramIntegrated"] == YES) {
+        
+        //INSTAGRAM *********************************************************************************************
+        
+        //here create the instagram view
+        
+        
+        // WARNING : IF WE CHANGE THE KEYS HERE, ALSO CHANGE THE KEYS IN THE "InstagramKit" PLIST FILE !!!
+        
+        //setting up, data were taken from instagram app setting (www.instagram.com/developer)
+        instagram.instagramRedirectUri = @"http://www.santiagobustamante.info";
+        instagram.instagramClientSecret = @"dd9f687e1ffb4ff48ebc77188a14d283";
+        instagram.instagramClientId = @"436eb0b4692245c899091391eaa5cdf1";
+        instagram.instagramDefaultAccessToken = @"6874212.436eb0b.9768fd326f9b423eab7dd260972ee6db";
+        //    instagram.instagramUserId = @"447214845";
+        instagram.instagramMultipleUsersId = @[@"447214845"];
+        //    instagram.instagramMultipleTags = @[@"sea",@"ground",@"fire"];
+        
+        //both are optional, but if you need search by tag you need set both
+        //    instagram.isSearchByTag = YES; //if you want serach by tag
+        //    instagram.searchTag = @"colombia"; //search by tag query
+        
+        instagram.showOnePicturePerRow = YES; //to change way to show the feed, one picture per row(default = NO)
+        instagram.showSwitchModeView = NO; //show a segment controller with view option
+        
+        instagram.loadingImageName = @"SBInstagramLoading"; //config a custom loading image
+        instagram.videoPlayImageName = @"SBInsta_play";
+        instagram.videoPauseImageName = @"SBInsta_pause";
+        //    instagram.playStandardResolution = YES; //if you want play a regular resuluton, low resolution per default
+        
+        [instagram refreshCollection]; //refresh instagram feed
+        
+        //*******************************************************************************************************
+    }
+    
+    
     
     UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"Storyboard_autolayout"
                                                   bundle:nil];
     
-    
-    
-    
     //VIEW0
-    self.vc0 = [sb instantiateViewControllerWithIdentifier:@"SettingsViewController"];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isInstagramIntegrated"] == YES) {
+        
+        UINavigationController *navInstagram = [[UINavigationController alloc] initWithRootViewController:instagram.feed];
+        self.vc0 = navInstagram;
+    }else{
+        UINavigationController *navSettings = [[UINavigationController alloc]
+                                          initWithRootViewController:[sb instantiateViewControllerWithIdentifier:@"SettingsViewController"]];
+        
+        self.vc0 = navSettings;
+    }
+//    self.vc0 = [sb instantiateViewControllerWithIdentifier:@"SettingsViewController"];
     
     [self addChildViewController:self.vc0];
     [self.scrollView addSubview:self.vc0.view];
