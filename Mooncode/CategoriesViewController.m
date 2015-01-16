@@ -122,7 +122,7 @@
     [self.collectionView addSubview:self.refreshControl];
     [self.refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
     
-    [[self navigationController] setNavigationBarHidden:YES animated:YES];
+//    [[self navigationController] setNavigationBarHidden:YES animated:YES];
     
     
     dispatch_sync(dispatch_get_global_queue(0, 0), ^{
