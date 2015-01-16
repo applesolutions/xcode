@@ -28,6 +28,16 @@
 {
     [super viewDidLoad];
     
+    self.ViewNavBar.backgroundColor =
+    [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"red"] floatValue] / 255
+                    green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"green"] floatValue] / 255
+                     blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"blue"] floatValue] / 255
+                    alpha:1];
+    
+    [self.activity startAnimating];
+    self.activity.color = self.ViewNavBar.backgroundColor;
+
+    
     mWebView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     mWebView.scrollView.bounces = NO;
     mWebView.contentMode = UIViewContentModeScaleAspectFit;
@@ -41,11 +51,7 @@
 
     [mWebView loadRequest:[NSURLRequest requestWithURL:url]];
     
-    self.ViewNavBar.backgroundColor =
-    [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"red"] floatValue] / 255
-                    green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"green"] floatValue] / 255
-                     blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"blue"] floatValue] / 255
-                    alpha:1];
+
 }
 
 - (IBAction)back:(UIBarButtonItem*)sender {
@@ -78,6 +84,11 @@
         return NO;
     }
     return YES;
+}
+
+-(void) webViewDidFinishLoad:(UIWebView *)webView{
+    [self.activity stopAnimating];
+    self.activity.hidden = YES;
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error

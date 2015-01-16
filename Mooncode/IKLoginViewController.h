@@ -35,5 +35,6 @@
 
 @property (strong, nonatomic) IBOutlet UIView *ViewNavBar;
 
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activity;
 
 @end

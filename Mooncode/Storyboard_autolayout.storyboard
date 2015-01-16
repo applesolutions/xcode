@@ -1603,6 +1603,9 @@ Make sure you are
                                     <constraint firstAttribute="height" constant="64" id="zKQ-my-QGG"/>
                                 </constraints>
                             </view>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="OuK-jf-0JP">
+                                <rect key="frame" x="282" y="281" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1611,12 +1614,15 @@ Make sure you are
                             <constraint firstAttribute="trailing" secondItem="Fym-dh-bn3" secondAttribute="trailing" id="JeI-8e-IG7"/>
                             <constraint firstAttribute="trailing" secondItem="641-kQ-kaD" secondAttribute="trailing" id="KvT-dL-jdr"/>
                             <constraint firstItem="641-kQ-kaD" firstAttribute="top" secondItem="rlg-8V-CvT" secondAttribute="top" id="Pek-3g-4G4"/>
+                            <constraint firstAttribute="centerY" secondItem="OuK-jf-0JP" secondAttribute="centerY" id="a5b-MR-N7W"/>
                             <constraint firstItem="QI5-08-uF5" firstAttribute="top" secondItem="Fym-dh-bn3" secondAttribute="bottom" id="aEz-vl-rmh"/>
                             <constraint firstItem="Fym-dh-bn3" firstAttribute="leading" secondItem="rlg-8V-CvT" secondAttribute="leading" id="dAY-TA-dUQ"/>
+                            <constraint firstAttribute="centerX" secondItem="OuK-jf-0JP" secondAttribute="centerX" id="qoM-MJ-Vi3"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="ViewNavBar" destination="641-kQ-kaD" id="mgn-aP-h4Z"/>
+                        <outlet property="activity" destination="OuK-jf-0JP" id="WBD-d5-cWT"/>
                         <outlet property="mWebView" destination="Fym-dh-bn3" id="DqP-PU-Lqg"/>
                     </connections>
                 </viewController>
@@ -1672,6 +1678,9 @@ Make sure you are
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </webView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="SoO-2l-n1p">
+                                <rect key="frame" x="281.5" y="281.5" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1680,12 +1689,15 @@ Make sure you are
                             <constraint firstAttribute="trailing" secondItem="BSb-tV-Flo" secondAttribute="trailing" id="GlH-Dx-MO1"/>
                             <constraint firstItem="dYM-MC-LLq" firstAttribute="top" secondItem="Fp6-hK-Uqs" secondAttribute="top" constant="64" id="NZg-aZ-0jq"/>
                             <constraint firstItem="dYM-MC-LLq" firstAttribute="leading" secondItem="Fp6-hK-Uqs" secondAttribute="leading" id="byd-YZ-Xbf"/>
+                            <constraint firstAttribute="centerY" secondItem="SoO-2l-n1p" secondAttribute="centerY" id="hiB-gO-0hr"/>
                             <constraint firstItem="BSb-tV-Flo" firstAttribute="leading" secondItem="Fp6-hK-Uqs" secondAttribute="leading" id="itB-d8-28l"/>
                             <constraint firstAttribute="trailing" secondItem="dYM-MC-LLq" secondAttribute="trailing" id="qKN-eb-jOK"/>
+                            <constraint firstAttribute="centerX" secondItem="SoO-2l-n1p" secondAttribute="centerX" id="w3K-9W-4nN"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="ViewNavBar" destination="BSb-tV-Flo" id="xST-re-oDd"/>
+                        <outlet property="activity" destination="SoO-2l-n1p" id="pqF-TM-wni"/>
                         <outlet property="webView" destination="dYM-MC-LLq" id="xMS-Fy-eSG"/>
                     </connections>
                 </viewController>

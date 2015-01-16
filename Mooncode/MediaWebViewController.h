@@ -13,4 +13,7 @@
 @property (nonatomic, strong) NSURL *urlForMedia;
 @property (strong, nonatomic) IBOutlet UIWebView *webView;
 
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activity;
+
+
 @end

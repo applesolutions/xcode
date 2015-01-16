@@ -26,13 +26,21 @@
                     green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"green"] floatValue] / 255
                      blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"blue"] floatValue] / 255
                     alpha:1];
+    
+    [self.activity startAnimating];
+    self.activity.color = self.ViewNavBar.backgroundColor;
 }
 
 - (IBAction)back:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+
+
 -(void) webViewDidFinishLoad:(UIWebView *)webView{
+    
+    [self.activity stopAnimating];
+    self.activity.hidden = YES;
     
     NSLog(@"webViewDidFinishLoad ");
     
