@@ -20,8 +20,7 @@
 @interface ScrollViewController ()
 
 @property (strong,nonatomic) UINavigationController *vc0;
-
-//@property (strong,nonatomic) SettingsViewController *vc0;
+@property (strong,nonatomic) SettingsViewController *VCsettings;
 @property (strong,nonatomic) NavControllerViewController *vc1;
 
 @end
@@ -87,30 +86,29 @@
     UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"Storyboard_autolayout"
                                                   bundle:nil];
     
-    //VIEW0
+    //VIEW SETTINGS
+    self.VCsettings = [sb instantiateViewControllerWithIdentifier:@"SettingsViewController"];
+    //    CGRect frame1 = self.vc1.view.frame;
+    //    frame1.origin.x = 320;
+    //    self.vc1.view.frame = frame1;
+    
+    [self addChildViewController:self.VCsettings];
+    [self.scrollView addSubview:self.VCsettings.view];
+    [self.VCsettings didMoveToParentViewController:self];
+    
+    //VIEW INSTAGRAM
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isInstagramIntegrated"] == YES) {
         
         UINavigationController *navInstagram = [[UINavigationController alloc] initWithRootViewController:instagram.feed];
         self.vc0 = navInstagram;
-    }else{
-        UINavigationController *navSettings = [[UINavigationController alloc]
-                                          initWithRootViewController:[sb instantiateViewControllerWithIdentifier:@"SettingsViewController"]];
         
-        self.vc0 = navSettings;
+        [self addChildViewController:self.vc0];
+        [self.scrollView addSubview:self.vc0.view];
+        [self.vc0 didMoveToParentViewController:self];
     }
-//    self.vc0 = [sb instantiateViewControllerWithIdentifier:@"SettingsViewController"];
     
-    [self addChildViewController:self.vc0];
-    [self.scrollView addSubview:self.vc0.view];
-    [self.vc0 didMoveToParentViewController:self];
-    
-    
-    
-    //VIEW1
+    //VIEW COLLECTIONS
     self.vc1 = [sb instantiateViewControllerWithIdentifier:@"NavControllerViewController"];
-    //    CGRect frame1 = self.vc1.view.frame;
-    //    frame1.origin.x = 320;
-    //    self.vc1.view.frame = frame1;
     
     [self addChildViewController:self.vc1];
     [self.scrollView addSubview:self.vc1.view];
@@ -118,10 +116,18 @@
     
     
     
-    CGPoint cgPoint = CGPointMake(self.view.frame.size.width, 0);
     
-    self.scrollView.contentSize = CGSizeMake(2*self.view.frame.size.width, self.view.frame.size.height);
-    [self.scrollView setContentOffset:cgPoint animated:NO];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isInstagramIntegrated"] == YES) {
+        CGPoint cgPoint = CGPointMake(2*self.view.frame.size.width, 0);
+        self.scrollView.contentSize = CGSizeMake(3*self.view.frame.size.width, self.view.frame.size.height);
+        [self.scrollView setContentOffset:cgPoint animated:NO];
+    }else{
+        CGPoint cgPoint = CGPointMake(self.view.frame.size.width, 0);
+        self.scrollView.contentSize = CGSizeMake(2*self.view.frame.size.width, self.view.frame.size.height);
+        [self.scrollView setContentOffset:cgPoint animated:NO];
+    }
+
     self.scrollView.pagingEnabled = YES;
     self.scrollView.delegate = self;
     self.scrollView.bounces=NO;
@@ -134,30 +140,41 @@
     
     self.vc1.view.translatesAutoresizingMaskIntoConstraints = NO;
     self.vc0.view.translatesAutoresizingMaskIntoConstraints = NO;
+    self.VCsettings.view.translatesAutoresizingMaskIntoConstraints = NO;
     
+    NSDictionary *viewsDictionary;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isInstagramIntegrated"] == YES) {
+        viewsDictionary = @{@"vc1":self.vc1.view,
+                            @"vc0":self.vc0.view,
+                            @"VCSettings": self.VCsettings.view};
+    }else{
+        viewsDictionary = @{@"vc1":self.vc1.view,
+                            @"VCSettings": self.VCsettings.view};
+    }
     
-    NSDictionary *viewsDictionary = @{@"vc1":self.vc1.view,
-                                      @"vc0":self.vc0.view};
     
     NSString *width = [NSString stringWithFormat:@"%f", self.view.frame.size.width];
+    NSString *doubleWidth = [NSString stringWithFormat:@"%f", 2*self.view.frame.size.width];
     NSString *height = [NSString stringWithFormat:@"%f", self.view.frame.size.height];
     
     NSLog(@"height : %@ and width : %@", height, width);
     
     
-    
-    NSArray *constraint_H_vc0 = [NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat: @"V:[vc0(%@)]", height]
-                                                                        options:0
-                                                                        metrics:nil
-                                                                          views:viewsDictionary];
-    
-    NSArray *constraint_V_vc0 = [NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat: @"H:[vc0(%@)]", width]
-                                                                        options:0
-                                                                        metrics:nil
-                                                                          views:viewsDictionary];
-    
-    [self.vc0.view addConstraints:constraint_V_vc0];
-    [self.vc0.view addConstraints:constraint_H_vc0];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isInstagramIntegrated"] == YES) {
+        
+        NSArray *constraint_V_vc0 = [NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat: @"V:[vc0(%@)]", height]
+                                                                            options:0
+                                                                            metrics:nil
+                                                                              views:viewsDictionary];
+        
+        NSArray *constraint_H_vc0 = [NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat: @"H:[vc0(%@)]", width]
+                                                                            options:0
+                                                                            metrics:nil
+                                                                              views:viewsDictionary];
+        
+        [self.vc0.view addConstraints:constraint_V_vc0];
+        [self.vc0.view addConstraints:constraint_H_vc0];
+    }
     
     
     
@@ -179,7 +196,52 @@
     
     
     
-    NSArray *constraint_POS_H = [NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat: @"H:|-%@-[vc1]", width]
+    NSArray *constraint_H_settings = [NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat: @"V:[VCSettings(%@)]", height]
+                                                                             options:0
+                                                                             metrics:nil
+                                                                               views:viewsDictionary];
+    
+    NSArray *constraint_V_settings = [NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat: @"H:[VCSettings(%@)]", width]
+                                                                             options:0
+                                                                             metrics:nil
+                                                                               views:viewsDictionary];
+    
+    
+    [self.VCsettings.view addConstraints:constraint_H_settings];
+    [self.VCsettings.view addConstraints:constraint_V_settings];
+    
+    
+    
+    
+    
+    
+    //*****************
+    
+    
+    
+    
+    
+    
+    NSArray *constraint_POS_H_VCSettings = [NSLayoutConstraint constraintsWithVisualFormat: @"H:|-0-[VCSettings]"
+                                                                                   options:0
+                                                                                   metrics:nil
+                                                                                     views:viewsDictionary];
+    NSArray *constraint_POS_V_VCSettings = [NSLayoutConstraint constraintsWithVisualFormat: @"V:|-0-[VCSettings]"
+                                                                                   options:0
+                                                                                   metrics:nil
+                                                                                     views:viewsDictionary];
+    [self.view addConstraints:constraint_POS_H_VCSettings];
+    [self.view addConstraints:constraint_POS_V_VCSettings];
+    
+    
+    NSString *space;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isInstagramIntegrated"] == YES) {
+        space = doubleWidth;
+    }else{
+        space = width;
+    }
+    
+    NSArray *constraint_POS_H = [NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat: @"H:|-%@-[vc1]", space]
                                                                         options:0
                                                                         metrics:nil
                                                                           views:viewsDictionary];
@@ -190,28 +252,25 @@
                                                                             views:viewsDictionary];
     
     
-    
-    NSArray *constraint_POS_H_vc0 = [NSLayoutConstraint constraintsWithVisualFormat: @"H:|-0-[vc0]"
-                                                                            options:0
-                                                                            metrics:nil
-                                                                              views:viewsDictionary];
-    NSArray *constraint_POS_H_vc0_2 = [NSLayoutConstraint constraintsWithVisualFormat: @"V:|-0-[vc0]"
-                                                                              options:0
-                                                                              metrics:nil
-                                                                                views:viewsDictionary];
-    
-    
-    
-    
-    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isInstagramIntegrated"] == YES) {
+        
+        NSArray *constraint_POS_H_Instagram = [NSLayoutConstraint constraintsWithVisualFormat: [NSString stringWithFormat: @"H:|-%@-[vc0]", width]
+                                                                                options:0
+                                                                                metrics:nil
+                                                                                  views:viewsDictionary];
+        
+        NSArray *constraint_POS_V_Instagram = [NSLayoutConstraint constraintsWithVisualFormat: @"V:|-0-[vc0]"
+                                                                                  options:0
+                                                                                  metrics:nil
+                                                                                    views:viewsDictionary];
+        [self.view addConstraints:constraint_POS_H_Instagram];
+        [self.view addConstraints:constraint_POS_V_Instagram];
+        
+    }
     
     
     [self.view addConstraints:constraint_POS_H];
     [self.view addConstraints:constraint_POS_H_2];
-    [self.view addConstraints:constraint_POS_H_vc0];
-    [self.view addConstraints:constraint_POS_H_vc0_2];
-    
-    
     
 }
 
@@ -221,12 +280,17 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender {
     
+    int isInstagram = 1;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isInstagramIntegrated"] == YES) {
+        isInstagram = 2;
+    }
+    
     if (sender.contentOffset.x < 0) {
         sender.contentOffset = CGPointMake(0, sender.contentOffset.y);
     }
     
-    if (sender.contentOffset.x > self.view.frame.size.width) {
-        sender.contentOffset = CGPointMake(self.view.frame.size.width, sender.contentOffset.y);
+    if (sender.contentOffset.x > isInstagram * self.view.frame.size.width) {
+        sender.contentOffset = CGPointMake(isInstagram * self.view.frame.size.width, sender.contentOffset.y);
     }
     
 }

@@ -68,6 +68,14 @@
     [self.stlmMainViewController pageRight];
 }
 
+-(void)goLeft{
+    NSLog(@"right ");
+    //access the parent view controller
+    self.stlmMainViewController= (ScrollViewController *) self.parentViewController.parentViewController;
+    [self.stlmMainViewController pageLeft];
+}
+
+
 - (void)viewDidLoad {
 	[super viewDidLoad];
     self.title = @"Instagram";
@@ -79,6 +87,15 @@
                                                             action:@selector(goRight)];
     item.tintColor = [UIColor whiteColor];
     [self.navigationItem setRightBarButtonItem:item animated:YES];
+    
+    
+    //set right button
+    UIBarButtonItem *itemLeft = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav-icon-back"]
+                                                             style:UIBarButtonItemStylePlain
+                                                            target:self
+                                                            action:@selector(goLeft)];
+    itemLeft.tintColor = [UIColor whiteColor];
+    [self.navigationItem setLeftBarButtonItem:itemLeft animated:YES];
     
     
     
