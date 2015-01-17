@@ -92,7 +92,7 @@
         return;
     }
     
-    if ([webView.request.URL.absoluteString hasPrefix:@"https://checkout.shopify.com"]) {
+    if ([webView.request.URL.absoluteString hasPrefix:[[NSUserDefaults standardUserDefaults] objectForKey:@"checkoutUrl"]]) {
         
         self.activity.hidden=YES;
         [self.activity stopAnimating];

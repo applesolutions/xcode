@@ -125,7 +125,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 0.20*self.view.frame.size.height;
+    if ([[UIScreen mainScreen] bounds].size.height == 480)
+    {
+        return 0.3*self.view.frame.size.height;
+    }else{
+        return 0.20*self.view.frame.size.height;
+    }
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

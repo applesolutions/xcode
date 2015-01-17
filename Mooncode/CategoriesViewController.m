@@ -107,6 +107,8 @@
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isInstagramIntegrated"] == YES) {
         self.navBarButtonLeft.image = [UIImage imageNamed:@"icon-instagram"];
     }
+    
+    self.viewForLabel.layer.cornerRadius = 5;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
