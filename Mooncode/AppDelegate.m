@@ -30,8 +30,8 @@
 //    [[NSUserDefaults standardUserDefaults] setObject:@"https://fedbythreads.myshopify.com" forKey:@"website_url"];//FEDBYTHREADS
 //    [[NSUserDefaults standardUserDefaults] setObject:@"73aeb1d0858d068d68dddc7a805e68b7" forKey:@"shopify_token"];
     
-    [[NSUserDefaults standardUserDefaults] setObject:@"https://angeloqtr.myshopify.com" forKey:@"website_url"];//angelo
-    [[NSUserDefaults standardUserDefaults] setObject:@"baca8e6e8552aa16eb3a7f5457b8d22c" forKey:@"shopify_token"];
+//    [[NSUserDefaults standardUserDefaults] setObject:@"https://angeloqtr.myshopify.com" forKey:@"website_url"];//angelo
+//    [[NSUserDefaults standardUserDefaults] setObject:@"baca8e6e8552aa16eb3a7f5457b8d22c" forKey:@"shopify_token"];
     
     [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_url"];
     [[NSUserDefaults standardUserDefaults] setObject:@"f538df9b6c1f0a7c83eac6278e22cb69" forKey:@"shopify_token"];
@@ -42,7 +42,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:@"https://checkout.shopify.com" forKey:@"checkoutUrl"];
     
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"areCollectionsDisplayed"];
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"isInstagramIntegrated"];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isInstagramIntegrated"];
     
     [[NSUserDefaults standardUserDefaults] setObject:@"$" forKey:@"currency"];
     
