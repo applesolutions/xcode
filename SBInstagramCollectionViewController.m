@@ -90,7 +90,7 @@
     
     
     //set right button
-    UIBarButtonItem *itemLeft = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav-icon-back"]
+    UIBarButtonItem *itemLeft = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav-icon-settings"]
                                                              style:UIBarButtonItemStylePlain
                                                             target:self
                                                             action:@selector(goLeft)];
