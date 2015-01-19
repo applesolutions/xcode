@@ -43,10 +43,10 @@
     [[NSUserDefaults standardUserDefaults] setObject:@"https://checkout.shopify.com" forKey:@"checkoutUrl"];
     [[NSUserDefaults standardUserDefaults] setObject:@"$" forKey:@"currency"];
     
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"areCollectionsDisplayed"];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"areCollectionsDisplayed"];
     
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isInstagramIntegrated"];
-    [[NSUserDefaults standardUserDefaults] setObject:@[@"447214845"] forKey:@"instagramId"];
+    [[NSUserDefaults standardUserDefaults] setObject:@[@""] forKey:@"instagramId"];
     
     
     //colorNavBar
