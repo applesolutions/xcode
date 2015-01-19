@@ -26,25 +26,28 @@
 //    NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
 //    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
     //*************************
+
     
 //    [[NSUserDefaults standardUserDefaults] setObject:@"https://fedbythreads.myshopify.com" forKey:@"website_url"];//FEDBYTHREADS
 //    [[NSUserDefaults standardUserDefaults] setObject:@"73aeb1d0858d068d68dddc7a805e68b7" forKey:@"shopify_token"];
     
-//    [[NSUserDefaults standardUserDefaults] setObject:@"https://angeloqtr.myshopify.com" forKey:@"website_url"];//angelo
-//    [[NSUserDefaults standardUserDefaults] setObject:@"baca8e6e8552aa16eb3a7f5457b8d22c" forKey:@"shopify_token"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"https://newyorkmouth.myshopify.com" forKey:@"website_url"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"f6cc5d84298f4e8eee036fbc415433f5" forKey:@"shopify_token"];
     
-    [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_url"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"f538df9b6c1f0a7c83eac6278e22cb69" forKey:@"shopify_token"];
+//    [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_url"];
+//    [[NSUserDefaults standardUserDefaults] setObject:@"f538df9b6c1f0a7c83eac6278e22cb69" forKey:@"shopify_token"];
+    
     [[NSUserDefaults standardUserDefaults] setObject:@"http://fedbythreads.com" forKey:@"website_cart_url"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"urlForTerms"];
     [[NSUserDefaults standardUserDefaults] setObject:@"FedByThreads" forKey:@"twitterName"];
     [[NSUserDefaults standardUserDefaults] setObject:@"info@fedbythreads.com" forKey:@"supportUrl"];
     [[NSUserDefaults standardUserDefaults] setObject:@"https://checkout.shopify.com" forKey:@"checkoutUrl"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"$" forKey:@"currency"];
     
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"areCollectionsDisplayed"];
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isInstagramIntegrated"];
     
-    [[NSUserDefaults standardUserDefaults] setObject:@"$" forKey:@"currency"];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isInstagramIntegrated"];
+    [[NSUserDefaults standardUserDefaults] setObject:@[@"447214845"] forKey:@"instagramId"];
+    
     
     //colorNavBar
     [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @172 ,  @"red"   ,
@@ -58,22 +61,29 @@
                                                                                                     @48 ,  @"blue"  ,  nil]
                                               forKey:@"colorSettingsView"];
     
+    //colorViewCollection
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @172 ,  @"red"   ,
+                                                      @34 ,  @"green" ,
+                                                      @52 ,  @"blue"  ,  nil]
+                                              forKey:@"colorViewTitleCollection"];
+    
+    
+    
     //colorButtons
     [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @156 ,  @"red"   ,
                                                                                                     @31 ,  @"green" ,
                                                                                                     @57 ,  @"blue"  ,  nil]
                                               forKey:@"colorButtons"];
     
-    //colorViewTitleCollection
-    [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @172 ,  @"red"   ,
-                                                                                                    @34 ,  @"green" ,
-                                                                                                    @52 ,  @"blue"  ,  nil]
-                                              forKey:@"colorViewTitleCollection"];
+
+    
+    
     //ColorLabelCollections
     [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @255 ,  @"red"   ,
                                                                                                     @255 ,  @"green" ,
                                                                                                     @255 ,  @"blue"  ,  nil]
                                               forKey:@"colorLabelCollections"];
+  
     //backgroundColor
     [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @235 ,  @"red"   ,
                                                                                                     @235 ,  @"green" ,

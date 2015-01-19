@@ -50,9 +50,6 @@
         
         //INSTAGRAM *********************************************************************************************
         
-        //here create the instagram view
-        
-        
         // WARNING : IF WE CHANGE THE KEYS HERE, ALSO CHANGE THE KEYS IN THE "InstagramKit" PLIST FILE !!!
         
         //setting up, data were taken from instagram app setting (www.instagram.com/developer)
@@ -61,7 +58,9 @@
         instagram.instagramClientId = @"436eb0b4692245c899091391eaa5cdf1";
         instagram.instagramDefaultAccessToken = @"6874212.436eb0b.9768fd326f9b423eab7dd260972ee6db";
         //    instagram.instagramUserId = @"447214845";
-        instagram.instagramMultipleUsersId = @[@"447214845"];
+//        instagram.instagramMultipleUsersId = @[@"447214845"];
+        instagram.instagramMultipleUsersId = [[NSUserDefaults standardUserDefaults] objectForKey:@"instagramId"];
+        
         //    instagram.instagramMultipleTags = @[@"sea",@"ground",@"fire"];
         
         //both are optional, but if you need search by tag you need set both
