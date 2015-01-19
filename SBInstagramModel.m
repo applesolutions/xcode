@@ -91,8 +91,8 @@
         [mediaArr enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
             SBInstagramMediaPagingEntity *media = [SBInstagramMediaPagingEntity entityWithDataDictionary:obj andPagingDictionary:paging];
             [mediaArrEntities addObject:media];
-            NSLog(@"media : %@", obj.description);
-            NSLog(@"link : %@", obj[@"link"]);
+//            NSLog(@"media : %@", obj.description);
+//            NSLog(@"link : %@", obj[@"link"]);
         }];
         if (block) {
             block(mediaArrEntities,nil);

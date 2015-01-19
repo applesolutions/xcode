@@ -13,7 +13,7 @@
 
 -(NSString*)getShopifyUrlforSize : (NSString*)imageSize{
     
-    NSLog(@"aaaaa");
+//    NSLog(@"aaaaa");
     
     NSArray *myWords = [self componentsSeparatedByString:@"?"];
     NSString *stringBefore = [myWords objectAtIndex:0];
@@ -37,7 +37,7 @@
     
     @try {
         shopifyUrl = [[[[shopifyUrl stringByAppendingString:[NSString stringWithFormat:@"_%@.", imageSize]] stringByAppendingString:[array2 lastObject]] stringByAppendingString:@"?"] stringByAppendingString:[myWords objectAtIndex:1]];
-        NSLog(@"url to download : %@", shopifyUrl);
+//        NSLog(@"url to download : %@", shopifyUrl);
     }
     @catch (NSException *exception) {
         NSLog(@"exception : %@", [exception description]);

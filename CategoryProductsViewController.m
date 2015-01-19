@@ -173,7 +173,7 @@
             size = CGSizeMake(157, (int)(image_newHeight * randRatio));
         }
         
-        NSLog(@"size : %@", NSStringFromCGSize(size));
+//        NSLog(@"size : %@", NSStringFromCGSize(size));
         
         [self.cellSizes addObject:[NSValue valueWithCGSize:size]];
     }];
