@@ -65,6 +65,8 @@
         
         if(   (int)[[dicVariant objectForKey:@"inventory_quantity"] integerValue] <= 0 &&
            ! [[dicVariant objectForKey:@"inventory_management"] isKindOfClass:[NSNull class]]) { //if not available -> do not display it
+
+            positionInArray++; //increment before continue !!!
             continue;
         }
         
