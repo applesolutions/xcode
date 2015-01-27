@@ -86,10 +86,12 @@
     //check for quantity
     self.buttonAddToCart.enabled = NO;
     self.buttonAddToCart.layer.opacity = 0.5f;
+    [self.buttonAddToCart setTitle:@"Out of stock" forState:UIControlStateNormal];
     for (NSDictionary *dicVariant in [self.dicProduct objectForKey:@"variants"]) {
         if ([[dicVariant objectForKey:@"inventory_quantity"] integerValue] != 0) {
             self.buttonAddToCart.enabled = YES;
             self.buttonAddToCart.layer.opacity = 1.f;
+            [self.buttonAddToCart setTitle:@"Buy now" forState:UIControlStateNormal];
         }
     }
     
@@ -432,12 +434,14 @@
 }
 
 -(void) isProductAvailable:(BOOL)isProductAvailable{
-    
+    NSLog(@"aaa");
     self.buttonAddToCart.enabled = isProductAvailable;
     if (isProductAvailable) {
         self.buttonAddToCart.layer.opacity = 1.f;
     }else{
         self.buttonAddToCart.layer.opacity = 0.5f;
+        NSLog(@"out of stock ! ");
+        [self.buttonAddToCart setTitle:@"Out of stock" forState:UIControlStateNormal];
     }
 }
 

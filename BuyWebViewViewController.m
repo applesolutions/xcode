@@ -44,11 +44,36 @@
     
     NSURL * url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/cart/clear.js",website_cart]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    request.timeoutInterval = 15;
     [request setURL:url];
     
     [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
         
-        [self makeRequestToAddToCart:[self.arrayProductsInCart firstObject] atIndex:0];
+        if (error.code == -1001 || error.code == -1009) {
+            NSLog(@"error: %@", [error description]);
+            
+            //error label : you might be ofline...
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                UILabel *labelError = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 280, 60)];
+                labelError.center = self.view.center;
+                labelError.adjustsFontSizeToFitWidth = YES;
+                labelError.font = [UIFont fontWithName:@"ProximaNova-SemiBold" size:17.0f];
+                labelError.textAlignment = UITextAlignmentCenter;
+                labelError.numberOfLines = 3;
+                labelError.text = @"There is a problem with your internet connection.\nPlease reconnect to the internet or try later.";
+                [self.view addSubview:labelError];
+                self.webView.hidden = YES;
+                self.activity.hidden = YES;
+                [self.activity stopAnimating];
+                
+            });
+            
+        }else{
+            
+            [self makeRequestToAddToCart:[self.arrayProductsInCart firstObject] atIndex:0];
+        }
     }];
 }
 
