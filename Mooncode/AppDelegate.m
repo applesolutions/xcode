@@ -28,14 +28,14 @@
     //*************************
 
     
-//    [[NSUserDefaults standardUserDefaults] setObject:@"https://fedbythreads.myshopify.com" forKey:@"website_url"];//FEDBYTHREADS
-//    [[NSUserDefaults standardUserDefaults] setObject:@"73aeb1d0858d068d68dddc7a805e68b7" forKey:@"shopify_token"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"https://fedbythreads.myshopify.com" forKey:@"website_url"];//FEDBYTHREADS
+    [[NSUserDefaults standardUserDefaults] setObject:@"73aeb1d0858d068d68dddc7a805e68b7" forKey:@"shopify_token"];
     
 //    [[NSUserDefaults standardUserDefaults] setObject:@"https://newyorkmouth.myshopify.com" forKey:@"website_url"];
 //    [[NSUserDefaults standardUserDefaults] setObject:@"f6cc5d84298f4e8eee036fbc415433f5" forKey:@"shopify_token"];
     
-    [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_url"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"f538df9b6c1f0a7c83eac6278e22cb69" forKey:@"shopify_token"];
+//    [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_url"];
+//    [[NSUserDefaults standardUserDefaults] setObject:@"f538df9b6c1f0a7c83eac6278e22cb69" forKey:@"shopify_token"];
     
     [[NSUserDefaults standardUserDefaults] setObject:@"http://fedbythreads.com" forKey:@"website_cart_url"];
     [[NSUserDefaults standardUserDefaults] setObject:@"FedByThreads" forKey:@"twitterName"];

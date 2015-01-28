@@ -23,6 +23,7 @@
             <string>ProximaNova-Regular</string>
             <string>ProximaNova-Regular</string>
             <string>ProximaNova-Regular</string>
+            <string>ProximaNova-Regular</string>
         </mutableArray>
         <mutableArray key="ProximaNova-Semibold.otf">
             <string>ProximaNova-Semibold</string>
@@ -96,18 +97,33 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </webView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yFD-3h-80t">
-                                <rect key="frame" x="282" y="281.5" width="37" height="37"/>
+                                <rect key="frame" x="282" y="281" width="37" height="37"/>
                                 <color key="color" red="0.42352941179999998" green="0.42352941179999998" blue="0.42352941179999998" alpha="1" colorSpace="deviceRGB"/>
                             </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AAT-vE-7Eo">
+                                <rect key="frame" x="195" y="337" width="211" height="61"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="61" id="1kK-3i-1pQ"/>
+                                    <constraint firstAttribute="width" constant="211" id="oSD-xh-e6L"/>
+                                </constraints>
+                                <string key="text">Connecting to checkout,
+just wait a few seconds...
+</string>
+                                <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="Xlq-s2-Ll2" secondAttribute="centerX" id="9P2-lz-b2G"/>
                             <constraint firstItem="mDm-Vi-THy" firstAttribute="top" secondItem="Xlq-s2-Ll2" secondAttribute="bottom" id="DSE-tr-1Wr"/>
+                            <constraint firstItem="AAT-vE-7Eo" firstAttribute="top" secondItem="yFD-3h-80t" secondAttribute="bottom" constant="19" id="MKk-Lj-3MM"/>
                             <constraint firstAttribute="centerX" secondItem="yFD-3h-80t" secondAttribute="centerX" id="MsY-4y-phD"/>
                             <constraint firstItem="JRY-ZM-f8q" firstAttribute="width" secondItem="gZl-qg-DWN" secondAttribute="width" id="Pwb-Ge-E3f"/>
                             <constraint firstItem="Xlq-s2-Ll2" firstAttribute="width" secondItem="gZl-qg-DWN" secondAttribute="width" id="QpP-Ij-pxC"/>
                             <constraint firstAttribute="centerX" secondItem="JRY-ZM-f8q" secondAttribute="centerX" id="XHR-kW-UMD"/>
+                            <constraint firstAttribute="centerX" secondItem="AAT-vE-7Eo" secondAttribute="centerX" id="lsp-0I-4XC"/>
                             <constraint firstItem="JRY-ZM-f8q" firstAttribute="top" secondItem="gZl-qg-DWN" secondAttribute="topMargin" id="m50-qh-PwN"/>
                             <constraint firstAttribute="centerY" secondItem="yFD-3h-80t" secondAttribute="centerY" id="rUi-Nm-bTY"/>
                             <constraint firstItem="Xlq-s2-Ll2" firstAttribute="top" secondItem="JRY-ZM-f8q" secondAttribute="bottom" id="tuk-Zw-7ld"/>
@@ -116,6 +132,7 @@
                     <connections>
                         <outlet property="ViewNavBar" destination="JRY-ZM-f8q" id="IbG-UY-feo"/>
                         <outlet property="activity" destination="yFD-3h-80t" id="NgA-UI-wIy"/>
+                        <outlet property="labelLoading" destination="AAT-vE-7Eo" id="G90-ZF-UR4"/>
                         <outlet property="webView" destination="Xlq-s2-Ll2" id="Iwq-1i-8Yc"/>
                     </connections>
                 </viewController>

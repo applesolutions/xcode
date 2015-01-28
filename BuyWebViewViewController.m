@@ -14,6 +14,7 @@
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activity;
 
 @property (strong, nonatomic) IBOutlet UIView *ViewNavBar;
+@property (strong, nonatomic) IBOutlet UILabel *labelLoading;
 @end
 
 @implementation BuyWebViewViewController{
@@ -42,6 +43,7 @@
     [self.activity startAnimating];
     [self.view addSubview:self.activity];
     
+    
     NSURL * url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/cart/clear.js",website_cart]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     request.timeoutInterval = 15;
@@ -67,7 +69,7 @@
                 self.webView.hidden = YES;
                 self.activity.hidden = YES;
                 [self.activity stopAnimating];
-                
+                self.labelLoading.hidden = YES;
             });
             
         }else{
@@ -122,6 +124,7 @@
         self.activity.hidden=YES;
         [self.activity stopAnimating];
         self.webView.hidden = NO;
+        self.labelLoading.hidden = YES;
     }
 }
 
