@@ -53,10 +53,10 @@
         // WARNING : IF WE CHANGE THE KEYS HERE, ALSO CHANGE THE KEYS IN THE "InstagramKit" PLIST FILE !!!
         
         //setting up, data were taken from instagram app setting (www.instagram.com/developer)
-        instagram.instagramRedirectUri = @"http://www.santiagobustamante.info";
-        instagram.instagramClientSecret = @"dd9f687e1ffb4ff48ebc77188a14d283";
-        instagram.instagramClientId = @"436eb0b4692245c899091391eaa5cdf1";
-        instagram.instagramDefaultAccessToken = @"6874212.436eb0b.9768fd326f9b423eab7dd260972ee6db";
+        instagram.instagramRedirectUri = @"http://www.moonco.de";
+        instagram.instagramClientSecret = @"056cacccca974d41a48001ba8cf619ee";
+        instagram.instagramClientId = @"b5f5835cc8d04a5489a81df5c0654ca4";
+        instagram.instagramDefaultAccessToken = @"1599947575.b5f5835.7379d52a27584ae78479ae466a2c368b";
         //    instagram.instagramUserId = @"447214845";
 //        instagram.instagramMultipleUsersId = @[@"447214845"];
         instagram.instagramMultipleUsersId = [[NSUserDefaults standardUserDefaults] objectForKey:@"instagramId"];

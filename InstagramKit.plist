@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>InstagramKitAppClientId</key>
-	<string>436eb0b4692245c899091391eaa5cdf1</string>
+	<string>b5f5835cc8d04a5489a81df5c0654ca4</string>
 	<key>InstagramKitAppRedirectURL</key>
-	<string>http://www.santiagobustamante.info</string>
+	<string>http://www.moonco.de</string>
 	<key>InstagramKitBaseUrl</key>
 	<string>https://api.instagram.com/v1/</string>
 	<key>InstagramKitAuthorizationUrl</key>

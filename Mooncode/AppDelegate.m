@@ -45,8 +45,8 @@
     
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"areCollectionsDisplayed"];
     
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isInstagramIntegrated"];
-    [[NSUserDefaults standardUserDefaults] setObject:@[@""] forKey:@"instagramId"];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"isInstagramIntegrated"];
+    [[NSUserDefaults standardUserDefaults] setObject:@[@"298508107"] forKey:@"instagramId"];
     
     
     //colorNavBar
