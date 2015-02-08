@@ -88,7 +88,12 @@
     self.buttonAddToCart.layer.opacity = 0.5f;
     [self.buttonAddToCart setTitle:@"Out of stock" forState:UIControlStateNormal];
     for (NSDictionary *dicVariant in [self.dicProduct objectForKey:@"variants"]) {
-        if ([[dicVariant objectForKey:@"inventory_quantity"] integerValue] != 0) {
+        
+        if (([[dicVariant objectForKey:@"inventory_quantity"] integerValue] > 0 && //shopify handles the qte management
+             [[dicVariant objectForKey:@"inventory_management"] isEqualToString:@"shopify"] )||
+            
+            [[dicVariant objectForKey:@"inventory_management"] isKindOfClass:[NSNull class]]) { //shopify does not handle the qte management
+            
             self.buttonAddToCart.enabled = YES;
             self.buttonAddToCart.layer.opacity = 1.f;
             [self.buttonAddToCart setTitle:@"Buy now" forState:UIControlStateNormal];
