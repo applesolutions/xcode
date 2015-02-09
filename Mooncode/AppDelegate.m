@@ -47,6 +47,9 @@
     [[NSUserDefaults standardUserDefaults] setObject:@[@"298508107"] forKey:@"instagramId"];
     
     
+//    [Flurry startSession:@""];
+    
+    
     //colorNavBar
     [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @172 ,  @"red"   ,
                                                                                                     @34 ,  @"green" ,

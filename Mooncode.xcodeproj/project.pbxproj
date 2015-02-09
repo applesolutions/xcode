@@ -114,6 +114,7 @@
 		AABE085319F1ACBB009AF8D1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABE085219F1ACBB009AF8D1 /* Security.framework */; };
 		AABE085719F1ACCD009AF8D1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABE085619F1ACCD009AF8D1 /* SystemConfiguration.framework */; };
 		AAC89DDA1A375D8F00D33C36 /* LaunchImage.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC89DD91A375D8F00D33C36 /* LaunchImage.m */; };
+		AAD654CA1A894B94007EDE85 /* libFlurry_6.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAD654C91A894B94007EDE85 /* libFlurry_6.0.0.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -307,6 +308,8 @@
 		AABE085619F1ACCD009AF8D1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		AAC89DD81A375D8F00D33C36 /* LaunchImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchImage.h; sourceTree = "<group>"; };
 		AAC89DD91A375D8F00D33C36 /* LaunchImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchImage.m; sourceTree = "<group>"; };
+		AAD654C81A894B94007EDE85 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
+		AAD654C91A894B94007EDE85 /* libFlurry_6.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_6.0.0.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -318,6 +321,7 @@
 				AA96651E19FCC1A80008ED03 /* UIKit.framework in Frameworks */,
 				AA96651C19FCC1A30008ED03 /* Foundation.framework in Frameworks */,
 				AABE085719F1ACCD009AF8D1 /* SystemConfiguration.framework in Frameworks */,
+				AAD654CA1A894B94007EDE85 /* libFlurry_6.0.0.a in Frameworks */,
 				AABE085319F1ACBB009AF8D1 /* Security.framework in Frameworks */,
 				AABE085119F1ACB3009AF8D1 /* QuartzCore.framework in Frameworks */,
 				AABE084F19F1ACAE009AF8D1 /* MobileCoreServices.framework in Frameworks */,
@@ -571,6 +575,7 @@
 			isa = PBXGroup;
 			children = (
 				AAAD43A71A61844100B8AB56 /* Localizable.strings */,
+				AAD654C71A894B94007EDE85 /* Flurry */,
 				AA2EB32C1A693B6600AEA228 /* SBInstagram */,
 				AA2EB2F31A693AF900AEA228 /* AFNetworking */,
 				AA2EB2BD1A693A9B00AEA228 /* InstagramKit */,
@@ -681,6 +686,15 @@
 				AAA1C34919F07F5600C257FE /* Accounts.framework */,
 			);
 			name = lib;
+			sourceTree = "<group>";
+		};
+		AAD654C71A894B94007EDE85 /* Flurry */ = {
+			isa = PBXGroup;
+			children = (
+				AAD654C81A894B94007EDE85 /* Flurry.h */,
+				AAD654C91A894B94007EDE85 /* libFlurry_6.0.0.a */,
+			);
+			path = Flurry;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1007,6 +1021,10 @@
 				INFOPLIST_FILE = Mooncode/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Flurry",
+				);
 				PRODUCT_NAME = Mooncode;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1027,6 +1045,10 @@
 				INFOPLIST_FILE = Mooncode/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Flurry",
+				);
 				PRODUCT_NAME = Mooncode;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
