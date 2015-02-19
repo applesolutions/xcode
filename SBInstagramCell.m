@@ -96,7 +96,7 @@
             }
         }];
         
-        self.videoPlayImage.frame = CGRectMake(CGRectGetMaxX(self.imageButton.frame) - 34, CGRectGetMinY(self.imageButton.frame) + 4, 30, 30);
+        self.videoPlayImage.frame = CGRectMake(CGRectGetMaxX(self.imageButton.frame) - 31, CGRectGetMinY(self.imageButton.frame) + 4, 30, 30);
         
     }else{
         [self.userLabel removeFromSuperview];
@@ -165,10 +165,10 @@
     if (!_imageButton) {
         _imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
     }
-    [_imageButton setFrame:CGRectMake(20, 60, self.frame.size.width-40, self.frame.size.width)];
+    [_imageButton setFrame:CGRectMake(20, 60, self.frame.size.width-40, self.frame.size.width-40)];
     [_imageButton addTarget:self action:@selector(selectedImage:) forControlEvents:UIControlEventTouchUpInside];
     [_imageButton setBackgroundImage:[UIImage imageNamed:[SBInstagramModel model].loadingImageName] forState:UIControlStateNormal];
-    self.imageButton.contentMode = UIViewContentModeScaleAspectFit;
+    self.imageButton.contentMode = UIViewContentModeScaleAspectFill;
     [self.contentView addSubview:_imageButton];
     
     if (!_userLabel) {

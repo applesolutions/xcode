@@ -68,16 +68,8 @@
     [self.stlmMainViewController pageRight];
 }
 
--(void)goLeft{
-    NSLog(@"right ");
-    //access the parent view controller
-    self.stlmMainViewController= (ScrollViewController *) self.parentViewController.parentViewController;
-    [self.stlmMainViewController pageLeft];
-}
-
-
 - (void)viewDidLoad {
-	[super viewDidLoad];
+    [super viewDidLoad];
     self.title = @"Instagram";
     
     //set right button
@@ -89,15 +81,6 @@
     [self.navigationItem setRightBarButtonItem:item animated:YES];
     
     
-    //set right button
-    UIBarButtonItem *itemLeft = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav-icon-settings"]
-                                                             style:UIBarButtonItemStylePlain
-                                                            target:self
-                                                            action:@selector(goLeft)];
-    itemLeft.tintColor = [UIColor whiteColor];
-    [self.navigationItem setLeftBarButtonItem:itemLeft animated:YES];
-    
-    
     
     
     self.downloading = YES;
@@ -106,8 +89,8 @@
     [self.collectionView setBackgroundColor:[UIColor whiteColor]];
     [self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"footer"];
     [self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"header"];
-
-
+    
+    
     [self.navigationController.navigationBar setTranslucent:NO];
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
@@ -120,16 +103,16 @@
     
     self.collectionView.alwaysBounceVertical = YES;
     self.collectionView.backgroundColor = [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"backgroundColor"] objectForKey:@"red"] floatValue] / 255
-                                                           green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"backgroundColor"] objectForKey:@"green"] floatValue] / 255
-                                                            blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"backgroundColor"] objectForKey:@"blue"] floatValue] / 255
-                                                           alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"backgroundColor"] objectForKey:@"alpha"] floatValue]];
+                                                          green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"backgroundColor"] objectForKey:@"green"] floatValue] / 255
+                                                           blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"backgroundColor"] objectForKey:@"blue"] floatValue] / 255
+                                                          alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"backgroundColor"] objectForKey:@"alpha"] floatValue]];
     
     refreshControl_ = [[SBInstagramRefreshControl alloc] initInScrollView:self.collectionView];
     [refreshControl_ addTarget:self action:@selector(refreshCollection:) forControlEvents:UIControlEventValueChanged];
-
+    
     loaded_ = YES;
     
-//    [self showSwitch];
+    //    [self showSwitch];
     
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:nil];
 }
@@ -213,7 +196,7 @@
         
         //multiple users id
         if ([SBInstagramModel model].instagramMultipleUsersId) {
-
+            
             [self.instagramController mediaMultiplePagingWithArr:self.multipleLastEntities complete:^(NSArray *mediaArray, NSArray *lastMedia, NSError *error) {
                 
                 weakSelf.multipleLastEntities = lastMedia;
@@ -298,7 +281,7 @@
     if (loaded_) {
         [self showSwitch];
     }
-
+    
 }
 
 - (void) showSwitch{
@@ -358,12 +341,18 @@
     if (!self.avPlayerLayer) {
         self.avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:self.avPlayer];
         self.avPlayerView = [[UIView alloc] initWithFrame:CGRectZero];
-//        self.avPlayerView.backgroundColor = [UIColor clearColor];
+        //        self.avPlayerView.backgroundColor = [UIColor clearColor];
         [self.avPlayerView.layer addSublayer:self.avPlayerLayer];
         [self.collectionView addSubview:self.avPlayerView];
         
-        [self.avPlayerLayer setFrame:CGRectMake(0, 0, 320, 320)];
-        [self.avPlayerView setFrame:CGRectMake(0, 0, 320, 320)];
+        //        [self.avPlayerLayer setFrame:CGRectMake(0, 0, 320, 320)];
+        //        [self.avPlayerView setFrame:CGRectMake(0, 0, 320, 320)];
+        [self.avPlayerLayer setFrame:CGRectMake(0, 0, self.view.frame.size.width-80, self.view.frame.size.width-80)];
+        [self.avPlayerView setFrame:CGRectMake(0, 0, self.view.frame.size.width-80, self.view.frame.size.width-80)];
+        //        [self.avPlayerLayer setFrame:CGRectMake(20, 60, self.view.frame.size.width-80, self.view.frame.size.width)];
+        //        [self.avPlayerView setFrame:CGRectMake(20, 60, self.view.frame.size.width-80, self.view.frame.size.width)];
+        
+        //        (20, 60, self.frame.size.width-40, self.frame.size.width)
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(playerItemDidReachEnd:)
@@ -395,7 +384,7 @@
 }
 
 - (void)tapVideo:(UITapGestureRecognizer *)recognizer {
-
+    
     if (self.avPlayer.rate == 0) {
         if (CMTimeCompare(self.avPlayer.currentItem.currentTime, self.avPlayer.currentItem.duration) == 0) {
             [self.avPlayer seekToTime:kCMTimeZero];
@@ -412,7 +401,7 @@
         [self.avPlayer pause];
         [self.videoPlayImage setImage:[UIImage imageNamed:[SBInstagramModel model].videoPlayImageName]];
     }
-
+    
     
 }
 
@@ -471,7 +460,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     SBInstagramMediaPagingEntity *entity = [self.mediaArray objectAtIndex:indexPath.row];
     NSLog(@"entity url: %@", entity.mediaEntity.Url);
-
+    
     UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"Storyboard_autolayout" bundle:nil];
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isUserLoggedIn"] == NO) {
@@ -480,8 +469,8 @@
         vc1.urlForMedia = entity.mediaEntity.Url;
         vc1.instagramCollectionViewController = self;
         [self presentViewController:vc1 animated:YES completion:nil];
-//        [self.navigationController pushViewController:vc1 animated:YES];
-
+        //        [self.navigationController pushViewController:vc1 animated:YES];
+        
     }else{
         
         [self presentMediaWebViewControllerWithUrl:entity.mediaEntity.Url];
@@ -495,12 +484,12 @@
     MediaWebViewController *vc1 = [sb instantiateViewControllerWithIdentifier:@"MediaWebViewController"];
     vc1.urlForMedia = urlForMedia;
     [self presentViewController:vc1 animated:YES completion:nil];
-//        [self.navigationController pushViewController:vc1 animated:YES];
+    //        [self.navigationController pushViewController:vc1 animated:YES];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     SBInstagramCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SBInstagramCell" forIndexPath:indexPath];
-
+    
     if ([self.mediaArray count]>0) {
         SBInstagramMediaPagingEntity *entity = [self.mediaArray objectAtIndex:indexPath.row];
         cell.indexPath = indexPath;
@@ -522,7 +511,7 @@
                 frame.origin = point;
                 self.avPlayerView.frame = frame;
                 
-                self.videoPlayImage.frame = CGRectMake(CGRectGetMaxX(weakCell.imageButton.frame) - 34, 4, 30, 30);
+                self.videoPlayImage.frame = CGRectMake(CGRectGetMaxX(weakCell.imageButton.frame) - 50, 4, 30, 30); // -34
                 
                 if (_timerVideo) {
                     [_timerVideo invalidate];
@@ -539,10 +528,10 @@
         }
         
         [cell setEntity:entity indexPath:indexPath playerContent:self.avPlayer];
-//        NSLog(@"collectionViewController  !");
-
+        //        NSLog(@"collectionViewController  !");
+        
     }
-
+    
     if (indexPath.row == [self.mediaArray count]-1 && !self.downloading) {
         [self downloadNext];
     }
@@ -555,7 +544,7 @@
 {
     if ([collectionView.indexPathsForVisibleItems indexOfObject:indexPath] == NSNotFound)
     {
-//        SBInstagramCell *cell = (SBInstagramCell *)cell1;
+        //        SBInstagramCell *cell = (SBInstagramCell *)cell1;
         
         if (isVideoPlaying_) {
             [self.avPlayer pause];
@@ -564,7 +553,7 @@
             [self.avPlayerView removeFromSuperview];
             isVideoPlaying_ = NO;
         }
-
+        
     }
 }
 
@@ -587,11 +576,11 @@
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
     
     if (kind == UICollectionElementKindSectionHeader ){
-
+        
         NSLog(@"define header");
         
         UICollectionReusableView *foot = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"header" forIndexPath:indexPath];
-
+        
         
         return foot;
         
@@ -618,11 +607,11 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     if (self.showOnePicturePerRow) {
-
-        SBInstagramMediaPagingEntity *paging = [self.mediaArray objectAtIndex:indexPath.row];
-//        NSLog(@"index path : %@", indexPath);
         
-//        NSLog(@"media array label caption : %@", paging.mediaEntity.caption);
+        SBInstagramMediaPagingEntity *paging = [self.mediaArray objectAtIndex:indexPath.row];
+        //        NSLog(@"index path : %@", indexPath);
+        
+        //        NSLog(@"media array label caption : %@", paging.mediaEntity.caption);
         UILabel *gettingSizeLabel = [[UILabel alloc] init];
         if (SB_IS_IPAD) {
             gettingSizeLabel.font = [UIFont fontWithName:@"ProximaNova-Regular" size:20];
@@ -641,7 +630,7 @@
         }
         NSDictionary *attributtes = @{NSParagraphStyleAttributeName : style};
         gettingSizeLabel.attributedText = [[NSAttributedString alloc] initWithString:gettingSizeLabel.text
-                                                                       attributes:attributtes];
+                                                                          attributes:attributtes];
         
         gettingSizeLabel.numberOfLines = 0;
         gettingSizeLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -649,33 +638,31 @@
         
         CGSize newSize = [gettingSizeLabel sizeThatFits:maximumLabelSize];
         //get the good height for the text with the good font
-
-//        NSLog(@"new size for cell : %f", newSize.height);
         
-        CGFloat newHeight = 75 + (self.view.frame.size.width - 10) + 25 + ( 10 + newSize.height);
-
+        
+        CGFloat newHeight = 35 + (self.view.frame.size.width - 10) + 25 + ( 10 + newSize.height); //75
         
         if (SB_IS_IPAD) {
             if (newSize.height == 0) {
-//                NSLog(@"too bad !");
+                //                NSLog(@"too bad !");
                 return CGSizeMake(680, newHeight);
             }else{
-//                NSLog(@"all good ");
+                //                NSLog(@"all good ");
                 return CGSizeMake(680, newHeight);
             }
         }else{
-//            if (newSize.height == 0) {
-//                NSLog(@"too bad !");
-//                return CGSizeMake(340, 500);
-//            }else{
-////                NSLog(@"all good ");
-//                return CGSizeMake(340, newHeight);
-//            }
+            //            if (newSize.height == 0) {
+            //                NSLog(@"too bad !");
+            //                return CGSizeMake(340, 500);
+            //            }else{
+            ////                NSLog(@"all good ");
+            //                return CGSizeMake(340, newHeight);
+            //            }
             if (newSize.height == 0) {
                 //                NSLog(@"too bad !");
                 return CGSizeMake([UIScreen mainScreen].bounds.size.width - 40 , 500);
             }else{
-                //                NSLog(@"all good ");
+                NSLog(@"all good ");
                 return CGSizeMake([UIScreen mainScreen].bounds.size.width - 40 , newHeight);
             }
         }
@@ -683,15 +670,15 @@
         //set the new height for the cell
         
         
-//        SBInstagramCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SBInstagramCell" forIndexPath:indexPath];
-//        NSLog(@"text to display : %@", cell.captionLabel.text);
+        //        SBInstagramCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SBInstagramCell" forIndexPath:indexPath];
+        //        NSLog(@"text to display : %@", cell.captionLabel.text);
         
         
-//        if (CGRectGetMaxY(cell.captionLabel.frame) == 0) {
-//            return CGSizeMake(320, 500);
-//        }else{
-//            return CGSizeMake(320, CGRectGetMaxY(cell.captionLabel.frame));
-//        }
+        //        if (CGRectGetMaxY(cell.captionLabel.frame) == 0) {
+        //            return CGSizeMake(320, 500);
+        //        }else{
+        //            return CGSizeMake(320, CGRectGetMaxY(cell.captionLabel.frame));
+        //        }
     }else{
         if (SB_IS_IPAD) {
             return CGSizeMake(200, 200);
