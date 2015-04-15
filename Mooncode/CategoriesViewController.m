@@ -266,7 +266,7 @@
     
     self.loading = YES;
     
-    NSURL * url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/admin/products.json?page=%d&limit=250",website_string,pageNumber]];
+    NSURL * url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/admin/products.json?published_status=published&page=%d&limit=250",website_string,pageNumber]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setValue:token forHTTPHeaderField:@"X-Shopify-Access-Token"];
     [request setURL:url];
