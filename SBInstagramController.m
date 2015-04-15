@@ -91,12 +91,12 @@ return [[SBInstagramCollectionViewController alloc] initWithCollectionViewLayout
         [viewCon setModalPresentationStyle:UIModalPresentationPageSheet];
         [viewCon setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
         
-        if (weakSelf.viewController) {
-            [weakSelf.viewController presentViewController:viewCon animated:YES completion:nil];
-        }else{
-            UIViewController *rootController =[[[[UIApplication sharedApplication]delegate] window] rootViewController];
-            [rootController presentViewController:viewCon animated:YES completion:nil];
-        }
+//        if (weakSelf.viewController) {
+//            [weakSelf.viewController presentViewController:viewCon animated:YES completion:nil];
+//        }else{
+//            UIViewController *rootController =[[[[UIApplication sharedApplication]delegate] window] rootViewController];
+//            [rootController presentViewController:viewCon animated:YES completion:nil];
+//        }
         
     });
 }
