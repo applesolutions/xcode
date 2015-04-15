@@ -186,8 +186,8 @@
                 dicCollections = [[NSKeyedUnarchiver unarchiveObjectWithData:dataTest_collections] mutableCopy];
                 dicProductsCorrespondingToCollections  =  [[NSKeyedUnarchiver unarchiveObjectWithData:dataTest] mutableCopy];
                 
-                //            //NSLog(@"array products : %@", [dicCollections description]);
-                //            //NSLog(@"products : %@", [dicProductsCorrespondingToCollections description]);
+//                NSLog(@"array products : %@", [dicCollections description]);
+//                NSLog(@"products : %@", [dicProductsCorrespondingToCollections description]);
                 
                 sortedKeysForCategories = [[[dicProductsCorrespondingToCollections allKeys] sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
                     return [[[dicCollections objectForKey:a] objectForKey:@"title"] compare:[[dicCollections objectForKey:b] objectForKey:@"title"]];
@@ -266,7 +266,7 @@
     
     self.loading = YES;
     
-    NSURL * url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/admin/products.json?page=%d&limit=250",website_string,pageNumber]];
+    NSURL * url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/admin/products.json?published_status=published&page=%d&limit=250",website_string,pageNumber]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setValue:token forHTTPHeaderField:@"X-Shopify-Access-Token"];
     [request setURL:url];
@@ -286,6 +286,14 @@
             }
             else{//all the products have been downloaded !
                 
+                //sort products by date of creation
+                NSMutableArray *arrayProductsForSingleCollection = [array_Updated_Products mutableCopy];
+                NSArray *sortedArrayProducts = [arrayProductsForSingleCollection sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+                    NSDate *date1 = obj1[@"created_at"];
+                    NSDate *date2 = obj2[@"created_at"];
+                    return [date1 compare:date2];
+                }];
+                array_Updated_Products = [sortedArrayProducts mutableCopy];
                 
                 //Save the products in memory
                 [NSUserDefaultsMethods saveObjectInMemory:array_Updated_Products toFolder:@"arrayProducts"];
@@ -562,6 +570,17 @@
                     [dic_Updated_ProductsCorrespondingToCollections removeObjectForKey:collection_id];
                     //NSLog(@"delete collection for id : %@", collection_id);
                 }else{
+                    
+                    
+                    //sort products by date of creation
+                    NSMutableArray *arrayProductsForSingleCollection = [dic_Updated_ProductsCorrespondingToCollections[collection_id] mutableCopy];
+                    NSArray *sortedArrayProducts = [arrayProductsForSingleCollection sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+                        NSDate *date1 = obj1[@"created_at"];
+                        NSDate *date2 = obj2[@"created_at"];
+                        return [date1 compare:date2];
+                    }];
+                    dic_Updated_ProductsCorrespondingToCollections[collection_id] = sortedArrayProducts;
+
                     
                     //replace the right collection updated !
                     sorted_Updated_KeysForCategories = [[[dic_Updated_ProductsCorrespondingToCollections allKeys] sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
