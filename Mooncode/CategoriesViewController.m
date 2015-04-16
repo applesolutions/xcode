@@ -161,11 +161,7 @@
                 arrayProducts = [NSMutableArray new];
             }
             
-            [self makeRequestForPage_productsOnly:1];
-            
         }else{
-            
-            [self makeRequestForPage:1];
             
             
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -201,6 +197,8 @@
                 
                 [self showLoading];
             }
+         
+             [self getTokenAndStartDownloadStoreContent];
             
         }
         
@@ -219,6 +217,51 @@
         NSURL *pathURLUserDef= [NSURL fileURLWithPath:folder];
         [self addSkipBackupAttributeToItemAtURL:pathURLUserDef];
     });
+}
+
+-(void) getTokenAndStartDownloadStoreContent{
+    
+    NSString *shopifyUrl = [website_string stringByReplacingOccurrencesOfString:@"https://" withString:@""];
+    
+    NSString *url = @"https://mooncode.herokuapp.com/shopify_merchant/token";
+    NSString *parameters = [NSString stringWithFormat:@"shopType=shopify&version=0&password=sanfrancisco&shopName=%@", shopifyUrl];
+    NSLog(@"parameters : %@", parameters);
+    
+    NSData *postData = [parameters dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:url]];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
+    [request setHTTPBody:postData];
+    
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
+        
+        if (!error){
+            
+            NSDictionary* responseServer = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+            token = responseServer[@"shopify_token"];
+            NSLog(@"response sevrer token : %@", [responseServer description]);
+            
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
+                [self makeRequestForPage_productsOnly:1];
+            }else{
+                [self makeRequestForPage:1];
+            }
+            
+        }else{
+            
+            if ([dicCollections count] == 0) {
+                self.activityLoading.hidden = YES;
+                self.labelLoading.text = @"No Internet connection detected.";
+                self.buttonReload.hidden = NO;
+                self.loading = NO;
+            }
+            
+        }
+    }];
 }
 
 
@@ -243,17 +286,15 @@
             //NSLog(@"refresh - dicCollections.count : %lu", (unsigned long)[dicCollections count]);
             //NSLog(@"refresh - count_collectionsToDownload : %d", count_collectionsToDownload);
             count_collectionsToDownload = 0;
-            
-            //TODO: refresh your data
-            [self makeRequestForPage:1];
+
             
         }else{
             
             [array_Updated_Products removeAllObjects];
             array_Updated_Products = [NSMutableArray new];
-            
-            [self makeRequestForPage_productsOnly:1];
         }
+        
+        [self getTokenAndStartDownloadStoreContent];
         
     }else{
         //NSLog(@"being downloaded");

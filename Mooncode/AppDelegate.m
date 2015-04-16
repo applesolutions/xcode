@@ -26,14 +26,8 @@
 //    NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
 //    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
     //*************************
-
-    
-    
-//    [[NSUserDefaults standardUserDefaults] setObject:@"https://newyorkmouth.myshopify.com" forKey:@"website_url"];
-//    [[NSUserDefaults standardUserDefaults] setObject:@"f6cc5d84298f4e8eee036fbc415433f5" forKey:@"shopify_token"];
     
     [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_url"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"104ba734101eebeedc24b75fd6c713e0" forKey:@"shopify_token"];
     
     [[NSUserDefaults standardUserDefaults] setObject:@"http://fedbythreads.com" forKey:@"website_cart_url"];
     [[NSUserDefaults standardUserDefaults] setObject:@"FedByThreads" forKey:@"twitterName"];
