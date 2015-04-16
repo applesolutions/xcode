@@ -289,9 +289,7 @@
                 //sort products by date of creation
                 NSMutableArray *arrayProductsForSingleCollection = [array_Updated_Products mutableCopy];
                 NSArray *sortedArrayProducts = [arrayProductsForSingleCollection sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-                    NSDate *date1 = obj1[@"created_at"];
-                    NSDate *date2 = obj2[@"created_at"];
-                    return [date2 compare:date1];
+                    return [obj2[@"id"] compare:obj1[@"id"]];
                 }];
                 array_Updated_Products = [sortedArrayProducts mutableCopy];
                 
@@ -575,9 +573,7 @@
                     //sort products by date of creation
                     NSMutableArray *arrayProductsForSingleCollection = [dic_Updated_ProductsCorrespondingToCollections[collection_id] mutableCopy];
                     NSArray *sortedArrayProducts = [arrayProductsForSingleCollection sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-                        NSDate *date1 = obj1[@"created_at"];
-                        NSDate *date2 = obj2[@"created_at"];
-                        return [date2 compare:date1];
+                        return [obj2[@"id"] compare:obj1[@"id"]];
                     }];
                     dic_Updated_ProductsCorrespondingToCollections[collection_id] = sortedArrayProducts;
 
