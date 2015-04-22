@@ -53,35 +53,35 @@
     
     //colorNavBar
     if ( [[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] == nil) //secondary
-        [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @172 ,  @"red"   ,
-                                                                                                    @34 ,  @"green" ,
-                                                                                                    @52 ,  @"blue"  ,
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @44 ,  @"red"   ,
+                                                                                                    @44 ,  @"green" ,
+                                                                                                    @44 ,  @"blue"  ,
                                                                                                     @1.0, @"alpha", nil]
                                               forKey:@"colorNavBar"];
 
     //colorSettingsView
     if ( [[NSUserDefaults standardUserDefaults] objectForKey:@"colorSettingsView"] == nil) //secondary
-    [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @48 ,  @"red"   ,
-                                                                                                    @48 ,  @"green" ,
-                                                                                                    @48 ,  @"blue"  ,
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @44 ,  @"red"   ,
+                                                                                                    @44 ,  @"green" ,
+                                                                                                    @44 ,  @"blue"  ,
                                                                                                     @1.0, @"alpha", nil]
                                               forKey:@"colorSettingsView"];
     
     //colorViewCollection
     if ( [[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] == nil) //transparancy
-    [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @172 ,  @"red"   ,
-                                                      @34 ,  @"green" ,
-                                                      @52 ,  @"blue"  ,
-                                                      @1.0, @"alpha",nil]
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @75 ,  @"red"   ,
+                                                      @75 ,  @"green" ,
+                                                      @75 ,  @"blue"  ,
+                                                      @0.7, @"alpha",nil]
                                               forKey:@"colorViewTitleCollection"];
     
     
     
     //colorButtons
     if ( [[NSUserDefaults standardUserDefaults] objectForKey:@"colorButtons"] == nil) //primary
-    [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @156 ,  @"red"   ,
-                                                                                                    @31 ,  @"green" ,
-                                                                                                    @57 ,  @"blue"  ,
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @44 ,  @"red"   ,
+                                                                                                    @44 ,  @"green" ,
+                                                                                                    @44 ,  @"blue"  ,
                                                                                                     @1.0, @"alpha",nil]
                                               forKey:@"colorButtons"]; //modifiy good files for alpha  !
     

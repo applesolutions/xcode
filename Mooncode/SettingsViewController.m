@@ -53,11 +53,14 @@
 }
 
 -(void)updateColors{
-    self.view.backgroundColor =
-    [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorSettingsView"] objectForKey:@"red"] floatValue] / 255
-                    green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorSettingsView"] objectForKey:@"green"] floatValue] / 255
-                     blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorSettingsView"] objectForKey:@"blue"] floatValue] / 255
-                    alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorSettingsView"] objectForKey:@"alpha"] floatValue]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.view.backgroundColor =
+        [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorSettingsView"] objectForKey:@"red"] floatValue] / 255
+                        green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorSettingsView"] objectForKey:@"green"] floatValue] / 255
+                         blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorSettingsView"] objectForKey:@"blue"] floatValue] / 255
+                        alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorSettingsView"] objectForKey:@"alpha"] floatValue]];
+    });
+
 }
 
 -(void) viewWillAppear:(BOOL)animated{

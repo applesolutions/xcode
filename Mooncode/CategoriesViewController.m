@@ -125,7 +125,7 @@
                         green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"green"] floatValue] / 255
                          blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"blue"] floatValue] / 255
                         alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"alpha"] floatValue]];
-        self.navBar.barTintColor = self.ViewNavBar.backgroundColor;
+        [self.navBar setBarTintColor: self.ViewNavBar.backgroundColor];
         
         
         [AppDelegate setAppearance];
@@ -166,13 +166,20 @@
                 [[NSUserDefaults standardUserDefaults] setObject:twitter forKey:@"twitterName"];
             }
             
-//            if ([instagram isKindOfClass:[NSString class]]) {
-                NSLog(@"is kon : %@", [instagram class]);
-//            }
-            
             if (instagram && instagram.length != 0) {
                 NSLog(@"instagram : %@", instagram);
-                [[NSUserDefaults standardUserDefaults] setObject:@[(NSString*)instagram] forKey:@"instagramId"];
+
+                if ( ! [[[NSUserDefaults standardUserDefaults] arrayForKey:@"instagramId"].firstObject isEqualToString:instagram]) {
+                    
+                    NSLog(@"update the instagram token !");
+                    
+                    [[NSUserDefaults standardUserDefaults] setObject:@[[NSString stringWithFormat:@"%@",(NSString*)instagram]] forKey:@"instagramId"];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                    
+                }
+                
+               
+                
             }
         
             //colors
@@ -207,18 +214,14 @@
                     [[NSUserDefaults standardUserDefaults] setObject:dicColorTranslated forKey:colorNameUserDef];
                 }
                 
-                [[NSUserDefaults standardUserDefaults] synchronize];
+
             }];
             
-            
+            [[NSUserDefaults standardUserDefaults] synchronize];
 
             [[NSNotificationCenter defaultCenter] postNotificationName:@"updatePhoneSettings" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"instagramTokenChanged" object:nil]; //observed in scrollViewController
             
-            
-            
-            
-            
-            [[NSUserDefaults standardUserDefaults] synchronize];
             
             
             
