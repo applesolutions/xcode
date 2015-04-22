@@ -36,6 +36,8 @@
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        
+        NSLog(@"init withframe");
 
         self.imageView = [[UIImageView alloc] init];
         self.imageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -61,9 +63,9 @@
             _viewWhite.backgroundColor = [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"red"] floatValue] / 255
                                                      green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"green"] floatValue] / 255
                                                       blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"blue"] floatValue] / 255
-                                                     alpha:1];
-            _viewWhite.alpha = 0.7;
-            
+                                                     alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"alpha"] floatValue]];
+//            _viewWhite.alpha = 0.7;
+        
             _displayLabel.font = [UIFont fontWithName:@"ProximaNova-Regular" size:17];
             _displayLabel.adjustsFontSizeToFitWidth = YES;
             

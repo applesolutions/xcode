@@ -115,6 +115,7 @@
 		AABE085719F1ACCD009AF8D1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABE085619F1ACCD009AF8D1 /* SystemConfiguration.framework */; };
 		AAC89DDA1A375D8F00D33C36 /* LaunchImage.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC89DD91A375D8F00D33C36 /* LaunchImage.m */; };
 		AAD654CA1A894B94007EDE85 /* libFlurry_6.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAD654C91A894B94007EDE85 /* libFlurry_6.0.0.a */; };
+		AAF1838B1AE6E74A00A44A35 /* FCFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF1838A1AE6E74A00A44A35 /* FCFileManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -310,6 +311,8 @@
 		AAC89DD91A375D8F00D33C36 /* LaunchImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchImage.m; sourceTree = "<group>"; };
 		AAD654C81A894B94007EDE85 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
 		AAD654C91A894B94007EDE85 /* libFlurry_6.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_6.0.0.a; sourceTree = "<group>"; };
+		AAF183891AE6E74A00A44A35 /* FCFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCFileManager.h; sourceTree = "<group>"; };
+		AAF1838A1AE6E74A00A44A35 /* FCFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCFileManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -575,6 +578,7 @@
 			isa = PBXGroup;
 			children = (
 				AAAD43A71A61844100B8AB56 /* Localizable.strings */,
+				AAF183881AE6E74A00A44A35 /* FCFileManager */,
 				AAD654C71A894B94007EDE85 /* Flurry */,
 				AA2EB32C1A693B6600AEA228 /* SBInstagram */,
 				AA2EB2F31A693AF900AEA228 /* AFNetworking */,
@@ -695,6 +699,15 @@
 				AAD654C91A894B94007EDE85 /* libFlurry_6.0.0.a */,
 			);
 			path = Flurry;
+			sourceTree = "<group>";
+		};
+		AAF183881AE6E74A00A44A35 /* FCFileManager */ = {
+			isa = PBXGroup;
+			children = (
+				AAF183891AE6E74A00A44A35 /* FCFileManager.h */,
+				AAF1838A1AE6E74A00A44A35 /* FCFileManager.m */,
+			);
+			path = FCFileManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -865,6 +878,7 @@
 				AA2EB3211A693B4600AEA228 /* SBInstagramCollectionViewController.m in Sources */,
 				AA13FD5E1A05BB4600696FE1 /* GTMNSString+HTML.m in Sources */,
 				AA2EB2E31A693ADD00AEA228 /* AFHTTPRequestOperationManager.m in Sources */,
+				AAF1838B1AE6E74A00A44A35 /* FCFileManager.m in Sources */,
 				AAAD436F1A60706900B8AB56 /* NSUserDefaultsMethods.m in Sources */,
 				AA2EB2E81A693ADD00AEA228 /* AFURLRequestSerialization.m in Sources */,
 				AA96651119FCBB2F0008ED03 /* CartViewController.m in Sources */,

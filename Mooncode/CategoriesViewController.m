@@ -22,6 +22,8 @@
 #import "ShopifyImages.h"
 
 #import "NSUserDefaultsMethods.h"
+#import "FCFileManager.h"
+#import "AppDelegate.h"
 
 @interface CategoriesViewController ()
 
@@ -44,6 +46,7 @@
 @property (nonatomic) __block BOOL loading;
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *navBarButtonLeft;
+@property (strong, nonatomic) IBOutlet UINavigationBar *navBar;
 
 @end
 
@@ -98,25 +101,183 @@
     
     [self.collectionView reloadData];
     
-    self.ViewNavBar.backgroundColor =
-    [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"red"] floatValue] / 255
-                    green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"green"] floatValue] / 255
-                     blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"blue"] floatValue] / 255
-                    alpha:1];
+    [self updateColors];
+
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isInstagramIntegrated"] == YES) {
         self.navBarButtonLeft.image = [UIImage imageNamed:@"icon-instagram"];
     }
     
     self.viewForLabel.layer.cornerRadius = 5;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateColors)
+                                                 name:@"updatePhoneSettings"
+                                               object:nil];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+-(void)updateColors{
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        self.ViewNavBar.backgroundColor =
+        [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"red"] floatValue] / 255
+                        green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"green"] floatValue] / 255
+                         blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"blue"] floatValue] / 255
+                        alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"alpha"] floatValue]];
+        self.navBar.barTintColor = self.ViewNavBar.backgroundColor;
+        
+        
+        [AppDelegate setAppearance];
+        
+        [self.collectionView reloadData];
+    });
+
+}
+
+-(void) fetchSettingsFromServer{
+    
+    NSString *urlForFiles = @"https://mooncode.herokuapp.com/shopify_merchant/settings";
+    NSString *version = @"0";
+    NSString *password = @"sanfrancisco";
+    NSString *shopName = [[NSUserDefaults standardUserDefaults] objectForKey:@"shopName"];
+    NSString *shopType = [[NSUserDefaults standardUserDefaults] objectForKey:@"shopType"];
+    NSString *pathMainBundle = [[FCFileManager pathForDocumentsDirectory] stringByAppendingString:@"/"];
+    pathMainBundle = @"";
+    NSString *UDID = [[[UIDevice currentDevice] identifierForVendor] UUIDString]; //save it for analytics
+    
+    
+    NSString *parametersSettings = [NSString stringWithFormat:@"udid=%@&shopName=%@&shopType=%@&password=%@&version=%@&resourcesPath=%@&memoryPath=", UDID, shopName, shopType, password, version, pathMainBundle];
+    
+    NSLog(@"param view : %@", parametersSettings);
+    [self test_POST_withUrl:urlForFiles andParameters:parametersSettings withPassword:password callback:^(NSDictionary *settings, NSError*error) {
+        
+        if (!error) {
+            
+            NSString *shopify_token = (NSString*)settings[@"shopify_token"];
+            NSString *twitter = (NSString*)settings[@"twitter"];
+            NSString *instagram = [settings[@"instagram_id"] stringValue];
+            
+            if (shopify_token){
+                token = shopify_token;
+            }
+            if (twitter) {
+                twitter = [twitter stringByReplacingOccurrencesOfString:@"@" withString:@""];
+                [[NSUserDefaults standardUserDefaults] setObject:twitter forKey:@"twitterName"];
+            }
+            
+//            if ([instagram isKindOfClass:[NSString class]]) {
+                NSLog(@"is kon : %@", [instagram class]);
+//            }
+            
+            if (instagram && instagram.length != 0) {
+                NSLog(@"instagram : %@", instagram);
+                [[NSUserDefaults standardUserDefaults] setObject:@[(NSString*)instagram] forKey:@"instagramId"];
+            }
+        
+            //colors
+            
+            
+            
+            NSDictionary *dicColorMatching = @{@"primary":@[@"colorButtons",@"colorLabelCollections"],
+                                                @"secondary":@[@"colorNavBar",@"colorSettingsView"],
+                                                @"transparency":@[@"colorViewTitleCollection"]
+                                           };
+            
+            NSDictionary *colorsFromServer = settings[@"colors"];
+
+            
+            
+            [dicColorMatching enumerateKeysAndObjectsUsingBlock:^(NSString *colorNameServer, NSArray *colorsNamesUserDef, BOOL *stop) {
+         
+                
+
+                
+                NSDictionary *dicColorTranslated = @{
+                                                     @"red" : @([colorsFromServer[colorNameServer][@"r"] integerValue]),
+                                                     @"green" : @([colorsFromServer[colorNameServer][@"g"] integerValue]),
+                                                     @"blue" : @([colorsFromServer[colorNameServer][@"b"] integerValue]),
+                                                     @"alpha" : @([colorsFromServer[colorNameServer][@"a"] floatValue]),
+                                                     };
+                
+                NSLog(@"dic translated for %@ : %@", colorNameServer, [dicColorTranslated description]);
+                
+                for (NSString *colorNameUserDef in colorsNamesUserDef) {
+                    
+                    [[NSUserDefaults standardUserDefaults] setObject:dicColorTranslated forKey:colorNameUserDef];
+                }
+                
+                [[NSUserDefaults standardUserDefaults] synchronize];
+            }];
+            
+            
+
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"updatePhoneSettings" object:nil];
+            
+            
+            
+            
+            
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            
+            
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
+                [self makeRequestForPage_productsOnly:1];
+            }else{
+                [self makeRequestForPage:1];
+            }
+            
+        }else{
+            if ([dicCollections count] == 0) {
+                self.activityLoading.hidden = YES;
+                self.labelLoading.text = @"No Internet connection detected.";
+                self.buttonReload.hidden = NO;
+                self.loading = NO;
+            }
+        }
+    }];
+}
+
+-(void) test_POST_withUrl:(NSString*)url  andParameters:(NSString*)parameters withPassword:(NSString*)password callback:(void (^)(NSDictionary*fileContent, NSError*error))giveFileContent{
+    
+    NSData *postData = [parameters dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:url]];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
+    [request setHTTPBody:postData];
+    
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
+        
+        if (!error){
+            //added
+//            NSString* contentStringFile = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            NSDictionary* settings = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+
+            NSLog(@"content of file test : %@", settings);
+            
+            if (settings != nil) {
+                giveFileContent(settings,nil);
+            }
+
+            
+        }else{
+        
+            giveFileContent(nil, error);
+        }
+    }];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
+
+    
     
     count_imagesToBeDownloaded = 0;
     
@@ -146,8 +307,6 @@
         dicCollections = [[NSMutableDictionary alloc] init];
         
         website_string = [[NSUserDefaults standardUserDefaults] stringForKey:@"website_url"];
-        token = [[NSUserDefaults standardUserDefaults] stringForKey:@"shopify_token"];
-        
 
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
             
@@ -198,7 +357,8 @@
                 [self showLoading];
             }
          
-             [self getTokenAndStartDownloadStoreContent];
+//             [self getTokenAndStartDownloadStoreContent];
+            [self fetchSettingsFromServer];
             
         }
         
@@ -294,7 +454,8 @@
             array_Updated_Products = [NSMutableArray new];
         }
         
-        [self getTokenAndStartDownloadStoreContent];
+//        [self getTokenAndStartDownloadStoreContent];
+        [self fetchSettingsFromServer];
         
     }else{
         //NSLog(@"being downloaded");
@@ -1060,7 +1221,6 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    //NSLog(@"Cell");
     
     CHTCollectionViewWaterfallCell *cell =
     (CHTCollectionViewWaterfallCell *)[collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER

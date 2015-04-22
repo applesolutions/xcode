@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "ScrollViewController.h"
 #import <Parse/Parse.h>
-
+#import "FCFileManager.h"
 
 
 @interface AppDelegate ()
@@ -28,62 +28,78 @@
     //*************************
     
     [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_url"];
+
+    [[NSUserDefaults standardUserDefaults] setObject:@"buyonesnap.myshopify.com" forKey:@"shopName"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"shopify" forKey:@"shopType"];
     
     [[NSUserDefaults standardUserDefaults] setObject:@"http://fedbythreads.com" forKey:@"website_cart_url"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"FedByThreads" forKey:@"twitterName"];
     [[NSUserDefaults standardUserDefaults] setObject:@"info@fedbythreads.com" forKey:@"supportUrl"];
     [[NSUserDefaults standardUserDefaults] setObject:@"https://checkout.shopify.com" forKey:@"checkoutUrl"];
     [[NSUserDefaults standardUserDefaults] setObject:@"$" forKey:@"currency"];
-    
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"areCollectionsDisplayed"];
-    
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isInstagramIntegrated"];
-    [[NSUserDefaults standardUserDefaults] setObject:@[@"298508107"] forKey:@"instagramId"];
+    
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"instagramId"] == nil) { //298508107
+        [[NSUserDefaults standardUserDefaults] setObject:@[@""] forKey:@"instagramId"];
+    }
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"twitterName"] == nil) {
+        [[NSUserDefaults standardUserDefaults] setObject:@"FedByThreads" forKey:@"twitterName"];
+    }
     
     
 //    [Flurry startSession:@""];
     
     
     //colorNavBar
-    [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @172 ,  @"red"   ,
+    if ( [[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] == nil) //secondary
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @172 ,  @"red"   ,
                                                                                                     @34 ,  @"green" ,
-                                                                                                    @52 ,  @"blue"  ,  nil]
+                                                                                                    @52 ,  @"blue"  ,
+                                                                                                    @1.0, @"alpha", nil]
                                               forKey:@"colorNavBar"];
 
     //colorSettingsView
+    if ( [[NSUserDefaults standardUserDefaults] objectForKey:@"colorSettingsView"] == nil) //secondary
     [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @48 ,  @"red"   ,
                                                                                                     @48 ,  @"green" ,
-                                                                                                    @48 ,  @"blue"  ,  nil]
+                                                                                                    @48 ,  @"blue"  ,
+                                                                                                    @1.0, @"alpha", nil]
                                               forKey:@"colorSettingsView"];
     
     //colorViewCollection
+    if ( [[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] == nil) //transparancy
     [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @172 ,  @"red"   ,
                                                       @34 ,  @"green" ,
-                                                      @52 ,  @"blue"  ,  nil]
+                                                      @52 ,  @"blue"  ,
+                                                      @1.0, @"alpha",nil]
                                               forKey:@"colorViewTitleCollection"];
     
     
     
     //colorButtons
+    if ( [[NSUserDefaults standardUserDefaults] objectForKey:@"colorButtons"] == nil) //primary
     [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @156 ,  @"red"   ,
                                                                                                     @31 ,  @"green" ,
-                                                                                                    @57 ,  @"blue"  ,  nil]
-                                              forKey:@"colorButtons"];
+                                                                                                    @57 ,  @"blue"  ,
+                                                                                                    @1.0, @"alpha",nil]
+                                              forKey:@"colorButtons"]; //modifiy good files for alpha  !
     
-
     
     
     //ColorLabelCollections
+    if ( [[NSUserDefaults standardUserDefaults] objectForKey:@"colorLabelCollections"] == nil) //primary
     [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @255 ,  @"red"   ,
                                                                                                     @255 ,  @"green" ,
-                                                                                                    @255 ,  @"blue"  ,  nil]
+                                                                                                    @255 ,  @"blue"  ,
+                                                                                                    @1.0, @"alpha",nil]
                                               forKey:@"colorLabelCollections"];
   
     //backgroundColor
     [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @235 ,  @"red"   ,
                                                                                                     @235 ,  @"green" ,
                                                                                                     @235 ,  @"blue"  ,
-                                                                                                    @1 ,  @"alpha", nil]
+                                                                                                    @1.0 ,  @"alpha", nil]
                                               forKey:@"backgroundColor"];
     
     //CUSTOM collections ******************************************************************************************
@@ -113,9 +129,15 @@
     
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    [self setAppearance];
+    [AppDelegate setAppearance];
     [self setParse];
     [self setNotificationsWithApplication:application];
+    
+    [NSTimer scheduledTimerWithTimeInterval:30.0
+                                     target:self
+                                   selector:@selector(fetchSettingsFromServer)
+                                   userInfo:nil
+                                    repeats:YES];
 
     return YES;
 }
@@ -144,12 +166,12 @@
     }
 }
 
--(void) setAppearance{
++(void) setAppearance{
     [[UINavigationBar appearance] setBarTintColor:
      [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"red"] floatValue] / 255
                      green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"green"] floatValue] / 255
                       blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"blue"] floatValue] / 255
-                     alpha:1]];
+                     alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"alpha"] floatValue]]];
     
     [[UINavigationBar appearance] setTitleTextAttributes: @{
                                                             NSForegroundColorAttributeName: [UIColor whiteColor],
@@ -207,6 +229,123 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+#pragma mark - refresh phone settings
+
+-(void) fetchSettingsFromServer{
+    
+    NSString *urlForFiles = @"https://mooncode.herokuapp.com/shopify_merchant/settings";
+    NSString *version = @"0";
+    NSString *password = @"sanfrancisco";
+    NSString *shopName = [[NSUserDefaults standardUserDefaults] objectForKey:@"shopName"];
+    NSString *shopType = [[NSUserDefaults standardUserDefaults] objectForKey:@"shopType"];
+    NSString *pathMainBundle = [[FCFileManager pathForDocumentsDirectory] stringByAppendingString:@"/"];
+    pathMainBundle = @"";
+    NSString *UDID = [[[UIDevice currentDevice] identifierForVendor] UUIDString]; //save it for analytics
+    
+    
+    NSString *parametersSettings = [NSString stringWithFormat:@"udid=%@&shopName=%@&shopType=%@&password=%@&version=%@&resourcesPath=%@&memoryPath=", UDID, shopName, shopType, password, version, pathMainBundle];
+    
+    NSLog(@"param view : %@", parametersSettings);
+    [self test_POST_withUrl:urlForFiles andParameters:parametersSettings withPassword:password callback:^(NSDictionary *settings, NSError*error) {
+        
+        if (!error) {
+            
+            NSString *shopify_token = settings[@"shopify_token"];
+            NSString *twitter = settings[@"twitter"];
+            NSString *instagram = settings[@"instagram"];
+            
+            if (shopify_token){
+//                token = shopify_token;
+            }
+            if (twitter) {
+                [[NSUserDefaults standardUserDefaults] setObject:twitter forKey:@"twitterName"];
+            }
+            //            if (instagram && instagram.length != 0) {
+            //                [[NSUserDefaults standardUserDefaults] setObject:instagram forKey:@"instagramId"];
+            //            }
+            
+            //colors
+            
+            
+            
+            NSDictionary *dicColorMatching = @{@"primary":@[@"colorButtons",@"colorLabelCollections"],
+                                               @"secondary":@[@"colorNavBar",@"colorSettingsView"],
+                                               @"transparency":@[@"colorViewTitleCollection"]
+                                               };
+            
+            NSDictionary *colorsFromServer = settings[@"colors"];
+            
+            
+            
+            [dicColorMatching enumerateKeysAndObjectsUsingBlock:^(NSString *colorNameServer, NSArray *colorsNamesUserDef, BOOL *stop) {
+                
+                
+                
+                
+                NSDictionary *dicColorTranslated = @{
+                                                     @"red" : @([colorsFromServer[colorNameServer][@"r"] integerValue]),
+                                                     @"green" : @([colorsFromServer[colorNameServer][@"g"] integerValue]),
+                                                     @"blue" : @([colorsFromServer[colorNameServer][@"b"] integerValue]),
+                                                     @"alpha" : @([colorsFromServer[colorNameServer][@"a"] floatValue]),
+                                                     };
+                
+                NSLog(@"dic translated for %@ : %@", colorNameServer, [dicColorTranslated description]);
+                
+                for (NSString *colorNameUserDef in colorsNamesUserDef) {
+                    
+                    [[NSUserDefaults standardUserDefaults] setObject:dicColorTranslated forKey:colorNameUserDef];
+                }
+                
+                [[NSUserDefaults standardUserDefaults] synchronize];
+            }];
+            
+            
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"updatePhoneSettings" object:nil];
+            
+            
+            
+            
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            
+
+            
+        }
+    }];
+}
+
+
+-(void) test_POST_withUrl:(NSString*)url  andParameters:(NSString*)parameters withPassword:(NSString*)password callback:(void (^)(NSDictionary*fileContent, NSError*error))giveFileContent{
+    
+    NSData *postData = [parameters dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:url]];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
+    [request setHTTPBody:postData];
+    
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
+        
+        if (!error){
+            //added
+            //            NSString* contentStringFile = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            NSDictionary* settings = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+            
+            NSLog(@"content of file test : %@", settings);
+            giveFileContent(settings,nil);
+            
+            
+        }else{
+            
+            giveFileContent(nil, error);
+        }
+    }];
 }
 
 @end

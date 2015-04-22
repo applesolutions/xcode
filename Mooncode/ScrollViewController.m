@@ -57,7 +57,7 @@
         instagram.instagramClientSecret = @"056cacccca974d41a48001ba8cf619ee";
         instagram.instagramClientId = @"b5f5835cc8d04a5489a81df5c0654ca4";
         instagram.instagramDefaultAccessToken = @"1599947575.b5f5835.7379d52a27584ae78479ae466a2c368b";
-        //    instagram.instagramUserId = @"447214845";
+            instagram.instagramUserId = @"447214845";
 //        instagram.instagramMultipleUsersId = @[@"447214845"];
         instagram.instagramMultipleUsersId = [[NSUserDefaults standardUserDefaults] objectForKey:@"instagramId"];
         
