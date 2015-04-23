@@ -28,7 +28,6 @@
     //*************************
     //
     [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_url"];
-//    [[NSUserDefaults standardUserDefaults] setObject:@"https://zooomberg.myshopify.com" forKey:@"website_url"];
     [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_cart_url"];
     [[NSUserDefaults standardUserDefaults] setObject:@"info@fedbythreads.com" forKey:@"supportUrl"];
     
@@ -49,6 +48,11 @@
 //    [Flurry startSession:@""];
     
     
+//    @{@"primary":@[@"colorLabelCollections"],
+//      @"secondary":@[@"colorNavBar",@"colorSettingsView", @"colorButtons"],
+//      @"transparency":@[@"colorViewTitleCollection"]
+//      };
+    
     //colorNavBar
     if ( [[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] == nil) //secondary
         [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @44 ,  @"red"   ,
@@ -67,16 +71,16 @@
     
     //colorViewCollection
     if ( [[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] == nil) //transparancy
-    [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @44 ,  @"red"   ,
-                                                      @44 ,  @"green" ,
-                                                      @44 ,  @"blue"  ,
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @75 ,  @"red"   ,
+                                                      @75 ,  @"green" ,
+                                                      @75 ,  @"blue"  ,
                                                       @0.7, @"alpha",nil]
                                               forKey:@"colorViewTitleCollection"];
     
     
     
     //colorButtons
-    if ( [[NSUserDefaults standardUserDefaults] objectForKey:@"colorButtons"] == nil) //primary
+    if ( [[NSUserDefaults standardUserDefaults] objectForKey:@"colorButtons"] == nil) //secondary
     [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @44 ,  @"red"   ,
                                                                                                     @44 ,  @"green" ,
                                                                                                     @44 ,  @"blue"  ,
