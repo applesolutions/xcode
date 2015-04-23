@@ -10,7 +10,7 @@
 #import "ScrollViewController.h"
 #import <Parse/Parse.h>
 #import "FCFileManager.h"
-
+#import "Store.h"
 
 @interface AppDelegate ()
 
@@ -26,19 +26,17 @@
 //    NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
 //    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
     //*************************
-    
+    //
     [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_url"];
-
-    [[NSUserDefaults standardUserDefaults] setObject:@"buyonesnap.myshopify.com" forKey:@"shopName"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"shopify" forKey:@"shopType"];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:@"http://fedbythreads.com" forKey:@"website_cart_url"];
+//    [[NSUserDefaults standardUserDefaults] setObject:@"https://zooomberg.myshopify.com" forKey:@"website_url"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_cart_url"];
     [[NSUserDefaults standardUserDefaults] setObject:@"info@fedbythreads.com" forKey:@"supportUrl"];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:@"shopify" forKey:@"shopType"];
     [[NSUserDefaults standardUserDefaults] setObject:@"https://checkout.shopify.com" forKey:@"checkoutUrl"];
     [[NSUserDefaults standardUserDefaults] setObject:@"$" forKey:@"currency"];
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"areCollectionsDisplayed"];
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isInstagramIntegrated"];
-    
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"instagramId"] == nil) { //298508107
         [[NSUserDefaults standardUserDefaults] setObject:@[@""] forKey:@"instagramId"];
@@ -69,9 +67,9 @@
     
     //colorViewCollection
     if ( [[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] == nil) //transparancy
-    [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @75 ,  @"red"   ,
-                                                      @75 ,  @"green" ,
-                                                      @75 ,  @"blue"  ,
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @44 ,  @"red"   ,
+                                                      @44 ,  @"green" ,
+                                                      @44 ,  @"blue"  ,
                                                       @0.7, @"alpha",nil]
                                               forKey:@"colorViewTitleCollection"];
     
@@ -234,118 +232,10 @@
 #pragma mark - refresh phone settings
 
 -(void) fetchSettingsFromServer{
-    
-    NSString *urlForFiles = @"https://mooncode.herokuapp.com/shopify_merchant/settings";
-    NSString *version = @"0";
-    NSString *password = @"sanfrancisco";
-    NSString *shopName = [[NSUserDefaults standardUserDefaults] objectForKey:@"shopName"];
-    NSString *shopType = [[NSUserDefaults standardUserDefaults] objectForKey:@"shopType"];
-    NSString *pathMainBundle = [[FCFileManager pathForDocumentsDirectory] stringByAppendingString:@"/"];
-    pathMainBundle = @"";
-    NSString *UDID = [[[UIDevice currentDevice] identifierForVendor] UUIDString]; //save it for analytics
-    
-    
-    NSString *parametersSettings = [NSString stringWithFormat:@"udid=%@&shopName=%@&shopType=%@&password=%@&version=%@&resourcesPath=%@&memoryPath=", UDID, shopName, shopType, password, version, pathMainBundle];
-    
-    NSLog(@"param view : %@", parametersSettings);
-    [self test_POST_withUrl:urlForFiles andParameters:parametersSettings withPassword:password callback:^(NSDictionary *settings, NSError*error) {
+    [Store fetchSettingsFromServer:^(NSString *token, NSError *error) {
         
-        if (!error) {
-            
-            NSString *shopify_token = settings[@"shopify_token"];
-            NSString *twitter = settings[@"twitter"];
-            NSString *instagram = settings[@"instagram"];
-            
-            if (shopify_token){
-//                token = shopify_token;
-            }
-            if (twitter) {
-                [[NSUserDefaults standardUserDefaults] setObject:twitter forKey:@"twitterName"];
-            }
-            //            if (instagram && instagram.length != 0) {
-            //                [[NSUserDefaults standardUserDefaults] setObject:instagram forKey:@"instagramId"];
-            //            }
-            
-            //colors
-            
-            
-            
-            NSDictionary *dicColorMatching = @{@"primary":@[@"colorButtons",@"colorLabelCollections"],
-                                               @"secondary":@[@"colorNavBar",@"colorSettingsView"],
-                                               @"transparency":@[@"colorViewTitleCollection"]
-                                               };
-            
-            NSDictionary *colorsFromServer = settings[@"colors"];
-            
-            
-            
-            [dicColorMatching enumerateKeysAndObjectsUsingBlock:^(NSString *colorNameServer, NSArray *colorsNamesUserDef, BOOL *stop) {
-                
-                
-                
-                
-                NSDictionary *dicColorTranslated = @{
-                                                     @"red" : @([colorsFromServer[colorNameServer][@"r"] integerValue]),
-                                                     @"green" : @([colorsFromServer[colorNameServer][@"g"] integerValue]),
-                                                     @"blue" : @([colorsFromServer[colorNameServer][@"b"] integerValue]),
-                                                     @"alpha" : @([colorsFromServer[colorNameServer][@"a"] floatValue]),
-                                                     };
-                
-                NSLog(@"dic translated for %@ : %@", colorNameServer, [dicColorTranslated description]);
-                
-                for (NSString *colorNameUserDef in colorsNamesUserDef) {
-                    
-                    [[NSUserDefaults standardUserDefaults] setObject:dicColorTranslated forKey:colorNameUserDef];
-                }
-                
-                [[NSUserDefaults standardUserDefaults] synchronize];
-            }];
-            
-            
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"updatePhoneSettings" object:nil];
-            
-            
-            
-            
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            
-
-            
-        }
     }];
 }
 
-
--(void) test_POST_withUrl:(NSString*)url  andParameters:(NSString*)parameters withPassword:(NSString*)password callback:(void (^)(NSDictionary*fileContent, NSError*error))giveFileContent{
-    
-    NSData *postData = [parameters dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:url]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
-    [request setHTTPBody:postData];
-    
-    
-    [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
-        
-        if (!error){
-            //added
-            //            NSString* contentStringFile = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            NSDictionary* settings = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-            
-            NSLog(@"content of file test : %@", settings);
-            giveFileContent(settings,nil);
-            
-            
-        }else{
-            
-            giveFileContent(nil, error);
-        }
-    }];
-}
 
 @end

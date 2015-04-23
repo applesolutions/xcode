@@ -121,7 +121,14 @@
     self.instagramController = [SBInstagramController instagramControllerWithMainViewController:self];
     self.instagramController.isSearchByTag = self.isSearchByTag;
     self.instagramController.searchTag = self.searchTag;
-//    [self downloadNext];
+ 
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"instagramId"] != nil &&
+        [[[NSUserDefaults standardUserDefaults] objectForKey:@"instagramId"] count] == 1) {
+        
+        [self downloadNext];
+    }else{
+        
+    }
     
     self.collectionView.alwaysBounceVertical = YES;
     self.collectionView.backgroundColor = [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"backgroundColor"] objectForKey:@"red"] floatValue] / 255
@@ -198,7 +205,7 @@
                     NSLog(@"downld next insta id : %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"instagramId"]);
                     NSLog(@"error: %@", error.userInfo);
                     
-                    SB_showAlert(@"Instagram", @"No results found", @"OK");
+//                    SB_showAlert(@"Instagram", @"No results found", @"OK");
                     [weakSelf.activityIndicator stopAnimating];
                 }else{
                     [weakSelf.mediaArray addObjectsFromArray:mediaArray];
@@ -220,7 +227,7 @@
                     [refreshControl_ endRefreshing];
                 }
                 if (error || mediaArray.count == 0) {
-                    SB_showAlert(@"Instagram", @"No results found", @"OK");
+//                    SB_showAlert(@"Instagram", @"No results found", @"OK");
                     [weakSelf.activityIndicator stopAnimating];
                 }else{
                     [weakSelf.mediaArray addObjectsFromArray:mediaArray];

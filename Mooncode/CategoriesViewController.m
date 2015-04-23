@@ -25,6 +25,8 @@
 #import "FCFileManager.h"
 #import "AppDelegate.h"
 
+#import "Store.h"
+
 @interface CategoriesViewController ()
 
 @property (strong, nonatomic) UICollectionView *collectionView;
@@ -135,152 +137,8 @@
 
 }
 
--(void) fetchSettingsFromServer{
-    
-    NSString *urlForFiles = @"https://mooncode.herokuapp.com/shopify_merchant/settings";
-    NSString *version = @"0";
-    NSString *password = @"sanfrancisco";
-    NSString *shopName = [[NSUserDefaults standardUserDefaults] objectForKey:@"shopName"];
-    NSString *shopType = [[NSUserDefaults standardUserDefaults] objectForKey:@"shopType"];
-    NSString *pathMainBundle = [[FCFileManager pathForDocumentsDirectory] stringByAppendingString:@"/"];
-    pathMainBundle = @"";
-    NSString *UDID = [[[UIDevice currentDevice] identifierForVendor] UUIDString]; //save it for analytics
-    
-    
-    NSString *parametersSettings = [NSString stringWithFormat:@"udid=%@&shopName=%@&shopType=%@&password=%@&version=%@&resourcesPath=%@&memoryPath=", UDID, shopName, shopType, password, version, pathMainBundle];
-    
-    NSLog(@"param view : %@", parametersSettings);
-    [self test_POST_withUrl:urlForFiles andParameters:parametersSettings withPassword:password callback:^(NSDictionary *settings, NSError*error) {
-        
-        if (!error) {
-            
-            NSString *shopify_token = (NSString*)settings[@"shopify_token"];
-            NSString *twitter = (NSString*)settings[@"twitter"];
-            NSString *instagram = [settings[@"instagram_id"] stringValue];
-            
-            if (shopify_token){
-                token = shopify_token;
-            }
-            if (twitter) {
-                twitter = [twitter stringByReplacingOccurrencesOfString:@"@" withString:@""];
-                [[NSUserDefaults standardUserDefaults] setObject:twitter forKey:@"twitterName"];
-            }
-            
-            if (instagram && instagram.length != 0) {
-                NSLog(@"instagram : %@", instagram);
-
-                if ( ! [[[NSUserDefaults standardUserDefaults] arrayForKey:@"instagramId"].firstObject isEqualToString:instagram]) {
-                    
-                    NSLog(@"update the instagram token !");
-                    
-                    [[NSUserDefaults standardUserDefaults] setObject:@[[NSString stringWithFormat:@"%@",(NSString*)instagram]] forKey:@"instagramId"];
-                    [[NSUserDefaults standardUserDefaults] synchronize];
-                    
-                }
-                
-               
-                
-            }
-        
-            //colors
-            
-            
-            
-            NSDictionary *dicColorMatching = @{@"primary":@[@"colorButtons",@"colorLabelCollections"],
-                                                @"secondary":@[@"colorNavBar",@"colorSettingsView"],
-                                                @"transparency":@[@"colorViewTitleCollection"]
-                                           };
-            
-            NSDictionary *colorsFromServer = settings[@"colors"];
-
-            
-            
-            [dicColorMatching enumerateKeysAndObjectsUsingBlock:^(NSString *colorNameServer, NSArray *colorsNamesUserDef, BOOL *stop) {
-         
-                
-
-                
-                NSDictionary *dicColorTranslated = @{
-                                                     @"red" : @([colorsFromServer[colorNameServer][@"r"] integerValue]),
-                                                     @"green" : @([colorsFromServer[colorNameServer][@"g"] integerValue]),
-                                                     @"blue" : @([colorsFromServer[colorNameServer][@"b"] integerValue]),
-                                                     @"alpha" : @([colorsFromServer[colorNameServer][@"a"] floatValue]),
-                                                     };
-                
-                NSLog(@"dic translated for %@ : %@", colorNameServer, [dicColorTranslated description]);
-                
-                for (NSString *colorNameUserDef in colorsNamesUserDef) {
-                    
-                    [[NSUserDefaults standardUserDefaults] setObject:dicColorTranslated forKey:colorNameUserDef];
-                }
-                
-
-            }];
-            
-            [[NSUserDefaults standardUserDefaults] synchronize];
-
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"updatePhoneSettings" object:nil];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"instagramTokenChanged" object:nil]; //observed in scrollViewController
-            
-            
-            
-            
-            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
-                [self makeRequestForPage_productsOnly:1];
-            }else{
-                [self makeRequestForPage:1];
-            }
-            
-        }else{
-            if ([dicCollections count] == 0) {
-                self.activityLoading.hidden = YES;
-                self.labelLoading.text = @"No Internet connection detected.";
-                self.buttonReload.hidden = NO;
-                self.loading = NO;
-            }
-        }
-    }];
-}
-
--(void) test_POST_withUrl:(NSString*)url  andParameters:(NSString*)parameters withPassword:(NSString*)password callback:(void (^)(NSDictionary*fileContent, NSError*error))giveFileContent{
-    
-    NSData *postData = [parameters dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:url]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
-    [request setHTTPBody:postData];
-    
-    
-    [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
-        
-        if (!error){
-            //added
-//            NSString* contentStringFile = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            NSDictionary* settings = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-
-            NSLog(@"content of file test : %@", settings);
-            
-            if (settings != nil) {
-                giveFileContent(settings,nil);
-            }
-
-            
-        }else{
-        
-            giveFileContent(nil, error);
-        }
-    }];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
-
-    
     
     count_imagesToBeDownloaded = 0;
     
@@ -361,7 +219,35 @@
             }
          
 //             [self getTokenAndStartDownloadStoreContent];
-            [self fetchSettingsFromServer];
+//            [self fetchSettingsFromServer];
+           
+            [Store fetchSettingsFromServer:^(NSString *updatedToken, NSError *error) {
+                
+                NSLog(@"error settings fetched: %@", error);
+                token = updatedToken;
+                
+                if (!error) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        NSLog(@"reload !!!!!");
+                        [self.collectionView reloadData];
+                    });
+                    
+                    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
+                        [self makeRequestForPage_productsOnly:1];
+                    }else{
+                        [self makeRequestForPage:1];
+                    }
+                }
+                else{
+                    if ([dicCollections count] == 0) {
+                        self.activityLoading.hidden = YES;
+                        self.labelLoading.text = @"No Internet connection detected.";
+                        self.buttonReload.hidden = NO;
+                        self.loading = NO;
+                    }
+                }
+                    
+            }];
             
         }
         
@@ -381,52 +267,6 @@
         [self addSkipBackupAttributeToItemAtURL:pathURLUserDef];
     });
 }
-
--(void) getTokenAndStartDownloadStoreContent{
-    
-    NSString *shopifyUrl = [website_string stringByReplacingOccurrencesOfString:@"https://" withString:@""];
-    
-    NSString *url = @"https://mooncode.herokuapp.com/shopify_merchant/token";
-    NSString *parameters = [NSString stringWithFormat:@"shopType=shopify&version=0&password=sanfrancisco&shopName=%@", shopifyUrl];
-    NSLog(@"parameters : %@", parameters);
-    
-    NSData *postData = [parameters dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:url]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
-    [request setHTTPBody:postData];
-    
-    
-    [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
-        
-        if (!error){
-            
-            NSDictionary* responseServer = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-            token = responseServer[@"shopify_token"];
-            NSLog(@"response sevrer token : %@", [responseServer description]);
-            
-            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
-                [self makeRequestForPage_productsOnly:1];
-            }else{
-                [self makeRequestForPage:1];
-            }
-            
-        }else{
-            
-            if ([dicCollections count] == 0) {
-                self.activityLoading.hidden = YES;
-                self.labelLoading.text = @"No Internet connection detected.";
-                self.buttonReload.hidden = NO;
-                self.loading = NO;
-            }
-            
-        }
-    }];
-}
-
 
 - (void)refreshTable {
     
@@ -458,7 +298,30 @@
         }
         
 //        [self getTokenAndStartDownloadStoreContent];
-        [self fetchSettingsFromServer];
+//        [self fetchSettingsFromServer];
+        [Store fetchSettingsFromServer:^(NSString *tokenUdated, NSError *error) {
+            
+            if (!error) {
+                
+                
+                token = tokenUdated;
+                [self.collectionView reloadData];
+                if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
+                    [self makeRequestForPage_productsOnly:1];
+                }else{
+                    [self makeRequestForPage:1];
+                }
+            }
+            else{
+                if ([dicCollections count] == 0) {
+                    self.activityLoading.hidden = YES;
+                    self.labelLoading.text = @"No Internet connection detected.";
+                    self.buttonReload.hidden = NO;
+                    self.loading = NO;
+                }
+            }
+            
+        }];
         
     }else{
         //NSLog(@"being downloaded");
@@ -1177,7 +1040,28 @@
     self.buttonReload.hidden = YES;
     self.labelLoading.text = @"Thank you for downloading our App!\n \nNow downloading the content, it should take less than a minute and only happen once. \n \nMake sure you are connected to the Internet !";
     [self showLoading];
-    [self makeRequestForPage:1];
+  
+    [Store fetchSettingsFromServer:^(NSString *tokenUdated, NSError *error) {
+        if (!error) {
+            
+            token = tokenUdated;
+            [self.collectionView reloadData];
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
+                [self makeRequestForPage_productsOnly:1];
+            }else{
+                [self makeRequestForPage:1];
+            }
+        }
+        else{
+            if ([dicCollections count] == 0) {
+                self.activityLoading.hidden = YES;
+                self.labelLoading.text = @"No Internet connection detected.";
+                self.buttonReload.hidden = NO;
+                self.loading = NO;
+            }
+        }
+        
+    }];
 }
 
 #pragma mark collection View delegate
@@ -1224,6 +1108,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
+    NSLog(@"cell created ");
     
     CHTCollectionViewWaterfallCell *cell =
     (CHTCollectionViewWaterfallCell *)[collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER
@@ -1271,6 +1156,13 @@
         @finally {
             
         }
+        
+        UIColor *color = [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"red"] floatValue] / 255
+                                         green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"green"] floatValue] / 255
+                                          blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"blue"] floatValue] / 255
+                                         alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"alpha"] floatValue]];
+        NSLog(@"color for background cell : %@", color.description);
+        cell.viewWhite.backgroundColor = color;
         
         if (cell.viewWhite.hidden) {
             cell.viewWhite.hidden = NO;
