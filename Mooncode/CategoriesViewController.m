@@ -1108,7 +1108,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSLog(@"cell created ");
+//    NSLog(@"cell created ");
     
     CHTCollectionViewWaterfallCell *cell =
     (CHTCollectionViewWaterfallCell *)[collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER
@@ -1161,7 +1161,7 @@
                                          green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"green"] floatValue] / 255
                                           blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"blue"] floatValue] / 255
                                          alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"alpha"] floatValue]];
-        NSLog(@"color for background cell : %@", color.description);
+//        NSLog(@"color for background cell : %@", color.description);
         cell.viewWhite.backgroundColor = color;
         
         if (cell.viewWhite.hidden) {
