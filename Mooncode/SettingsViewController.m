@@ -40,14 +40,26 @@
     if ([[UIDevice currentDevice].model hasPrefix:@"iPad"]) {
         self.constraint_delta_middleView.constant = 150;
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateColors)
+                                                 name:@"updatePhoneSettings"
+                                               object:nil];
 
-    self.view.backgroundColor =
-    [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorSettingsView"] objectForKey:@"red"] floatValue] / 255
-                    green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorSettingsView"] objectForKey:@"green"] floatValue] / 255
-                     blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorSettingsView"] objectForKey:@"blue"] floatValue] / 255
-                    alpha:1];
+    [self updateColors];
     
     self.LabelVersion.text = [[[NSString stringWithFormat:@"Version %@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]] componentsSeparatedByString:@" "] objectAtIndex:1];
+
+}
+
+-(void)updateColors{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.view.backgroundColor =
+        [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorSettingsView"] objectForKey:@"red"] floatValue] / 255
+                        green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorSettingsView"] objectForKey:@"green"] floatValue] / 255
+                         blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorSettingsView"] objectForKey:@"blue"] floatValue] / 255
+                        alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorSettingsView"] objectForKey:@"alpha"] floatValue]];
+    });
 
 }
 

@@ -73,6 +73,7 @@
 		AA3DFA3C19EE3D1B003F4920 /* ProximaNova-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = AA3DFA3919EE3D1B003F4920 /* ProximaNova-Bold.otf */; };
 		AA3DFA3D19EE3D1B003F4920 /* ProximaNova-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = AA3DFA3A19EE3D1B003F4920 /* ProximaNova-Regular.otf */; };
 		AA3DFA3E19EE3D1B003F4920 /* ProximaNova-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = AA3DFA3B19EE3D1B003F4920 /* ProximaNova-Semibold.otf */; };
+		AA481F2E1AE980D1008EE781 /* Store.m in Sources */ = {isa = PBXBuildFile; fileRef = AA481F2D1AE980D1008EE781 /* Store.m */; };
 		AA6390D41A385DD1008462BF /* ImageManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6390D31A385DD1008462BF /* ImageManagement.m */; };
 		AA6390DB1A38670C008462BF /* NSString+URL_Shopify.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6390DA1A38670C008462BF /* NSString+URL_Shopify.m */; };
 		AA6390DE1A38880B008462BF /* SocialMedias.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6390DD1A38880B008462BF /* SocialMedias.m */; };
@@ -115,6 +116,7 @@
 		AABE085719F1ACCD009AF8D1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABE085619F1ACCD009AF8D1 /* SystemConfiguration.framework */; };
 		AAC89DDA1A375D8F00D33C36 /* LaunchImage.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC89DD91A375D8F00D33C36 /* LaunchImage.m */; };
 		AAD654CA1A894B94007EDE85 /* libFlurry_6.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAD654C91A894B94007EDE85 /* libFlurry_6.0.0.a */; };
+		AAF1838B1AE6E74A00A44A35 /* FCFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF1838A1AE6E74A00A44A35 /* FCFileManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -244,6 +246,8 @@
 		AA3DFA3919EE3D1B003F4920 /* ProximaNova-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Bold.otf"; sourceTree = "<group>"; };
 		AA3DFA3A19EE3D1B003F4920 /* ProximaNova-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Regular.otf"; sourceTree = "<group>"; };
 		AA3DFA3B19EE3D1B003F4920 /* ProximaNova-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Semibold.otf"; sourceTree = "<group>"; };
+		AA481F2C1AE980D1008EE781 /* Store.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Store.h; sourceTree = "<group>"; };
+		AA481F2D1AE980D1008EE781 /* Store.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Store.m; sourceTree = "<group>"; };
 		AA6390D21A385DD1008462BF /* ImageManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageManagement.h; sourceTree = "<group>"; };
 		AA6390D31A385DD1008462BF /* ImageManagement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageManagement.m; sourceTree = "<group>"; };
 		AA6390D91A38670C008462BF /* NSString+URL_Shopify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+URL_Shopify.h"; path = "../NSString+URL_Shopify.h"; sourceTree = "<group>"; };
@@ -310,6 +314,8 @@
 		AAC89DD91A375D8F00D33C36 /* LaunchImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchImage.m; sourceTree = "<group>"; };
 		AAD654C81A894B94007EDE85 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
 		AAD654C91A894B94007EDE85 /* libFlurry_6.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_6.0.0.a; sourceTree = "<group>"; };
+		AAF183891AE6E74A00A44A35 /* FCFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCFileManager.h; sourceTree = "<group>"; };
+		AAF1838A1AE6E74A00A44A35 /* FCFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCFileManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -575,6 +581,7 @@
 			isa = PBXGroup;
 			children = (
 				AAAD43A71A61844100B8AB56 /* Localizable.strings */,
+				AAF183881AE6E74A00A44A35 /* FCFileManager */,
 				AAD654C71A894B94007EDE85 /* Flurry */,
 				AA2EB32C1A693B6600AEA228 /* SBInstagram */,
 				AA2EB2F31A693AF900AEA228 /* AFNetworking */,
@@ -635,6 +642,8 @@
 				AA72E00B1A6439F5000D90FA /* Images.xcassets */,
 				AA930A4719E9F00E0084A250 /* AppDelegate.h */,
 				AA930A4819E9F00E0084A250 /* AppDelegate.m */,
+				AA481F2C1AE980D1008EE781 /* Store.h */,
+				AA481F2D1AE980D1008EE781 /* Store.m */,
 				AA3DFA3919EE3D1B003F4920 /* ProximaNova-Bold.otf */,
 				AA3DFA3A19EE3D1B003F4920 /* ProximaNova-Regular.otf */,
 				AA3DFA3B19EE3D1B003F4920 /* ProximaNova-Semibold.otf */,
@@ -695,6 +704,15 @@
 				AAD654C91A894B94007EDE85 /* libFlurry_6.0.0.a */,
 			);
 			path = Flurry;
+			sourceTree = "<group>";
+		};
+		AAF183881AE6E74A00A44A35 /* FCFileManager */ = {
+			isa = PBXGroup;
+			children = (
+				AAF183891AE6E74A00A44A35 /* FCFileManager.h */,
+				AAF1838A1AE6E74A00A44A35 /* FCFileManager.m */,
+			);
+			path = FCFileManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -830,6 +848,7 @@
 				AA85EF4119FCCA4C00C06F60 /* CHTCollectionViewWaterfallLayout.m in Sources */,
 				AAA1C34819EF460800C257FE /* ScrollViewController.m in Sources */,
 				AA2EB3321A693BB600AEA228 /* IKLoginViewController.m in Sources */,
+				AA481F2E1AE980D1008EE781 /* Store.m in Sources */,
 				AA7EFFCD19ED051400CB3A2B /* SettingsViewController.m in Sources */,
 				AA2EB3271A693B4600AEA228 /* SBInstagramMediaEntity.m in Sources */,
 				AA9F65111A0099A300242FBA /* CategoryProductsViewController.m in Sources */,
@@ -865,6 +884,7 @@
 				AA2EB3211A693B4600AEA228 /* SBInstagramCollectionViewController.m in Sources */,
 				AA13FD5E1A05BB4600696FE1 /* GTMNSString+HTML.m in Sources */,
 				AA2EB2E31A693ADD00AEA228 /* AFHTTPRequestOperationManager.m in Sources */,
+				AAF1838B1AE6E74A00A44A35 /* FCFileManager.m in Sources */,
 				AAAD436F1A60706900B8AB56 /* NSUserDefaultsMethods.m in Sources */,
 				AA2EB2E81A693ADD00AEA228 /* AFURLRequestSerialization.m in Sources */,
 				AA96651119FCBB2F0008ED03 /* CartViewController.m in Sources */,

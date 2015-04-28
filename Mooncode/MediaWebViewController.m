@@ -10,6 +10,7 @@
 
 @interface MediaWebViewController ()
 @property (strong, nonatomic) IBOutlet UIView *ViewNavBar;
+@property (strong, nonatomic) IBOutlet UINavigationBar *navBar;
 @end
 
 @implementation MediaWebViewController
@@ -21,14 +22,24 @@
     self.webView.delegate = self;
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.urlForMedia]]]];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateColors)
+                                                 name:@"updatePhoneSettings"
+                                               object:nil];
+    
+    [self updateColors];
+    
+    [self.activity startAnimating];
+    self.activity.color = self.ViewNavBar.backgroundColor;
+}
+
+-(void)updateColors{
     self.ViewNavBar.backgroundColor =
     [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"red"] floatValue] / 255
                     green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"green"] floatValue] / 255
                      blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"blue"] floatValue] / 255
-                    alpha:1];
-    
-    [self.activity startAnimating];
-    self.activity.color = self.ViewNavBar.backgroundColor;
+                    alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"alpha"] floatValue] ];
+    self.navBar.tintColor = self.ViewNavBar.backgroundColor;
 }
 
 - (IBAction)back:(id)sender {

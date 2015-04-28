@@ -22,6 +22,10 @@
 #import "ShopifyImages.h"
 
 #import "NSUserDefaultsMethods.h"
+#import "FCFileManager.h"
+#import "AppDelegate.h"
+
+#import "Store.h"
 
 @interface CategoriesViewController ()
 
@@ -44,6 +48,7 @@
 @property (nonatomic) __block BOOL loading;
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *navBarButtonLeft;
+@property (strong, nonatomic) IBOutlet UINavigationBar *navBar;
 
 @end
 
@@ -98,21 +103,38 @@
     
     [self.collectionView reloadData];
     
-    self.ViewNavBar.backgroundColor =
-    [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"red"] floatValue] / 255
-                    green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"green"] floatValue] / 255
-                     blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"blue"] floatValue] / 255
-                    alpha:1];
+    [self updateColors];
+
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isInstagramIntegrated"] == YES) {
         self.navBarButtonLeft.image = [UIImage imageNamed:@"icon-instagram"];
     }
     
     self.viewForLabel.layer.cornerRadius = 5;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateColors)
+                                                 name:@"updatePhoneSettings"
+                                               object:nil];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+-(void)updateColors{
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        self.ViewNavBar.backgroundColor =
+        [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"red"] floatValue] / 255
+                        green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"green"] floatValue] / 255
+                         blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"blue"] floatValue] / 255
+                        alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"alpha"] floatValue]];
+        [self.navBar setBarTintColor: self.ViewNavBar.backgroundColor];
+        
+        
+        [AppDelegate setAppearance];
+        
+        [self.collectionView reloadData];
+    });
+
 }
 
 - (void)viewDidLoad {
@@ -146,8 +168,6 @@
         dicCollections = [[NSMutableDictionary alloc] init];
         
         website_string = [[NSUserDefaults standardUserDefaults] stringForKey:@"website_url"];
-        token = [[NSUserDefaults standardUserDefaults] stringForKey:@"shopify_token"];
-        
 
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
             
@@ -198,7 +218,36 @@
                 [self showLoading];
             }
          
-             [self getTokenAndStartDownloadStoreContent];
+//             [self getTokenAndStartDownloadStoreContent];
+//            [self fetchSettingsFromServer];
+           
+            [Store fetchSettingsFromServer:^(NSString *updatedToken, NSError *error) {
+                
+                NSLog(@"error settings fetched: %@", error);
+                token = updatedToken;
+                
+                if (!error) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        NSLog(@"reload !!!!!");
+                        [self.collectionView reloadData];
+                    });
+                    
+                    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
+                        [self makeRequestForPage_productsOnly:1];
+                    }else{
+                        [self makeRequestForPage:1];
+                    }
+                }
+                else{
+                    if ([dicCollections count] == 0) {
+                        self.activityLoading.hidden = YES;
+                        self.labelLoading.text = @"No Internet connection detected.";
+                        self.buttonReload.hidden = NO;
+                        self.loading = NO;
+                    }
+                }
+                    
+            }];
             
         }
         
@@ -218,52 +267,6 @@
         [self addSkipBackupAttributeToItemAtURL:pathURLUserDef];
     });
 }
-
--(void) getTokenAndStartDownloadStoreContent{
-    
-    NSString *shopifyUrl = [website_string stringByReplacingOccurrencesOfString:@"https://" withString:@""];
-    
-    NSString *url = @"https://mooncode.herokuapp.com/shopify_merchant/token";
-    NSString *parameters = [NSString stringWithFormat:@"shopType=shopify&version=0&password=sanfrancisco&shopName=%@", shopifyUrl];
-    NSLog(@"parameters : %@", parameters);
-    
-    NSData *postData = [parameters dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:url]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
-    [request setHTTPBody:postData];
-    
-    
-    [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
-        
-        if (!error){
-            
-            NSDictionary* responseServer = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-            token = responseServer[@"shopify_token"];
-            NSLog(@"response sevrer token : %@", [responseServer description]);
-            
-            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
-                [self makeRequestForPage_productsOnly:1];
-            }else{
-                [self makeRequestForPage:1];
-            }
-            
-        }else{
-            
-            if ([dicCollections count] == 0) {
-                self.activityLoading.hidden = YES;
-                self.labelLoading.text = @"No Internet connection detected.";
-                self.buttonReload.hidden = NO;
-                self.loading = NO;
-            }
-            
-        }
-    }];
-}
-
 
 - (void)refreshTable {
     
@@ -294,7 +297,31 @@
             array_Updated_Products = [NSMutableArray new];
         }
         
-        [self getTokenAndStartDownloadStoreContent];
+//        [self getTokenAndStartDownloadStoreContent];
+//        [self fetchSettingsFromServer];
+        [Store fetchSettingsFromServer:^(NSString *tokenUdated, NSError *error) {
+            
+            if (!error) {
+                
+                
+                token = tokenUdated;
+                [self.collectionView reloadData];
+                if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
+                    [self makeRequestForPage_productsOnly:1];
+                }else{
+                    [self makeRequestForPage:1];
+                }
+            }
+            else{
+                if ([dicCollections count] == 0) {
+                    self.activityLoading.hidden = YES;
+                    self.labelLoading.text = @"No Internet connection detected.";
+                    self.buttonReload.hidden = NO;
+                    self.loading = NO;
+                }
+            }
+            
+        }];
         
     }else{
         //NSLog(@"being downloaded");
@@ -1013,7 +1040,28 @@
     self.buttonReload.hidden = YES;
     self.labelLoading.text = @"Thank you for downloading our App!\n \nNow downloading the content, it should take less than a minute and only happen once. \n \nMake sure you are connected to the Internet !";
     [self showLoading];
-    [self makeRequestForPage:1];
+  
+    [Store fetchSettingsFromServer:^(NSString *tokenUdated, NSError *error) {
+        if (!error) {
+            
+            token = tokenUdated;
+            [self.collectionView reloadData];
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
+                [self makeRequestForPage_productsOnly:1];
+            }else{
+                [self makeRequestForPage:1];
+            }
+        }
+        else{
+            if ([dicCollections count] == 0) {
+                self.activityLoading.hidden = YES;
+                self.labelLoading.text = @"No Internet connection detected.";
+                self.buttonReload.hidden = NO;
+                self.loading = NO;
+            }
+        }
+        
+    }];
 }
 
 #pragma mark collection View delegate
@@ -1060,7 +1108,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    //NSLog(@"Cell");
+//    NSLog(@"cell created ");
     
     CHTCollectionViewWaterfallCell *cell =
     (CHTCollectionViewWaterfallCell *)[collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER
@@ -1108,6 +1156,13 @@
         @finally {
             
         }
+        
+        UIColor *color = [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"red"] floatValue] / 255
+                                         green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"green"] floatValue] / 255
+                                          blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"blue"] floatValue] / 255
+                                         alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"alpha"] floatValue]];
+//        NSLog(@"color for background cell : %@", color.description);
+        cell.viewWhite.backgroundColor = color;
         
         if (cell.viewWhite.hidden) {
             cell.viewWhite.hidden = NO;

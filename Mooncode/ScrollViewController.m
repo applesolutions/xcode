@@ -22,6 +22,7 @@
 @property (strong,nonatomic) UINavigationController *vc0;
 @property (strong,nonatomic) SettingsViewController *VCsettings;
 @property (strong,nonatomic) NavControllerViewController *vc1;
+@property (strong, nonatomic) SBInstagramController *instagram;
 
 @end
 
@@ -44,7 +45,7 @@
     
 
     
-    SBInstagramController *instagram = [SBInstagramController instagram];
+    self.instagram = [SBInstagramController instagram];
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isInstagramIntegrated"] == YES) {
         
@@ -53,13 +54,13 @@
         // WARNING : IF WE CHANGE THE KEYS HERE, ALSO CHANGE THE KEYS IN THE "InstagramKit" PLIST FILE !!!
         
         //setting up, data were taken from instagram app setting (www.instagram.com/developer)
-        instagram.instagramRedirectUri = @"http://www.moonco.de";
-        instagram.instagramClientSecret = @"056cacccca974d41a48001ba8cf619ee";
-        instagram.instagramClientId = @"b5f5835cc8d04a5489a81df5c0654ca4";
-        instagram.instagramDefaultAccessToken = @"1599947575.b5f5835.7379d52a27584ae78479ae466a2c368b";
-        //    instagram.instagramUserId = @"447214845";
+        self.instagram.instagramRedirectUri = @"http://www.moonco.de";
+        self.instagram.instagramClientSecret = @"056cacccca974d41a48001ba8cf619ee";
+        self.instagram.instagramClientId = @"b5f5835cc8d04a5489a81df5c0654ca4";
+        self.instagram.instagramDefaultAccessToken = @"1599947575.b5f5835.7379d52a27584ae78479ae466a2c368b";
+//            instagram.instagramUserId = @"447214845";
 //        instagram.instagramMultipleUsersId = @[@"447214845"];
-        instagram.instagramMultipleUsersId = [[NSUserDefaults standardUserDefaults] objectForKey:@"instagramId"];
+        self.instagram.instagramMultipleUsersId = [[NSUserDefaults standardUserDefaults] objectForKey:@"instagramId"];
         
         //    instagram.instagramMultipleTags = @[@"sea",@"ground",@"fire"];
         
@@ -67,19 +68,23 @@
         //    instagram.isSearchByTag = YES; //if you want serach by tag
         //    instagram.searchTag = @"colombia"; //search by tag query
         
-        instagram.showOnePicturePerRow = YES; //to change way to show the feed, one picture per row(default = NO)
-        instagram.showSwitchModeView = NO; //show a segment controller with view option
+        self.instagram.showOnePicturePerRow = YES; //to change way to show the feed, one picture per row(default = NO)
+        self.instagram.showSwitchModeView = NO; //show a segment controller with view option
         
-        instagram.loadingImageName = @"SBInstagramLoading"; //config a custom loading image
-        instagram.videoPlayImageName = @"SBInsta_play";
-        instagram.videoPauseImageName = @"SBInsta_pause";
+        self.instagram.loadingImageName = @"SBInstagramLoading"; //config a custom loading image
+        self.instagram.videoPlayImageName = @"SBInsta_play";
+        self.instagram.videoPauseImageName = @"SBInsta_pause";
         //    instagram.playStandardResolution = YES; //if you want play a regular resuluton, low resolution per default
         
-        [instagram refreshCollection]; //refresh instagram feed
+        [self.instagram refreshCollection]; //refresh instagram feed
         
         //*******************************************************************************************************
     }
-    
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(instagramTokenChanged)
+                                                 name:@"instagramTokenChanged"
+                                               object:nil];
     
     
     UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"Storyboard_autolayout"
@@ -98,7 +103,7 @@
     //VIEW INSTAGRAM
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isInstagramIntegrated"] == YES) {
         
-        UINavigationController *navInstagram = [[UINavigationController alloc] initWithRootViewController:instagram.feed];
+        UINavigationController *navInstagram = [[UINavigationController alloc] initWithRootViewController:self.instagram.feed];
         self.vc0 = navInstagram;
         
         [self addChildViewController:self.vc0];
@@ -319,6 +324,11 @@
     NSLog(@"alllllo");
     self.scrollView.scrollEnabled = NO;
     self.scrollView.pagingEnabled = NO;
+}
+
+-(void)instagramTokenChanged{
+    self.instagram.instagramMultipleUsersId = [[NSUserDefaults standardUserDefaults] objectForKey:@"instagramId"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"updateInstagramFeed" object:nil];
 }
 
 @end

@@ -95,7 +95,14 @@
     itemSettings.tintColor = [UIColor whiteColor];
     [self.navigationItem setLeftBarButtonItem:itemSettings animated:YES];
     
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateColors)
+                                                 name:@"updatePhoneSettings"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(downloadNext)
+                                                 name:@"updateInstagramFeed"
+                                               object:nil];
     
     
     self.downloading = YES;
@@ -114,7 +121,14 @@
     self.instagramController = [SBInstagramController instagramControllerWithMainViewController:self];
     self.instagramController.isSearchByTag = self.isSearchByTag;
     self.instagramController.searchTag = self.searchTag;
-    [self downloadNext];
+ 
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"instagramId"] != nil &&
+        [[[NSUserDefaults standardUserDefaults] objectForKey:@"instagramId"] count] == 1) {
+        
+        [self downloadNext];
+    }else{
+        
+    }
     
     self.collectionView.alwaysBounceVertical = YES;
     self.collectionView.backgroundColor = [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"backgroundColor"] objectForKey:@"red"] floatValue] / 255
@@ -127,9 +141,22 @@
     
     loaded_ = YES;
     
-    //    [self showSwitch];
+        [self showSwitch];
     
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:nil];
+}
+
+-(void)updateColors{
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"red"] floatValue] / 255
+                                                                                green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"green"] floatValue] / 255
+                                                                                 blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"blue"] floatValue] / 255
+                                                                                 alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"alpha"] floatValue]]];
+        
+    });
+    
 }
 
 
@@ -149,6 +176,7 @@
 }
 
 - (void) refreshCollection{
+    NSLog(@"insta id : %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"instagramId"]);
     [self refreshCollection:nil];
 }
 
@@ -173,7 +201,11 @@
                     [refreshControl_ endRefreshing];
                 }
                 if (mediaArray.count == 0 && error) {
-                    SB_showAlert(@"Instagram", @"No results found", @"OK");
+                    
+                    NSLog(@"downld next insta id : %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"instagramId"]);
+                    NSLog(@"error: %@", error.userInfo);
+                    
+//                    SB_showAlert(@"Instagram", @"No results found", @"OK");
                     [weakSelf.activityIndicator stopAnimating];
                 }else{
                     [weakSelf.mediaArray addObjectsFromArray:mediaArray];
@@ -195,7 +227,7 @@
                     [refreshControl_ endRefreshing];
                 }
                 if (error || mediaArray.count == 0) {
-                    SB_showAlert(@"Instagram", @"No results found", @"OK");
+//                    SB_showAlert(@"Instagram", @"No results found", @"OK");
                     [weakSelf.activityIndicator stopAnimating];
                 }else{
                     [weakSelf.mediaArray addObjectsFromArray:mediaArray];
