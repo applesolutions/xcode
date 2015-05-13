@@ -179,6 +179,7 @@
                 [self hideLoading];
             }else{
                 arrayProducts = [NSMutableArray new];
+                [self showLoading];
             }
             
         }else{
@@ -220,7 +221,9 @@
          
 //             [self getTokenAndStartDownloadStoreContent];
 //            [self fetchSettingsFromServer];
-           
+            
+        }
+        
             [Store fetchSettingsFromServer:^(NSString *updatedToken, NSError *error) {
                 
                 NSLog(@"error settings fetched: %@", error);
@@ -249,7 +252,7 @@
                     
             }];
             
-        }
+        
         
         
     });
