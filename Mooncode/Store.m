@@ -25,7 +25,7 @@
     
     NSString *parametersSettings = [NSString stringWithFormat:@"udid=%@&shopName=%@&shopType=%@&password=%@&version=%@&resourcesPath=%@&memoryPath=", UDID, shopName, shopType, password, version, pathMainBundle];
     
-    NSLog(@"param view : %@", parametersSettings);
+//    NSLog(@"param view : %@", parametersSettings);
     [self test_POST_withUrl:urlForFiles andParameters:parametersSettings withPassword:password callback:^(NSDictionary *settings, NSError*error) {
         
         if (!error) {
@@ -45,7 +45,7 @@
                 
                 if ( ! [[[NSUserDefaults standardUserDefaults] arrayForKey:@"instagramId"].firstObject isEqualToString:instagram]) {
                     
-                    NSLog(@"update the instagram token !");
+//                    NSLog(@"update the instagram token !");
                     
                     [[NSUserDefaults standardUserDefaults] setObject:@[[NSString stringWithFormat:@"%@",(NSString*)instagram]] forKey:@"instagramId"];
                     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -71,7 +71,7 @@
                                                      @"alpha" : @([colorsFromServer[colorNameServer][@"a"] floatValue]),
                                                      };
                 
-                NSLog(@"dic translated for %@ : %@", colorNameServer, [dicColorTranslated description]);
+//                NSLog(@"dic translated for %@ : %@", colorNameServer, [dicColorTranslated description]);
                 
                 for (NSString *colorNameUserDef in colorsNamesUserDef) {
                     
@@ -85,21 +85,8 @@
             
             callback(shopify_token, nil);
             
-            
-//            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
-//                [self makeRequestForPage_productsOnly:1];
-//            }else{
-//                [self makeRequestForPage:1];
-//            }
-            
         }else{
             callback(nil, [NSError errorWithDomain:@"error" code:100 userInfo:nil]);
-//            if ([dicCollections count] == 0) {
-//                self.activityLoading.hidden = YES;
-//                self.labelLoading.text = @"No Internet connection detected.";
-//                self.buttonReload.hidden = NO;
-//                self.loading = NO;
-//            }
         }
     }];
 }
@@ -123,8 +110,7 @@
             //            NSString* contentStringFile = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
             NSDictionary* settings = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
             
-            NSLog(@"content of file test : %@", settings);
-            NSLog(@"class : %@", [settings class]);
+//            NSLog(@"content of file test : %@", settings);
             
             if (settings != (id)[NSNull null]) {
                 giveFileContent(settings,nil);

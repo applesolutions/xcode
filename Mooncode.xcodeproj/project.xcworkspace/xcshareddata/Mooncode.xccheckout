@@ -7,22 +7,18 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>58CE8B72-0F9F-4451-A333-C4E5B16AD23A</string>
 	<key>IDESourceControlProjectName</key>
-	<string>Mooncode</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>40546824F994A369EEC0EEBC6E09891E08A57945</key>
 		<string>https://github.com/jcgasche/mooncode-app.git</string>
-		<key>B9F4A4EC3D972D370D9B32537B24439DF3B30E1A</key>
-		<string>https://github.com/DreamforceHackathon/repository-208.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Mooncode.xcodeproj</string>
+	<string>Mooncode.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>40546824F994A369EEC0EEBC6E09891E08A57945</key>
 		<string>../..</string>
-		<key>B9F4A4EC3D972D370D9B32537B24439DF3B30E1A</key>
-		<string>../../../App_Mooncode_v4.1(autolayout%20+%20model)</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/jcgasche/mooncode-app.git</string>
@@ -32,14 +28,6 @@
 	<string>40546824F994A369EEC0EEBC6E09891E08A57945</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
-		<dict>
-			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.git</string>
-			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>B9F4A4EC3D972D370D9B32537B24439DF3B30E1A</string>
-			<key>IDESourceControlWCCName</key>
-			<string>App_Mooncode_v4.1(autolayout%20+%20model)</string>
-		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
