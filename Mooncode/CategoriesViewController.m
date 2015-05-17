@@ -82,8 +82,6 @@
     
     __block int count_collectionsToDownload;
     __block int count_imagesToBeDownloaded;
-    
-    __block NSMutableArray *arrayIdsToBeDownloaded_checkForMissingImages; //array to remember the images to downlaod
 }
 
 #pragma mark ViewLifeCycle
@@ -217,8 +215,6 @@
             }
             
         }else{
-            
-            dicCollections = [FCFileManager readFileAtPathAsMutableDictionary:@"datasForProductsAndCollections"];
 
             
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -260,7 +256,7 @@
             
         }
         
-            [Store fetchSettingsFromServer:self.fetchSettingsHandler];
+        [Store fetchSettingsFromServer:self.fetchSettingsHandler];
             
         
         
@@ -879,59 +875,6 @@
                                    
                                }];
     });
-}
-
-
--(void) checkForMissingImages {
-    
-    //get all unique images ! avoid to download each image several times !
-    arrayIdsToBeDownloaded_checkForMissingImages = [[NSMutableArray alloc] init];
-    __block NSMutableArray *arrayUrlsToBeDownloaded = [[NSMutableArray alloc] init];
-    __block NSMutableArray *arrayBoolImageForCollection = [[NSMutableArray alloc] init];
-    
-    [dicProductsCorrespondingToCollections enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL* stop) {
-        
-        for (NSDictionary *dicProduct in value) {
-            
-            if ( !  [arrayIdsToBeDownloaded_checkForMissingImages containsObject:[dicProduct objectForKey:@"id"]] &&
-                [ImageManagement getImageFromMemoryWithName:[dicProduct objectForKey:@"id"]] == nil &&
-                [dicProduct objectForKey:@"id"] != nil &&
-                [dicProduct objectForKey:@"image"] != nil ) {
-                
-                [arrayIdsToBeDownloaded_checkForMissingImages addObject:[dicProduct objectForKey:@"id"]];
-                [arrayUrlsToBeDownloaded addObject:[[dicProduct objectForKey:@"image"] objectForKey:@"src"]];
-                
-                //check for collection's image
-                if ([dicProduct isEqualToDictionary:[[dicProductsCorrespondingToCollections objectForKey:key] firstObject]]) {
-                    [arrayBoolImageForCollection addObject:[NSNumber numberWithBool:YES]];
-                }else{
-                    [arrayBoolImageForCollection addObject:[NSNumber numberWithBool:NO]];
-                }
-            }
-        }
-    }];
-    
-    //        //NSLog(@"to be downloaded recap : %@ and count to be downloaded : %lu" , [arrayUrlsToBeDownloaded description], [arrayUrlsToBeDownloaded count]);
-    
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if ([arrayIdsToBeDownloaded_checkForMissingImages count] > 0) {
-            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible: YES];
-        }
-    });
-    
-    for (NSString *id_ImageToDownload in arrayIdsToBeDownloaded_checkForMissingImages) {
-        
-        NSInteger index = [arrayIdsToBeDownloaded_checkForMissingImages indexOfObject:id_ImageToDownload];
-        
-        //NSLog(@"bool for reload data : %@",[arrayBoolImageForCollection objectAtIndex:index] );
-        
-        [self getImageWithImageUrl:[arrayUrlsToBeDownloaded objectAtIndex:index]
-                       andObjectId:id_ImageToDownload
-               lastImageToDownload:[[arrayBoolImageForCollection objectAtIndex:index] boolValue]
-                ImageForCollection:[[arrayBoolImageForCollection objectAtIndex:index] boolValue]];
-    }
-    
 }
 
 #pragma mark other
