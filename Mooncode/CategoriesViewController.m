@@ -26,6 +26,8 @@
 
 #import "Store.h"
 
+
+
 @interface CategoriesViewController ()
 
 @property (strong, nonatomic) UICollectionView *collectionView;
@@ -49,16 +51,20 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *navBarButtonLeft;
 @property (strong, nonatomic) IBOutlet UINavigationBar *navBar;
 
+@property (nonatomic, copy) void (^fetchSettingsHandler)(NSString *updatedToken, NSError *error);
+
+
 @end
 
 #define CELL_IDENTIFIER @"WaterfallCell"
 #define HEADER_IDENTIFIER @"WaterfallHeader"
 #define FOOTER_IDENTIFIER @"WaterfallFooter"
 
+
 @implementation CategoriesViewController{
     
     NSString *website_string;
-    NSString *token;
+    __block NSString *token;
     
     __block NSMutableArray *arrayProducts;
     __block NSMutableArray *array_Updated_Products;
@@ -137,6 +143,34 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    __weak typeof (self) wSelf = self;
+    self.fetchSettingsHandler = ^void(NSString*updatedToken, NSError*error){
+      
+        if (!error) {
+            token = updatedToken;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"reload !!!!!");
+                [wSelf.collectionView reloadData];
+            });
+            
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
+                [wSelf makeRequestForPage_productsOnly:1];
+            }else{
+                [wSelf makeRequestForPage:1];
+            }
+        }
+        else{
+            NSLog(@"error settings fetched: %@", error);
+            if ([dicCollections count] == 0) {
+                wSelf.activityLoading.hidden = YES;
+                wSelf.labelLoading.text = @"No Internet connection detected.";
+                wSelf.buttonReload.hidden = NO;
+                wSelf.loading = NO;
+            }
+        }
+    };
+    
+    
     count_imagesToBeDownloaded = 0;
     
     CGRect frame = self.collectionView.frame;
@@ -181,6 +215,8 @@
             
         }else{
             
+            dicCollections = [FCFileManager readFileAtPathAsMutableDictionary:@"datasForProductsAndCollections"];
+
             
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
             NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -221,33 +257,7 @@
             
         }
         
-            [Store fetchSettingsFromServer:^(NSString *updatedToken, NSError *error) {
-                
-                NSLog(@"error settings fetched: %@", error);
-                token = updatedToken;
-                
-                if (!error) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        NSLog(@"reload !!!!!");
-                        [self.collectionView reloadData];
-                    });
-                    
-                    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
-                        [self makeRequestForPage_productsOnly:1];
-                    }else{
-                        [self makeRequestForPage:1];
-                    }
-                }
-                else{
-                    if ([dicCollections count] == 0) {
-                        self.activityLoading.hidden = YES;
-                        self.labelLoading.text = @"No Internet connection detected.";
-                        self.buttonReload.hidden = NO;
-                        self.loading = NO;
-                    }
-                }
-                    
-            }];
+            [Store fetchSettingsFromServer:self.fetchSettingsHandler];
             
         
         
@@ -297,34 +307,8 @@
             array_Updated_Products = [NSMutableArray new];
         }
         
-//        [self getTokenAndStartDownloadStoreContent];
-//        [self fetchSettingsFromServer];
-        [Store fetchSettingsFromServer:^(NSString *tokenUdated, NSError *error) {
-            
-            if (!error) {
-                
-                
-                token = tokenUdated;
-                [self.collectionView reloadData];
-                if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
-                    [self makeRequestForPage_productsOnly:1];
-                }else{
-                    [self makeRequestForPage:1];
-                }
-            }
-            else{
-                if ([dicCollections count] == 0) {
-                    self.activityLoading.hidden = YES;
-                    self.labelLoading.text = @"No Internet connection detected.";
-                    self.buttonReload.hidden = NO;
-                    self.loading = NO;
-                }
-            }
-            
-        }];
+        [Store fetchSettingsFromServer:self.fetchSettingsHandler];
         
-    }else{
-        //NSLog(@"being downloaded");
     }
 }
 
@@ -697,11 +681,18 @@
                     
                     //NSLog(@"ENTERED !!!");
                     
-                    
+                    NSError *error;
+                    NSError *error2;
                     //SAVE THE SERVER IN MEMORY
-                    [FCFileManager writeFileAtPath:@"datasForProductsAndCollections" content:dic_Updated_ProductsCorrespondingToCollections];
-                    [FCFileManager writeFileAtPath:@"datasForDicCollections" content:dic_Updated_Collections];
-                    
+                    if([FCFileManager writeFileAtPath:@"datasForProductsAndCollections" content:dic_Updated_ProductsCorrespondingToCollections error:&error]){
+                        NSLog(@"saved : %@", [FCFileManager readFileAtPath:@"datasForProductsAndCollections"]);
+                    }
+                    if([FCFileManager writeFileAtPath:@"datasForDicCollections" content:dic_Updated_Collections error:&error2]){
+                        NSLog(@"saved2");
+                    }
+
+                    NSLog(@"error : %@", error);
+                    NSLog(@"error2 : %@", error2);
                     
                     //TAKE THE SERVER TO SCREEN !
                     //                    dicCollections = [dic_Updated_Collections mutableCopy];
