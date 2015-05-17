@@ -21,7 +21,6 @@
 #import "NSString+URL_Shopify.h"
 #import "ShopifyImages.h"
 
-#import "NSUserDefaultsMethods.h"
 #import "FCFileManager.h"
 #import "AppDelegate.h"
 
@@ -76,8 +75,6 @@
     
     __block int count_collectionsToDownload;
     __block int count_imagesToBeDownloaded;
-    
-    __block NSMutableArray *arrayIdsToBeDownloaded_checkForMissingImages; //array to remember the images to downlaod
 }
 
 #pragma mark ViewLifeCycle
@@ -171,7 +168,7 @@
 
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
             
-            arrayProducts = [[NSUserDefaultsMethods getObjectFromMemoryInFolder:@"arrayProducts"] mutableCopy];
+            arrayProducts = [[FCFileManager readFileAtPathAsArray:@"arrayProducts"] mutableCopy];
             
             if (arrayProducts != nil) {
                 [self checkForProductsInSales];
@@ -365,7 +362,7 @@
                 array_Updated_Products = [sortedArrayProducts mutableCopy];
                 
                 //Save the products in memory
-                [NSUserDefaultsMethods saveObjectInMemory:array_Updated_Products toFolder:@"arrayProducts"];
+                [FCFileManager writeFileAtPath:@"arrayProducts" content:array_Updated_Products];
                 
                 //Convert to arrayProducts
                 arrayProducts = [array_Updated_Products mutableCopy];
@@ -565,8 +562,8 @@
     [sortedKeysForCategories removeAllObjects];
     [self.collectionView reloadData];
     
-    [NSUserDefaultsMethods removeFilesInFolderWithName:@"datasForProductsAndCollections"];
-    [NSUserDefaultsMethods removeFilesInFolderWithName:@"datasForDicCollections"];
+    [FCFileManager removeItemAtPath:@"datasForProductsAndCollections"];
+    [FCFileManager removeItemAtPath:@"datasForDicCollections"];
     
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -702,8 +699,9 @@
                     
                     
                     //SAVE THE SERVER IN MEMORY
-                    [NSUserDefaultsMethods saveObjectInMemory:dic_Updated_ProductsCorrespondingToCollections toFolder:@"datasForProductsAndCollections"];
-                    [NSUserDefaultsMethods saveObjectInMemory:dic_Updated_Collections toFolder:@"datasForDicCollections"];
+                    [FCFileManager writeFileAtPath:@"datasForProductsAndCollections" content:dic_Updated_ProductsCorrespondingToCollections];
+                    [FCFileManager writeFileAtPath:@"datasForDicCollections" content:dic_Updated_Collections];
+                    
                     
                     //TAKE THE SERVER TO SCREEN !
                     //                    dicCollections = [dic_Updated_Collections mutableCopy];
@@ -713,15 +711,6 @@
                     dicCollections = [NSMutableDictionary dictionaryWithDictionary:[dic_Updated_Collections mutableCopy]];
                     dicProductsCorrespondingToCollections = [NSMutableDictionary dictionaryWithDictionary:[dic_Updated_ProductsCorrespondingToCollections mutableCopy]];
                     sortedKeysForCategories = [NSMutableArray arrayWithArray:[sorted_Updated_KeysForCategories mutableCopy]];
-                    
-                    //NSLog(@"dic collections to diplay : %@", [dicProductsCorrespondingToCollections description]);
-                    
-                    //                    [dic_Updated_Collections removeAllObjects];
-                    //                    [dic_Updated_ProductsCorrespondingToCollections removeAllObjects];
-                    //                    [sorted_Updated_KeysForCategories removeAllObjects];
-                    //                    dic_Updated_Collections = [NSMutableDictionary new];
-                    //                    dic_Updated_ProductsCorrespondingToCollections = [NSMutableDictionary new];
-                    //                    sorted_Updated_KeysForCategories = [NSMutableArray new];
                     
                     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) { //change
                         
@@ -898,59 +887,6 @@
     });
 }
 
-
--(void) checkForMissingImages {
-    
-    //get all unique images ! avoid to download each image several times !
-    arrayIdsToBeDownloaded_checkForMissingImages = [[NSMutableArray alloc] init];
-    __block NSMutableArray *arrayUrlsToBeDownloaded = [[NSMutableArray alloc] init];
-    __block NSMutableArray *arrayBoolImageForCollection = [[NSMutableArray alloc] init];
-    
-    [dicProductsCorrespondingToCollections enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL* stop) {
-        
-        for (NSDictionary *dicProduct in value) {
-            
-            if ( !  [arrayIdsToBeDownloaded_checkForMissingImages containsObject:[dicProduct objectForKey:@"id"]] &&
-                [ImageManagement getImageFromMemoryWithName:[dicProduct objectForKey:@"id"]] == nil &&
-                [dicProduct objectForKey:@"id"] != nil &&
-                [dicProduct objectForKey:@"image"] != nil ) {
-                
-                [arrayIdsToBeDownloaded_checkForMissingImages addObject:[dicProduct objectForKey:@"id"]];
-                [arrayUrlsToBeDownloaded addObject:[[dicProduct objectForKey:@"image"] objectForKey:@"src"]];
-                
-                //check for collection's image
-                if ([dicProduct isEqualToDictionary:[[dicProductsCorrespondingToCollections objectForKey:key] firstObject]]) {
-                    [arrayBoolImageForCollection addObject:[NSNumber numberWithBool:YES]];
-                }else{
-                    [arrayBoolImageForCollection addObject:[NSNumber numberWithBool:NO]];
-                }
-            }
-        }
-    }];
-    
-    //        //NSLog(@"to be downloaded recap : %@ and count to be downloaded : %lu" , [arrayUrlsToBeDownloaded description], [arrayUrlsToBeDownloaded count]);
-    
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if ([arrayIdsToBeDownloaded_checkForMissingImages count] > 0) {
-            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible: YES];
-        }
-    });
-    
-    for (NSString *id_ImageToDownload in arrayIdsToBeDownloaded_checkForMissingImages) {
-        
-        NSInteger index = [arrayIdsToBeDownloaded_checkForMissingImages indexOfObject:id_ImageToDownload];
-        
-        //NSLog(@"bool for reload data : %@",[arrayBoolImageForCollection objectAtIndex:index] );
-        
-        [self getImageWithImageUrl:[arrayUrlsToBeDownloaded objectAtIndex:index]
-                       andObjectId:id_ImageToDownload
-               lastImageToDownload:[[arrayBoolImageForCollection objectAtIndex:index] boolValue]
-                ImageForCollection:[[arrayBoolImageForCollection objectAtIndex:index] boolValue]];
-    }
-    
-}
-
 #pragma mark other
 
 - (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL
@@ -1039,6 +975,7 @@
         [self presentViewController:vc1 animated:YES completion:nil];
     });
 }
+
 - (IBAction)reload:(id)sender {
     self.buttonReload.hidden = YES;
     self.labelLoading.text = @"Thank you for downloading our App!\n \nNow downloading the content, it should take less than a minute and only happen once. \n \nMake sure you are connected to the Internet !";
@@ -1079,9 +1016,7 @@
         vc1.dicProduct = [arrayProducts objectAtIndex:indexPath.row] ;
         vc1.product_id =[vc1.dicProduct objectForKey:@"id"];
         vc1.image = [ImageManagement getImageFromMemoryWithName:vc1.product_id];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.navigationController pushViewController:vc1 animated:YES];
-        });
+        [self.navigationController pushViewController:vc1 animated:YES];
     }else{
         
         CategoryProductsViewController *vc1 = [sb instantiateViewControllerWithIdentifier:@"CategoryProductsViewController"];
@@ -1095,12 +1030,8 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
-        
         return [arrayProducts count];
-        
     }else{
-        //NSLog(@"count cells : %d", (int)[[dicCollections allKeys] count]);
-        //NSLog(@"sorted keys : %d", (int)[sortedKeysForCategories count]);
         return [sortedKeysForCategories count];
     }
 }
@@ -1111,7 +1042,6 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-//    NSLog(@"cell created ");
     
     CHTCollectionViewWaterfallCell *cell =
     (CHTCollectionViewWaterfallCell *)[collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER
@@ -1119,16 +1049,9 @@
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO ) {
         
-        @try {
-            NSString * product_id = [[arrayProducts objectAtIndex:indexPath.row] objectForKey:@"id"];
-            cell.imageView.image = [ImageManagement getImageFromMemoryWithName:product_id];
-        }
-        @catch (NSException *exception) {
-            
-        }
-        @finally {
-            
-        }
+        NSString * product_id = [[arrayProducts objectAtIndex:indexPath.row] objectForKey:@"id"];
+        cell.imageView.image = [ImageManagement getImageFromMemoryWithName:product_id];
+
         
         if (cell.viewWhite.hidden == NO) {
             cell.viewWhite.hidden = YES;
@@ -1148,23 +1071,14 @@
     }else{
         
         NSString *keyCategory;
-        @try {
-            keyCategory = [sortedKeysForCategories objectAtIndex:indexPath.row];
-            cell.displayLabel.text = [[dicCollections objectForKey: [NSString stringWithFormat:@"%@", keyCategory]] objectForKey:@"title"];
-            
-        }
-        @catch (NSException *exception) {
-            
-        }
-        @finally {
-            
-        }
+        keyCategory = [sortedKeysForCategories objectAtIndex:indexPath.row];
+        cell.displayLabel.text = [[dicCollections objectForKey: [NSString stringWithFormat:@"%@", keyCategory]] objectForKey:@"title"];
         
         UIColor *color = [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"red"] floatValue] / 255
                                          green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"green"] floatValue] / 255
                                           blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"blue"] floatValue] / 255
                                          alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"alpha"] floatValue]];
-//        NSLog(@"color for background cell : %@", color.description);
+        
         cell.viewWhite.backgroundColor = color;
         
         if (cell.viewWhite.hidden) {
@@ -1176,15 +1090,14 @@
         UIImage *collectionImage =[ImageManagement getImageFromMemoryWithName:keyCategory];
         if (collectionImage != nil) {
             
-            cell.imageView.image = [ImageManagement getImageFromMemoryWithName:keyCategory];
+            cell.imageView.image = collectionImage;
         }else{ //take the fist product image available
             
             for (NSDictionary *dicProduct in [dicProductsCorrespondingToCollections objectForKey:keyCategory]) {
                 
                 NSString *productId = [dicProduct objectForKey:@"id"];
-                
-                if ([ImageManagement getImageFromMemoryWithName:productId] != nil) {
-                    
+                UIImage* collectionImage = [ImageManagement getImageFromMemoryWithName:productId];
+                if (collectionImage != nil) {
                     cell.imageView.image = [ImageManagement getImageFromMemoryWithName:productId];
                     break;
                 }
