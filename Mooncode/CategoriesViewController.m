@@ -250,18 +250,13 @@
                 
                 [self showLoading];
             }
-         
-//             [self getTokenAndStartDownloadStoreContent];
-//            [self fetchSettingsFromServer];
             
         }
         
         [Store fetchSettingsFromServer:self.fetchSettingsHandler];
-            
-        
-        
         
     });
+    
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         //DO NOT BACK UP THE DATAS INTO ICLOUD
