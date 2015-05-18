@@ -27,6 +27,8 @@
 
 #import "Store.h"
 
+
+
 @interface CategoriesViewController ()
 
 @property (strong, nonatomic) UICollectionView *collectionView;
@@ -50,16 +52,20 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *navBarButtonLeft;
 @property (strong, nonatomic) IBOutlet UINavigationBar *navBar;
 
+@property (nonatomic, copy) void (^fetchSettingsHandler)(NSString *updatedToken, NSError *error);
+
+
 @end
 
 #define CELL_IDENTIFIER @"WaterfallCell"
 #define HEADER_IDENTIFIER @"WaterfallHeader"
 #define FOOTER_IDENTIFIER @"WaterfallFooter"
 
+
 @implementation CategoriesViewController{
     
     NSString *website_string;
-    NSString *token;
+    __block NSString *token;
     
     __block NSMutableArray *arrayProducts;
     __block NSMutableArray *array_Updated_Products;
@@ -76,8 +82,6 @@
     
     __block int count_collectionsToDownload;
     __block int count_imagesToBeDownloaded;
-    
-    __block NSMutableArray *arrayIdsToBeDownloaded_checkForMissingImages; //array to remember the images to downlaod
 }
 
 #pragma mark ViewLifeCycle
@@ -140,6 +144,34 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    __weak typeof (self) wSelf = self;
+    self.fetchSettingsHandler = ^void(NSString*updatedToken, NSError*error){
+      
+        if (!error) {
+            token = updatedToken;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"reload !!!!!");
+                [wSelf.collectionView reloadData];
+            });
+            
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
+                [wSelf makeRequestForPage_productsOnly:1];
+            }else{
+                [wSelf makeRequestForPage:1];
+            }
+        }
+        else{
+            NSLog(@"error settings fetched: %@", error);
+            if ([dicCollections count] == 0) {
+                wSelf.activityLoading.hidden = YES;
+                wSelf.labelLoading.text = @"No Internet connection detected.";
+                wSelf.buttonReload.hidden = NO;
+                wSelf.loading = NO;
+            }
+        }
+    };
+    
+    
     count_imagesToBeDownloaded = 0;
     
     CGRect frame = self.collectionView.frame;
@@ -183,7 +215,7 @@
             }
             
         }else{
-            
+
             
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
             NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -218,44 +250,13 @@
                 
                 [self showLoading];
             }
-         
-//             [self getTokenAndStartDownloadStoreContent];
-//            [self fetchSettingsFromServer];
             
         }
         
-            [Store fetchSettingsFromServer:^(NSString *updatedToken, NSError *error) {
-                
-                NSLog(@"error settings fetched: %@", error);
-                token = updatedToken;
-                
-                if (!error) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        NSLog(@"reload !!!!!");
-                        [self.collectionView reloadData];
-                    });
-                    
-                    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
-                        [self makeRequestForPage_productsOnly:1];
-                    }else{
-                        [self makeRequestForPage:1];
-                    }
-                }
-                else{
-                    if ([dicCollections count] == 0) {
-                        self.activityLoading.hidden = YES;
-                        self.labelLoading.text = @"No Internet connection detected.";
-                        self.buttonReload.hidden = NO;
-                        self.loading = NO;
-                    }
-                }
-                    
-            }];
-            
-        
-        
+        [Store fetchSettingsFromServer:self.fetchSettingsHandler];
         
     });
+    
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         //DO NOT BACK UP THE DATAS INTO ICLOUD
@@ -300,34 +301,8 @@
             array_Updated_Products = [NSMutableArray new];
         }
         
-//        [self getTokenAndStartDownloadStoreContent];
-//        [self fetchSettingsFromServer];
-        [Store fetchSettingsFromServer:^(NSString *tokenUdated, NSError *error) {
-            
-            if (!error) {
-                
-                
-                token = tokenUdated;
-                [self.collectionView reloadData];
-                if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
-                    [self makeRequestForPage_productsOnly:1];
-                }else{
-                    [self makeRequestForPage:1];
-                }
-            }
-            else{
-                if ([dicCollections count] == 0) {
-                    self.activityLoading.hidden = YES;
-                    self.labelLoading.text = @"No Internet connection detected.";
-                    self.buttonReload.hidden = NO;
-                    self.loading = NO;
-                }
-            }
-            
-        }];
+        [Store fetchSettingsFromServer:self.fetchSettingsHandler];
         
-    }else{
-        //NSLog(@"being downloaded");
     }
 }
 
@@ -700,8 +675,7 @@
                     
                     //NSLog(@"ENTERED !!!");
                     
-                    
-                    //SAVE THE SERVER IN MEMORY
+
                     [NSUserDefaultsMethods saveObjectInMemory:dic_Updated_ProductsCorrespondingToCollections toFolder:@"datasForProductsAndCollections"];
                     [NSUserDefaultsMethods saveObjectInMemory:dic_Updated_Collections toFolder:@"datasForDicCollections"];
                     
@@ -896,59 +870,6 @@
                                    
                                }];
     });
-}
-
-
--(void) checkForMissingImages {
-    
-    //get all unique images ! avoid to download each image several times !
-    arrayIdsToBeDownloaded_checkForMissingImages = [[NSMutableArray alloc] init];
-    __block NSMutableArray *arrayUrlsToBeDownloaded = [[NSMutableArray alloc] init];
-    __block NSMutableArray *arrayBoolImageForCollection = [[NSMutableArray alloc] init];
-    
-    [dicProductsCorrespondingToCollections enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL* stop) {
-        
-        for (NSDictionary *dicProduct in value) {
-            
-            if ( !  [arrayIdsToBeDownloaded_checkForMissingImages containsObject:[dicProduct objectForKey:@"id"]] &&
-                [ImageManagement getImageFromMemoryWithName:[dicProduct objectForKey:@"id"]] == nil &&
-                [dicProduct objectForKey:@"id"] != nil &&
-                [dicProduct objectForKey:@"image"] != nil ) {
-                
-                [arrayIdsToBeDownloaded_checkForMissingImages addObject:[dicProduct objectForKey:@"id"]];
-                [arrayUrlsToBeDownloaded addObject:[[dicProduct objectForKey:@"image"] objectForKey:@"src"]];
-                
-                //check for collection's image
-                if ([dicProduct isEqualToDictionary:[[dicProductsCorrespondingToCollections objectForKey:key] firstObject]]) {
-                    [arrayBoolImageForCollection addObject:[NSNumber numberWithBool:YES]];
-                }else{
-                    [arrayBoolImageForCollection addObject:[NSNumber numberWithBool:NO]];
-                }
-            }
-        }
-    }];
-    
-    //        //NSLog(@"to be downloaded recap : %@ and count to be downloaded : %lu" , [arrayUrlsToBeDownloaded description], [arrayUrlsToBeDownloaded count]);
-    
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if ([arrayIdsToBeDownloaded_checkForMissingImages count] > 0) {
-            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible: YES];
-        }
-    });
-    
-    for (NSString *id_ImageToDownload in arrayIdsToBeDownloaded_checkForMissingImages) {
-        
-        NSInteger index = [arrayIdsToBeDownloaded_checkForMissingImages indexOfObject:id_ImageToDownload];
-        
-        //NSLog(@"bool for reload data : %@",[arrayBoolImageForCollection objectAtIndex:index] );
-        
-        [self getImageWithImageUrl:[arrayUrlsToBeDownloaded objectAtIndex:index]
-                       andObjectId:id_ImageToDownload
-               lastImageToDownload:[[arrayBoolImageForCollection objectAtIndex:index] boolValue]
-                ImageForCollection:[[arrayBoolImageForCollection objectAtIndex:index] boolValue]];
-    }
-    
 }
 
 #pragma mark other
