@@ -1036,7 +1036,7 @@
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
-        return 1
+        return 1;
     }else{
         return 2;
     }
@@ -1087,7 +1087,7 @@
             cell.imageViewSale.image = nil;
         }
         
-        return cell;
+        return (UICollectionViewCell*)cell;
         
     }else{
         
@@ -1097,7 +1097,7 @@
             
             if ([featuredCollections count] <= indexPath.row) {
                 cell.imageView.image = nil;
-                return cell;
+                return (UICollectionViewCell*)cell;
             }else{
                 keyCategory = [featuredCollections objectAtIndex:indexPath.row]; //make it for featured collections
             }
@@ -1140,7 +1140,7 @@
                 }
             }
         }
-        return cell;
+        return (UICollectionViewCell*)cell;
     }
 }
 
@@ -1170,7 +1170,6 @@
     if (section == 0) {
         return 1;
     }else{
-        return 3;
         return [[UIDevice currentDevice].model hasPrefix:@"iPad"] ? 3 : 2;
     }
 }

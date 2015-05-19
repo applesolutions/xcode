@@ -70,6 +70,7 @@
 		AA2EB32B1A693B4600AEA228 /* SBInstagramWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA2EB3141A693B4600AEA228 /* SBInstagramWebViewController.xib */; };
 		AA2EB3321A693BB600AEA228 /* IKLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2EB32F1A693BB600AEA228 /* IKLoginViewController.m */; };
 		AA2EB3331A693BB600AEA228 /* MediaWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2EB3311A693BB600AEA228 /* MediaWebViewController.m */; };
+		AA3C33141B0BD3FC00644450 /* CHTCollectionViewWaterfallFeaturedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3C33121B0BD3FC00644450 /* CHTCollectionViewWaterfallFeaturedCell.m */; };
 		AA3DFA3C19EE3D1B003F4920 /* ProximaNova-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = AA3DFA3919EE3D1B003F4920 /* ProximaNova-Bold.otf */; };
 		AA3DFA3D19EE3D1B003F4920 /* ProximaNova-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = AA3DFA3A19EE3D1B003F4920 /* ProximaNova-Regular.otf */; };
 		AA3DFA3E19EE3D1B003F4920 /* ProximaNova-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = AA3DFA3B19EE3D1B003F4920 /* ProximaNova-Semibold.otf */; };
@@ -243,6 +244,9 @@
 		AA2EB32F1A693BB600AEA228 /* IKLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IKLoginViewController.m; sourceTree = "<group>"; };
 		AA2EB3301A693BB600AEA228 /* MediaWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaWebViewController.h; sourceTree = "<group>"; };
 		AA2EB3311A693BB600AEA228 /* MediaWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaWebViewController.m; sourceTree = "<group>"; };
+		AA3C33111B0BD3FC00644450 /* CHTCollectionViewWaterfallFeaturedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CHTCollectionViewWaterfallFeaturedCell.h; path = Mooncode/CHTCollectionViewWaterfallFeaturedCell.h; sourceTree = "<group>"; };
+		AA3C33121B0BD3FC00644450 /* CHTCollectionViewWaterfallFeaturedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CHTCollectionViewWaterfallFeaturedCell.m; path = Mooncode/CHTCollectionViewWaterfallFeaturedCell.m; sourceTree = "<group>"; };
+		AA3C33131B0BD3FC00644450 /* ProtocolCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProtocolCell.h; path = Mooncode/ProtocolCell.h; sourceTree = "<group>"; };
 		AA3DFA3919EE3D1B003F4920 /* ProximaNova-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Bold.otf"; sourceTree = "<group>"; };
 		AA3DFA3A19EE3D1B003F4920 /* ProximaNova-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Regular.otf"; sourceTree = "<group>"; };
 		AA3DFA3B19EE3D1B003F4920 /* ProximaNova-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Semibold.otf"; sourceTree = "<group>"; };
@@ -376,10 +380,13 @@
 				AA85EF4019FCCA4C00C06F60 /* CHTCollectionViewWaterfallLayout.m */,
 				AA85EF4219FCCDF600C06F60 /* CHTCollectionViewWaterfallCell.h */,
 				AA85EF4319FCCDF600C06F60 /* CHTCollectionViewWaterfallCell.m */,
+				AA3C33111B0BD3FC00644450 /* CHTCollectionViewWaterfallFeaturedCell.h */,
+				AA3C33121B0BD3FC00644450 /* CHTCollectionViewWaterfallFeaturedCell.m */,
 				AA85EF4419FCCDF600C06F60 /* CHTCollectionViewWaterfallHeader.h */,
 				AA85EF4519FCCDF600C06F60 /* CHTCollectionViewWaterfallHeader.m */,
 				AA85EF4619FCCDF600C06F60 /* CHTCollectionViewWaterfallFooter.h */,
 				AA85EF4719FCCDF600C06F60 /* CHTCollectionViewWaterfallFooter.m */,
+				AA3C33131B0BD3FC00644450 /* ProtocolCell.h */,
 			);
 			name = "Masonry CollectionView";
 			path = ..;
@@ -846,6 +853,7 @@
 				AAC89DDA1A375D8F00D33C36 /* LaunchImage.m in Sources */,
 				AA13FD541A04F32700696FE1 /* Terms&conditionsViewController.m in Sources */,
 				AA85EF4119FCCA4C00C06F60 /* CHTCollectionViewWaterfallLayout.m in Sources */,
+				AA3C33141B0BD3FC00644450 /* CHTCollectionViewWaterfallFeaturedCell.m in Sources */,
 				AAA1C34819EF460800C257FE /* ScrollViewController.m in Sources */,
 				AA2EB3321A693BB600AEA228 /* IKLoginViewController.m in Sources */,
 				AA481F2E1AE980D1008EE781 /* Store.m in Sources */,
