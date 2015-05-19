@@ -45,8 +45,6 @@
                 
                 if ( ! [[[NSUserDefaults standardUserDefaults] arrayForKey:@"instagramId"].firstObject isEqualToString:instagram]) {
                     
-//                    NSLog(@"update the instagram token !");
-                    
                     [[NSUserDefaults standardUserDefaults] setObject:@[[NSString stringWithFormat:@"%@",(NSString*)instagram]] forKey:@"instagramId"];
                     [[NSUserDefaults standardUserDefaults] synchronize];
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"instagramTokenChanged" object:nil]; //observed in scrollViewController

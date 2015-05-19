@@ -59,9 +59,6 @@
 
 #define CELL_IDENTIFIER @"WaterfallCell"
 #define CELL_FEATURED_IDENTIFIER @"CHTCollectionViewWaterfallFeaturedCell"
-#define HEADER_IDENTIFIER @"WaterfallHeader"
-#define FOOTER_IDENTIFIER @"WaterfallFooter"
-
 
 @implementation CategoriesViewController{
     
@@ -1143,24 +1140,6 @@
         return (UICollectionViewCell*)cell;
     }
 }
-
-
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    UICollectionReusableView *reusableView = nil;
-    
-    if ([kind isEqualToString:CHTCollectionElementKindSectionHeader]) {
-        reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
-                                                          withReuseIdentifier:HEADER_IDENTIFIER
-                                                                 forIndexPath:indexPath];
-    } else if ([kind isEqualToString:CHTCollectionElementKindSectionFooter]) {
-        reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
-                                                          withReuseIdentifier:FOOTER_IDENTIFIER
-                                                                 forIndexPath:indexPath];
-    }
-    
-    return reusableView;
-}
-
 
 
 #pragma mark - CHTCollectionViewDelegateWaterfallLayout
