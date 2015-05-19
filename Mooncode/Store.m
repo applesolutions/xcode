@@ -112,7 +112,7 @@
             
 //            NSLog(@"content of file test : %@", settings);
             
-            if (settings != (id)[NSNull null]) {
+            if (settings != (id)[NSNull null] &&  [settings respondsToSelector:@selector(allKeys)] ) {
                 giveFileContent(settings,nil);
             }else{
                 NSLog(@"it is null");
