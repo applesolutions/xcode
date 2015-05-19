@@ -9,6 +9,7 @@
 #import "CategoriesViewController.h"
 
 #import "CHTCollectionViewWaterfallCell.h"
+#import "CHTCollectionViewWaterfallFeaturedCell.h"
 #import "CHTCollectionViewWaterfallHeader.h"
 #import "CHTCollectionViewWaterfallFooter.h"
 
@@ -26,8 +27,7 @@
 #import "AppDelegate.h"
 
 #import "Store.h"
-
-
+#import "ProtocolCell.h"
 
 @interface CategoriesViewController ()
 
@@ -58,6 +58,7 @@
 @end
 
 #define CELL_IDENTIFIER @"WaterfallCell"
+#define CELL_FEATURED_IDENTIFIER @"CHTCollectionViewWaterfallFeaturedCell"
 #define HEADER_IDENTIFIER @"WaterfallHeader"
 #define FOOTER_IDENTIFIER @"WaterfallFooter"
 
@@ -77,6 +78,7 @@
     __block NSMutableDictionary *dic_Updated_Collections;
     __block NSMutableArray *sorted_Updated_KeysForCategories;
     
+    __block NSMutableArray *featuredCollections;
     __block NSMutableArray *sortedKeysForCategories;
     __block NSMutableArray *arrayIndexesActiclesOnSales;
     
@@ -143,6 +145,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+ 
+    //to remove
+    featuredCollections = [@[@"29932927",
+                             @"29932791",
+                             @"29932567"] mutableCopy];
     
     __weak typeof (self) wSelf = self;
     self.fetchSettingsHandler = ^void(NSString*updatedToken, NSError*error){
@@ -1015,28 +1022,44 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
-        
-        return [arrayProducts count];
-        
+    if (section == 0) { //featured
+        return [featuredCollections count];
     }else{
-        //NSLog(@"count cells : %d", (int)[[dicCollections allKeys] count]);
-        //NSLog(@"sorted keys : %d", (int)[sortedKeysForCategories count]);
-        return [sortedKeysForCategories count];
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
+            return [arrayProducts count];
+        }else{
+            return [sortedKeysForCategories count];
+        }
     }
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
+        return 1
+    }else{
+        return 2;
+    }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
 //    NSLog(@"cell created ");
     
-    CHTCollectionViewWaterfallCell *cell =
-    (CHTCollectionViewWaterfallCell *)[collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER
-                                                                                forIndexPath:indexPath];
+    id<ProtocolCell> cell;
+    
+    if (indexPath.section == 0) {
+        
+        //        cell = (CHTCollectionViewWaterfallFeaturedCell *)[collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER  forIndexPath:indexPath];
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_FEATURED_IDENTIFIER forIndexPath:indexPath];
+        
+    }
+    else{
+        
+        //        cell = (CHTCollectionViewWaterfallCell *)[collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER forIndexPath:indexPath];
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER   forIndexPath:indexPath];
+        
+    }
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO ) {
         
@@ -1069,17 +1092,23 @@
     }else{
         
         NSString *keyCategory;
-        @try {
+        
+        if (indexPath.section == 0) { //featured collections
+            
+            if ([featuredCollections count] <= indexPath.row) {
+                cell.imageView.image = nil;
+                return cell;
+            }else{
+                keyCategory = [featuredCollections objectAtIndex:indexPath.row]; //make it for featured collections
+            }
+            
+        }else{
+            
             keyCategory = [sortedKeysForCategories objectAtIndex:indexPath.row];
-            cell.displayLabel.text = [[dicCollections objectForKey: [NSString stringWithFormat:@"%@", keyCategory]] objectForKey:@"title"];
-            
         }
-        @catch (NSException *exception) {
-            
-        }
-        @finally {
-            
-        }
+        
+        cell.displayLabel.text = [[dicCollections objectForKey: [NSString stringWithFormat:@"%@", keyCategory]] objectForKey:@"title"];
+
         
         UIColor *color = [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"red"] floatValue] / 255
                                          green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"green"] floatValue] / 255
@@ -1136,10 +1165,20 @@
 
 #pragma mark - CHTCollectionViewDelegateWaterfallLayout
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(50, 50);
+- (NSInteger)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout columnCountForSection:(NSInteger)section{
+    NSLog(@"columnCountForSection : %d", section);
+    if (section == 0) {
+        return 1;
+    }else{
+        return 3;
+        return [[UIDevice currentDevice].model hasPrefix:@"iPad"] ? 3 : 2;
+    }
 }
 
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return indexPath.section == 0 ? CGSizeMake(100, 50) : CGSizeMake(50, 50);
+}
 - (UICollectionView *)collectionView {
     
     if (!_collectionView) {
@@ -1151,13 +1190,6 @@
         layout.footerHeight = 0;
         layout.minimumColumnSpacing = 5;
         layout.minimumInteritemSpacing = 5;
-        
-        if ([[UIDevice currentDevice].model hasPrefix:@"iPad"]) {
-            layout.columnCount = 3;
-        }else{
-            layout.columnCount = 2;
-        }
-        
         
         _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
         _collectionView.alwaysBounceVertical = YES;
@@ -1171,12 +1203,8 @@
         
         [_collectionView registerClass:[CHTCollectionViewWaterfallCell class]
             forCellWithReuseIdentifier:CELL_IDENTIFIER];
-        [_collectionView registerClass:[CHTCollectionViewWaterfallHeader class]
-            forSupplementaryViewOfKind:CHTCollectionElementKindSectionHeader
-                   withReuseIdentifier:HEADER_IDENTIFIER];
-        [_collectionView registerClass:[CHTCollectionViewWaterfallFooter class]
-            forSupplementaryViewOfKind:CHTCollectionElementKindSectionFooter
-                   withReuseIdentifier:FOOTER_IDENTIFIER];
+        [_collectionView registerClass:[CHTCollectionViewWaterfallCell class]
+            forCellWithReuseIdentifier:CELL_FEATURED_IDENTIFIER];
     }
     return _collectionView;
 }
