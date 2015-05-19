@@ -10,7 +10,7 @@
 
 @interface Store : NSObject
 
-+(void) fetchSettingsFromServer:(void (^)(NSString*token, NSError*error))callback;
++(void) fetchSettingsFromServer:(void (^)(NSString*token, NSArray*displayedCollections, NSArray*featuredCollections,  NSError*error))callback;
 
 
 @end

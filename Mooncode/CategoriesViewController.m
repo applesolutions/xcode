@@ -52,7 +52,7 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *navBarButtonLeft;
 @property (strong, nonatomic) IBOutlet UINavigationBar *navBar;
 
-@property (nonatomic, copy) void (^fetchSettingsHandler)(NSString *updatedToken, NSError *error);
+@property (nonatomic, copy) void (^fetchSettingsHandler)(NSString*token, NSArray*displayedCollections, NSArray*featuredCollections,  NSError*error);
 
 
 @end
@@ -70,13 +70,16 @@
     
     __block NSMutableDictionary *dicProductsCorrespondingToCollections;
     __block NSMutableDictionary *dicCollections;
-    
+
     __block NSMutableDictionary *dic_Updated_ProductsCorrespondingToCollections;
     __block NSMutableDictionary *dic_Updated_Collections;
+    
     __block NSMutableArray *sorted_Updated_KeysForCategories;
+    __block NSMutableArray *sortedKeysForCategories;
     
     __block NSMutableArray *featuredCollections;
-    __block NSMutableArray *sortedKeysForCategories;
+    __block NSMutableArray *displayedCollections;
+    
     __block NSMutableArray *arrayIndexesActiclesOnSales;
     
     __block int count_collectionsToDownload;
@@ -116,13 +119,12 @@
     self.viewForLabel.layer.cornerRadius = 5;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateColors)
+                                             selector:@selector(updatePhoneSettings)
                                                  name:@"updatePhoneSettings"
                                                object:nil];
 }
 
--(void)updateColors{
-    
+-(void) updateColors{
     dispatch_async(dispatch_get_main_queue(), ^{
         
         self.ViewNavBar.backgroundColor =
@@ -137,19 +139,36 @@
         
         [self.collectionView reloadData];
     });
+}
+
+-(void)updatePhoneSettings{
+    
+    [self updateColors];
+    
+    //update collections diplayed / featured
+    NSArray *displayedCollectionsMemory = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
+    NSArray *featuredCollectionsMemory = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"featuredCollections"];
+    
+    //verify we have all the collections
+    
+    BOOL fetchCollectionsFromShopify = NO;
+    for (NSDictionary *collection in displayedCollectionsMemory) {
+        
+        if ( ! [dicCollections objectForKey:collection[@"shopify_collection_id"]] ) {
+            fetchCollectionsFromShopify = YES;
+            [Store fetchSettingsFromServer:self.fetchSettingsHandler];
+            break;
+        }
+    }
+    
 
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
- 
-    //to remove
-    featuredCollections = [@[@"29932927",
-                             @"29932791",
-                             @"29932567"] mutableCopy];
     
     __weak typeof (self) wSelf = self;
-    self.fetchSettingsHandler = ^void(NSString*updatedToken, NSError*error){
+    self.fetchSettingsHandler = ^void(NSString*updatedToken, NSArray*displayedCollections, NSArray*featuredCollections,  NSError*error){
       
         if (!error) {
             token = updatedToken;
@@ -969,27 +988,7 @@
     self.labelLoading.text = @"Thank you for downloading our App!\n \nNow downloading the content, it should take less than a minute and only happen once. \n \nMake sure you are connected to the Internet !";
     [self showLoading];
   
-    [Store fetchSettingsFromServer:^(NSString *tokenUdated, NSError *error) {
-        if (!error) {
-            
-            token = tokenUdated;
-            [self.collectionView reloadData];
-            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
-                [self makeRequestForPage_productsOnly:1];
-            }else{
-                [self makeRequestForPage:1];
-            }
-        }
-        else{
-            if ([dicCollections count] == 0) {
-                self.activityLoading.hidden = YES;
-                self.labelLoading.text = @"No Internet connection detected.";
-                self.buttonReload.hidden = NO;
-                self.loading = NO;
-            }
-        }
-        
-    }];
+    [Store fetchSettingsFromServer:self.fetchSettingsHandler];
 }
 
 #pragma mark collection View delegate
@@ -1010,9 +1009,16 @@
     }else{
         
         CategoryProductsViewController *vc1 = [sb instantiateViewControllerWithIdentifier:@"CategoryProductsViewController"];
-        vc1.categoryName = [sortedKeysForCategories objectAtIndex:indexPath.row] ;
-        vc1.collectionName = [[dicCollections objectForKey:vc1.categoryName] objectForKey:@"title"];
-        vc1.arrayProducts = [dicProductsCorrespondingToCollections objectForKey:vc1.categoryName];
+        
+        if (indexPath.section == 0) {
+            vc1.categoryName = [sortedKeysForCategories objectAtIndex:indexPath.row];
+            vc1.collectionName = [[dicCollections objectForKey:vc1.categoryName] objectForKey:@"title"];
+            vc1.arrayProducts = [dicProductsCorrespondingToCollections objectForKey:vc1.categoryName];
+        }else{
+            vc1.categoryName = [sortedKeysForCategories objectAtIndex:indexPath.row] ;
+            vc1.collectionName = [[dicCollections objectForKey:vc1.categoryName] objectForKey:@"title"];
+            vc1.arrayProducts = [dicProductsCorrespondingToCollections objectForKey:vc1.categoryName];
+        }
         [self.navigationController pushViewController:vc1 animated:YES];
     }
 }

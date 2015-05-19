@@ -236,9 +236,7 @@
 #pragma mark - refresh phone settings
 
 -(void) fetchSettingsFromServer{
-    [Store fetchSettingsFromServer:^(NSString *token, NSError *error) {
-        
-    }];
+    [Store fetchSettingsFromServer:nil];
 }
 
 

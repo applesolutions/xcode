@@ -8,10 +8,11 @@
 
 #import "Store.h"
 #import "FCFileManager.h"
+#import "NSUserDefaultsMethods.h"
 
 @implementation Store
 
-+(void) fetchSettingsFromServer:(void (^)(NSString*token, NSError*error))callback{
++(void) fetchSettingsFromServer:(void (^)(NSString*token, NSArray*displayedCollections, NSArray*featuredCollections,  NSError*error))callback{
     
     NSString *urlForFiles = @"https://mooncode.herokuapp.com/shopify_merchant/settings";
     NSString *version = @"0";
@@ -30,9 +31,25 @@
         
         if (!error) {
             
+            NSLog(@"settings : %@", [settings description]);
+            
             NSString *shopify_token = (NSString*)settings[@"shopify_token"];
             NSString *twitter = (NSString*)settings[@"twitter"];
             NSString *instagram = [settings[@"instagram_id"] stringValue];
+            
+//            NSArray *featuredCollections = settings[@"featured_collections"];
+//            NSArray *displayedCollections = settings[@"displayed_collections"];
+            
+            //check difference between memeory and server
+            
+//            NSArray *displayedCollectionsMemory = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
+//            NSArray *featuredCollectionsMemory = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"featuredCollections"];
+            
+        
+            [NSUserDefaultsMethods saveObjectInMemory:settings[@"featured_collections"] toFolder:@"featuredCollections"];
+            [NSUserDefaultsMethods saveObjectInMemory:settings[@"displayed_collections"] toFolder:@"displayedCollections"];
+            //post  notif to say we have updated the collections displayed / featured
+
             
             if (twitter) {
                 twitter = [twitter stringByReplacingOccurrencesOfString:@"@" withString:@""];
@@ -81,10 +98,10 @@
             
             [[NSNotificationCenter defaultCenter] postNotificationName:@"updatePhoneSettings" object:nil];
             
-            callback(shopify_token, nil);
+            if (callback) callback(shopify_token, nil, nil, nil);
             
         }else{
-            callback(nil, [NSError errorWithDomain:@"error" code:100 userInfo:nil]);
+            if (callback) callback(nil, nil, nil, [NSError errorWithDomain:@"error" code:100 userInfo:nil]);
         }
     }];
 }
