@@ -149,6 +149,13 @@
     NSArray *displayedCollectionsMemory = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
     NSArray *featuredCollectionsMemory = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"featuredCollections"];
     
+    NSMutableArray *arrayCustomCollectionsIds = [[NSMutableArray alloc] init];
+    for (NSDictionary *collection in displayedCollectionsMemory) {
+        [arrayCustomCollectionsIds addObject:collection[@"shopify_collection_id"]];
+    }
+    [[NSUserDefaults standardUserDefaults] setObject:arrayCustomCollectionsIds forKey:@"arrayCustomCollectionsIds"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
     //verify we have all the collections
     
     BOOL fetchCollectionsFromShopify = NO;
@@ -160,21 +167,15 @@
         }
     }
     
+//    sortedKeysForCategories = [[arrayCustomCollectionsIds sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+//        return [[[dicCollections objectForKey:a] objectForKey:@"title"] compare:[[dicCollections objectForKey:b] objectForKey:@"title"]];
+//    }] mutableCopy];
+    sortedKeysForCategories = [arrayCustomCollectionsIds mutableCopy];
+    featuredCollections = [featuredCollectionsMemory mutableCopy];
+    
     if (fetchCollectionsFromShopify == YES) {
         [Store fetchSettingsFromServer:self.fetchSettingsHandler];
     }else{
-        NSMutableArray *arrayCustomCollectionsIds = [[NSMutableArray alloc] init];
-        for (NSDictionary *collection in displayedCollectionsMemory) {
-            [arrayCustomCollectionsIds addObject:collection[@"shopify_collection_id"]];
-        }
-        [[NSUserDefaults standardUserDefaults] setObject:arrayCustomCollectionsIds forKey:@"arrayCustomCollectionsIds"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        sortedKeysForCategories = [[arrayCustomCollectionsIds sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-            return [[[dicCollections objectForKey:a] objectForKey:@"title"] compare:[[dicCollections objectForKey:b] objectForKey:@"title"]];
-        }] mutableCopy];
-        
-        featuredCollections = featuredCollectionsMemory;
         
         [self.collectionView reloadData];
     }
@@ -664,6 +665,7 @@
 
                     
                     //replace the right collection updated !
+                    sorted_Updated_KeysForCategories = displayedCollections;
                     sorted_Updated_KeysForCategories = [[[dic_Updated_ProductsCorrespondingToCollections allKeys] sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
                         return [[[dic_Updated_Collections objectForKey:a] objectForKey:@"title"] compare:[[dic_Updated_Collections objectForKey:b] objectForKey:@"title"]];
                     }] mutableCopy];
