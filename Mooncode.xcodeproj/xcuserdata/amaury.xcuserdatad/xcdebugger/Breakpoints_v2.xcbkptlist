@@ -490,12 +490,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Mooncode/CategoriesViewController.m"
-            timestampString = "453798161.660774"
+            timestampString = "453847639.175911"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
-            landmarkName = "-updatePhoneSettings"
+            startingLineNumber = "535"
+            endingLineNumber = "535"
+            landmarkName = "-makeRequestForPage:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -506,45 +506,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Mooncode/CategoriesViewController.m"
-            timestampString = "453798168.52959"
+            timestampString = "453847639.175911"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "164"
-            endingLineNumber = "164"
-            landmarkName = "-updatePhoneSettings"
+            startingLineNumber = "581"
+            endingLineNumber = "581"
+            landmarkName = "-arrayCollectionsWithInitialArray:handleCollections:andCollectionType:"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__39-[CategoriesViewController viewDidLoad]_block_invoke"
-                  moduleName = "Mooncode"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/amaury/Developer/iOS/mooncode-app/Mooncode/CategoriesViewController.m"
-                  timestampString = "453798168.533951"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "164"
-                  endingLineNumber = "164"
-                  offsetFromSymbolStart = "619">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__39-[CategoriesViewController viewDidLoad]_block_invoke"
-                  moduleName = "Mooncode"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/amaury/Developer/iOS/mooncode-app/Mooncode/CategoriesViewController.m"
-                  timestampString = "453798168.534135"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "164"
-                  endingLineNumber = "164"
-                  offsetFromSymbolStart = "727">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -554,12 +522,76 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Mooncode/CategoriesViewController.m"
-            timestampString = "453817697.519093"
+            timestampString = "453847639.175911"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "179"
-            endingLineNumber = "179"
-            landmarkName = "-updatePhoneSettings"
+            startingLineNumber = "595"
+            endingLineNumber = "595"
+            landmarkName = "-arrayCollectionsWithInitialArray:handleCollections:andCollectionType:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Mooncode/CategoriesViewController.m"
+            timestampString = "453849202.00376"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "760"
+            endingLineNumber = "760"
+            landmarkName = "-getProductsInCollectionWithCollectionId:andPageNumber:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Mooncode/CategoriesViewController.m"
+            timestampString = "453848310.834401"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "178"
+            endingLineNumber = "178"
+            landmarkName = "-viewDidLoad"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Mooncode/CategoriesViewController.m"
+            timestampString = "453848416.788539"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "202"
+            endingLineNumber = "202"
+            landmarkName = "-viewDidLoad"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Mooncode/CategoriesViewController.m"
+            timestampString = "453849202.00376"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1064"
+            endingLineNumber = "1064"
+            landmarkName = "-collectionView:didSelectItemAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

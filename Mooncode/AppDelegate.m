@@ -123,7 +123,7 @@
                                           nil];
     
     // NEVER REMOVE THIS LINE !!!! ********
-    [[NSUserDefaults standardUserDefaults] setObject:arrayCustomCollectionsIds forKey:@"arrayCustomCollectionsIds"]; // NEVER REMOVE THIS LINE !!!! ********
+//    [[NSUserDefaults standardUserDefaults] setObject:arrayCustomCollectionsIds forKey:@"arrayCustomCollectionsIds"]; // NEVER REMOVE THIS LINE !!!! ********
     // NEVER REMOVE THIS LINE !!!! ********
     
     //**************************************************************************************************************
