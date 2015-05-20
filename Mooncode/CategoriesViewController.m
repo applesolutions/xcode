@@ -156,12 +156,28 @@
         
         if ( ! [dicCollections objectForKey:collection[@"shopify_collection_id"]] ) {
             fetchCollectionsFromShopify = YES;
-            [Store fetchSettingsFromServer:self.fetchSettingsHandler];
             break;
         }
     }
     
-
+    if (fetchCollectionsFromShopify == YES) {
+        [Store fetchSettingsFromServer:self.fetchSettingsHandler];
+    }else{
+        NSMutableArray *arrayCustomCollectionsIds = [[NSMutableArray alloc] init];
+        for (NSDictionary *collection in displayedCollectionsMemory) {
+            [arrayCustomCollectionsIds addObject:collection[@"shopify_collection_id"]];
+        }
+        [[NSUserDefaults standardUserDefaults] setObject:arrayCustomCollectionsIds forKey:@"arrayCustomCollectionsIds"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        sortedKeysForCategories = [[arrayCustomCollectionsIds sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+            return [[[dicCollections objectForKey:a] objectForKey:@"title"] compare:[[dicCollections objectForKey:b] objectForKey:@"title"]];
+        }] mutableCopy];
+        
+        featuredCollections = featuredCollectionsMemory;
+        
+        [self.collectionView reloadData];
+    }
 }
 
 - (void)viewDidLoad {
