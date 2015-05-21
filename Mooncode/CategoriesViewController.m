@@ -55,6 +55,13 @@
 @property (nonatomic, copy) void (^fetchSettingsHandler)(NSString*token, NSArray*displayedCollections, NSArray*featuredCollections,  NSError*error);
 
 
+@property ( nonatomic, strong) __block NSArray *displayedCollectionsForCV;
+@property ( nonatomic, strong) __block NSArray *featuredCollectionsForCV;
+
+//copy of the server (not modified)
+@property ( nonatomic, strong) __block NSArray *featuredCollectionsFromServer;
+@property ( nonatomic, strong) __block NSArray *displayedCollectionsFromServer;
+
 @end
 
 #define CELL_IDENTIFIER @"WaterfallCell"
@@ -74,11 +81,11 @@
     __block NSMutableDictionary *dic_Updated_ProductsCorrespondingToCollections;
     __block NSMutableDictionary *dic_Updated_Collections;
     
-//    __block NSMutableArray *sorted_Updated_KeysForCategories;
+    //list of ids..
     __block NSMutableArray *sortedKeysForCategories;
     
-    __block NSMutableArray *featuredCollections;
-    __block NSMutableArray *displayedCollections;
+
+    
     
     __block NSMutableArray *arrayIndexesActiclesOnSales;
     
@@ -142,11 +149,14 @@
 }
 
 -(void)updatePhoneSettings{
-    
     [self updateColors];
-    
-
 }
+
+//-(BOOL)shouldFetchCollectionsFromShopify{
+//    return NO;
+//}
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -158,55 +168,52 @@
          
             
             token = updatedToken;
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                NSLog(@"reload !!!!!");
-//                [wSelf.collectionView reloadData];
-//            });
-            
-//            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
-//                [wSelf makeRequestForPage_productsOnly:1];
-//            }else{
-//                [wSelf makeRequestForPage:1];
-//            }
-            
             
             
             //update collections diplayed / featured
-            NSArray *displayedCollectionsMemory = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
-            NSArray *featuredCollectionsMemory = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"featuredCollections"];
+            wSelf.displayedCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
+            wSelf.featuredCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"featuredCollections"];
             
             NSMutableArray *arrayCustomCollectionsIds = [[NSMutableArray alloc] init];
-            for (NSDictionary *collection in displayedCollectionsMemory) {
+            for (NSDictionary *collection in wSelf.displayedCollectionsFromServer) {
                 [arrayCustomCollectionsIds addObject:[collection[@"shopify_collection_id"] stringValue]];
             }
             [[NSUserDefaults standardUserDefaults] setObject:arrayCustomCollectionsIds forKey:@"arrayCustomCollectionsIds"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
-            //verify we have all the collections
             
+            
+            //check we have in memeory all the collections to display (from server) + display the ones we have
             BOOL fetchCollectionsFromShopify = NO;
-            for (NSDictionary *collection in displayedCollectionsMemory) {
+            NSMutableArray *updatedDisplayedCollectionsForCV = [[NSMutableArray alloc] init];
+            for (NSDictionary *collection in wSelf.displayedCollectionsFromServer) {
                 
-                if ( ! [dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] ) {
+                if ( ! [dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] || // not in our collections
+                     ! [dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) { // not in our products
                     fetchCollectionsFromShopify = YES;
-                    break;
+                }else{
+                    [updatedDisplayedCollectionsForCV addObject:collection];
+                }
+            }
+        
+            //display all the featured collections we have in memeory
+            NSMutableArray *updatedFeaturedCollectionsForCV = [[NSMutableArray alloc] init];
+            for (NSDictionary *collection in wSelf.featuredCollectionsFromServer) {
+                
+                if ( [dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] && // not in our collections
+                     [dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) { // not in our products
+                    [updatedFeaturedCollectionsForCV addObject:collection];
                 }
             }
             
-            //    sortedKeysForCategories = [[arrayCustomCollectionsIds sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-            //        return [[[dicCollections objectForKey:a] objectForKey:@"title"] compare:[[dicCollections objectForKey:b] objectForKey:@"title"]];
-            //    }] mutableCopy];
-            sortedKeysForCategories = [arrayCustomCollectionsIds mutableCopy];
-            featuredCollections = [featuredCollectionsMemory mutableCopy];
+            wSelf.displayedCollectionsForCV = updatedDisplayedCollectionsForCV;
+            wSelf.featuredCollectionsForCV = updatedFeaturedCollectionsForCV;
             
-            if (fetchCollectionsFromShopify == YES) {
-                [wSelf makeRequestForPage:1];
-            }else{
-                [wSelf.collectionView reloadData];
-            }
-            
-            
+            [wSelf.collectionView reloadData];
         
+            
+            if (fetchCollectionsFromShopify == YES)
+                [wSelf makeRequestForPage:1];
             
         }
         else{
@@ -243,7 +250,6 @@
         array_Updated_Products = [NSMutableArray new];
         
         sortedKeysForCategories = [NSMutableArray new];
-        featuredCollections = [[NSMutableArray alloc] init];
         
         arrayIndexesActiclesOnSales = [NSMutableArray new];
         
@@ -295,16 +301,9 @@
 //                sortedKeysForCategories = [[[dicProductsCorrespondingToCollections allKeys] sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
 //                    return [[[dicCollections objectForKey:a] objectForKey:@"title"] compare:[[dicCollections objectForKey:b] objectForKey:@"title"]];
 //                }] mutableCopy];
-                NSArray *displayedCollectionsMemory = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
-                NSArray *featuredCollectionsMemory = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"featuredCollections"];
                 
-                NSMutableArray *arrayCustomCollectionsIds = [[NSMutableArray alloc] init];
-                for (NSDictionary *collection in displayedCollectionsMemory) {
-                    [arrayCustomCollectionsIds addObject:[collection[@"shopify_collection_id"] stringValue]];
-                }
-                sortedKeysForCategories = [arrayCustomCollectionsIds mutableCopy];
-                featuredCollections = [featuredCollectionsMemory mutableCopy];
-                
+                self.displayedCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
+                self.featuredCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"featuredCollections"];
                 
                 
                 
@@ -510,7 +509,7 @@
         if (!error){
             
             NSMutableDictionary* dicFromServer = [[NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error] mutableCopy];
-            //            //NSLog(@"all collections : %@ and count collections : %lu", [dicFromServer description], [[dicFromServer objectForKey:collectionType] count]);
+            //NSLog(@"all collections : %@ and count collections : %lu", [dicFromServer description], [[dicFromServer objectForKey:collectionType] count]);
             
             //CHECK COLLECTIONS ****************************************************
             arrayAddedOrModifiedCollections = [self arrayCollectionsWithInitialArray:arrayAddedOrModifiedCollections handleCollections:[dicFromServer objectForKey:@"smart_collections"] andCollectionType:@"smart_collections"];
@@ -528,8 +527,7 @@
                 if (!error_custom){
                     
                     NSMutableDictionary* dicFromServer_custom = [[NSJSONSerialization JSONObjectWithData:data_custom options:kNilOptions error:&error_custom] mutableCopy];
-                    
-                    //                    //NSLog(@"dicFromServer_custom : %@", [dicFromServer_custom description]);
+                    //NSLog(@"dicFromServer_custom : %@", [dicFromServer_custom description]);
                     
                     //CHECK COLLECTIONS ****************************************************
                     arrayAddedOrModifiedCollections = [self arrayCollectionsWithInitialArray:arrayAddedOrModifiedCollections handleCollections:[dicFromServer_custom objectForKey:@"custom_collections"] andCollectionType:@"custom_collections"];
@@ -544,9 +542,6 @@
                 }
                 
                 //GET THE PRODUCTS FOR EACH COLLECTION !  ****************************************************
-                //NSLog(@"collections nb : %d ", (int)[arrayAddedOrModifiedCollections count]);
-                //NSLog(@"collections : %@", [arrayAddedOrModifiedCollections description]);
-                //NSLog(@"count collections to download : %d", count_collectionsToDownload);
                 for (NSDictionary *dicCollectionToDownload in arrayAddedOrModifiedCollections) { // download products only for new/updated collections
                     
                     if ([[dicCollections allKeys] count] > 0) {
@@ -606,7 +601,6 @@
     [dicCollections removeAllObjects];
     [dicProductsCorrespondingToCollections removeAllObjects];
     [sortedKeysForCategories removeAllObjects];
-    [featuredCollections removeAllObjects];
     [self.collectionView reloadData];
     
     [NSUserDefaultsMethods removeFilesInFolderWithName:@"datasForProductsAndCollections"];
@@ -644,11 +638,10 @@
     [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
         
         if (!error){
+            
             NSDictionary* dicFromServer_products = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-            
-            
             NSArray *arrayForProducts = [dicFromServer_products objectForKey:@"products"];
-            //                //NSLog(@"products : %@", [arrayForProducts description]);
+            //NSLog(@"products : %@", [arrayForProducts description]);
             
             if ([arrayForProducts count] != 0){  //check if the collection is empty
                 
@@ -1061,7 +1054,7 @@
         CategoryProductsViewController *vc1 = [sb instantiateViewControllerWithIdentifier:@"CategoryProductsViewController"];
         
         if (indexPath.section == 0) {
-            vc1.categoryName = [[featuredCollections objectAtIndex:indexPath.row][@"shopify_collection_id"] stringValue];
+            vc1.categoryName = [[self.featuredCollectionsFromServer objectAtIndex:indexPath.row][@"shopify_collection_id"] stringValue];
            
             if ([dicCollections objectForKey:vc1.categoryName]) {
                 vc1.collectionName = [[dicCollections objectForKey:vc1.categoryName] objectForKey:@"title"];
@@ -1084,7 +1077,7 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
     if (section == 0) { //featured
-        return [featuredCollections count];
+        return [self.featuredCollectionsFromServer count];
     }else{
         
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
@@ -1151,11 +1144,11 @@
         
         if (indexPath.section == 0) { //featured collections
             
-            if ([featuredCollections count] <= indexPath.row) {
+            if ([self.featuredCollectionsFromServer count] <= indexPath.row) {
                 cell.imageView.image = nil;
                 return (UICollectionViewCell*)cell;
             }else{
-                keyCategory = [featuredCollections objectAtIndex:indexPath.row][@"shopify_collection_id"]; //make it for featured collections
+                keyCategory = [self.featuredCollectionsFromServer objectAtIndex:indexPath.row][@"shopify_collection_id"]; //make it for featured collections
             }
             
         }else{
