@@ -1028,20 +1028,20 @@
         CategoryProductsViewController *vc1 = [sb instantiateViewControllerWithIdentifier:@"CategoryProductsViewController"];
         
         if (indexPath.section == 0) {
-            vc1.categoryName = [[self.featuredCollectionsFromServer objectAtIndex:indexPath.row][@"shopify_collection_id"] stringValue];
+            vc1.categoryName = [[self.featuredCollectionsForCV objectAtIndex:indexPath.row][@"shopify_collection_id"] stringValue];
            
             if ([dicCollections objectForKey:vc1.categoryName]) {
-                vc1.collectionName = [[dicCollections objectForKey:vc1.categoryName] objectForKey:@"title"];
-                vc1.arrayProducts = [dicProductsCorrespondingToCollections objectForKey:vc1.categoryName];
+                vc1.collectionName = dicCollections[vc1.categoryName][@"title"];
+                vc1.arrayProducts = dicProductsCorrespondingToCollections[vc1.categoryName];
                 [self.navigationController pushViewController:vc1 animated:YES];
             }
 
         }else{
-            vc1.categoryName = [sortedKeysForCategories objectAtIndex:indexPath.row] ;
+            vc1.categoryName = [[self.displayedCollectionsForCV objectAtIndex:indexPath.row][@"shopify_collection_id"] stringValue];
 
             if ([dicCollections objectForKey:vc1.categoryName]) {
-                vc1.collectionName = [[dicCollections objectForKey:vc1.categoryName] objectForKey:@"title"];
-                vc1.arrayProducts = [dicProductsCorrespondingToCollections objectForKey:vc1.categoryName];
+                vc1.collectionName = dicCollections[vc1.categoryName][@"title"];
+                vc1.arrayProducts = dicProductsCorrespondingToCollections[vc1.categoryName];
                 [self.navigationController pushViewController:vc1 animated:YES];
             }
         }
