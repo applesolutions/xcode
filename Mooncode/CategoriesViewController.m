@@ -152,9 +152,37 @@
     [self updateColors];
 }
 
-//-(BOOL)shouldFetchCollectionsFromShopify{
-//    return NO;
-//}
+-(void)updateCollectionsThatCanBeDisplayed{
+    
+    self.displayedCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
+    self.featuredCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"featuredCollections"];
+    
+    //check we have in memeory all the collections to display (from server) + display the ones we have
+
+    NSMutableArray *updatedDisplayedCollectionsForCV = [[NSMutableArray alloc] init];
+    for (NSDictionary *collection in self.displayedCollectionsFromServer) {
+        
+        if (  [dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] && // not in our collections
+             [dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) { // not in our products
+            [updatedDisplayedCollectionsForCV addObject:collection];
+        }
+    }
+    
+    //display all the featured collections we have in memeory
+    NSMutableArray *updatedFeaturedCollectionsForCV = [[NSMutableArray alloc] init];
+    for (NSDictionary *collection in self.featuredCollectionsFromServer) {
+        
+        if ( [dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] && // not in our collections
+            [dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) { // not in our products
+            [updatedFeaturedCollectionsForCV addObject:collection];
+        }
+    }
+    
+    self.displayedCollectionsForCV = updatedDisplayedCollectionsForCV;
+    self.featuredCollectionsForCV = updatedFeaturedCollectionsForCV;
+    
+    [self.collectionView reloadData];
+}
 
 
 
@@ -751,20 +779,14 @@
                     __block NSMutableArray *arrayUrlsToBeDownloaded = [[NSMutableArray alloc] init];
                     
                     for (NSString *key in [dicProductsCorrespondingToCollections allKeys]) { //ENUMERATE ALL THE PRODUCTS TO KNOW IF UPDATED !
-                        //                        //NSLog(@"key : %@", key);
                         for (NSDictionary *dicProduct in [dicProductsCorrespondingToCollections objectForKey:key]) {
-                            
-                            //                            //NSLog(@"dic product : %@", [dicProduct description]);
                             
                             NSString *stringDateProductUpdate = [dicProduct objectForKey:@"updated_at"];
                             
-                            //                                //NSLog(@"date in iphone : %@", stringDateLastUpdateIPhone);
-                            //                                //NSLog(@"date update product : %@", stringDateProductUpdate);
-                            //                                //NSLog(@"title product to update : %@", [dicProduct objectForKey:@"title"]);
                             
                             if ([self hasBeenUpdatedWithStringDateReference:stringDateLastUpdateIPhone andStringDate:stringDateProductUpdate]   || ( // update !
-                                                                                                                                                    [ImageManagement getImageFromMemoryWithName:[dicProduct objectForKey:@"id"]] == nil                             && //first time !
-                                                                                                                                                    [dicProduct objectForKey:@"id"] != nil && [dicProduct objectForKey:@"image"] != nil ) )
+                                [ImageManagement getImageFromMemoryWithName:[dicProduct objectForKey:@"id"]] == nil                             && //first time !
+                                [dicProduct objectForKey:@"id"] != nil && [dicProduct objectForKey:@"image"] != nil ) )
                             {
                                 if ([arrayIdsToBeDownloaded containsObject:[dicProduct objectForKey:@"id"]]) { //objectId already to download !
                                     //NSLog(@"image already downloaded !");
@@ -817,29 +839,6 @@
     }];
 }
 
--(BOOL) hasBeenUpdatedWithStringDateReference : (NSString*) stringDateReference andStringDate:(NSString*)stringDateToCompare {
-    
-    // Convert string to date object
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    dateFormat.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
-    [dateFormat setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ssZZZZZ"];
-    
-    NSDate *dateToCompare = [dateFormat dateFromString:stringDateToCompare];
-    NSDate *dateReference = [dateFormat dateFromString:stringDateReference];
-    
-    //    //NSLog(@"date tot compare : %@", [dateToCompare description]);
-    //    //NSLog(@"date tot ref : %@", [dateReference description]);
-    
-    //    //NSLog(@" time difference : %f",[dateToCompare timeIntervalSinceDate:dateReference] );
-    if ([dateToCompare timeIntervalSinceDate:dateReference] > 0 || stringDateReference == nil) { //collection has to be updated in iPhone !
-        //        //NSLog(@"aupdate !!!");
-        return YES;
-    }else{
-        //        //NSLog(@"no update !!!");
-        return NO;
-    }
-    
-}
 
 #pragma mark images
 
@@ -853,62 +852,69 @@
         NSURL *urlForImage = [NSURL URLWithString:[imageUrl getShopifyUrlforSize:@"large"]];
         
         NSMutableURLRequest *request_image = [NSMutableURLRequest requestWithURL:urlForImage];
-        [NSURLConnection sendAsynchronousRequest:request_image
-                                           queue:[NSOperationQueue mainQueue]
-                               completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-                                   
-                                   if (error) {
-                                       //NSLog(@"error in image dwnld: %@", [error description]);
-                                       if (error.code == -1001 && [error.domain isEqualToString:@"NSURLErrorDomain"]) {
-                                           [self getImageWithImageUrl:imageUrl andObjectId:objectId lastImageToDownload:NO ImageForCollection:isImageForCollection];
-                                       }
-                                   }
-                                   
-                                   count_imagesToBeDownloaded--;
-                                   //NSLog(@"count images to be downloaded after download : %d", count_imagesToBeDownloaded);
-                                   
-                                   if (count_imagesToBeDownloaded == 0) {
-                                       
-                                       [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible: NO];
-                                       
-                                       if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
-                                           
-                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                               [self.collectionView reloadData];
-                                               [self hideLoading];
-                                               //NSLog(@"test image");
-                                           });
-                                       }
-                                   }
-                                   
-                                   if ( ! error )
-                                   {
-                                       //                                       UIImage *image = [UIImage imageWithData:data];
-                                       //NSLog(@"image asynch : %@", [image description]);
-                                       
-                                       //save image in memory
-                                       [ImageManagement saveImageWithData:data forName:objectId];
-                                       
-                                       //NSLog(@"bool is<imageCollection : %d", isImageForCollection);
-                                       //NSLog(@"url test %@", urlForImage);
-                                       
-                                       //if the image is the first of a category : reloadData for collectionView
-                                       
-                                       if (isLastImmage == YES || isImageForCollection == YES ) { //Last ImageFromCollection is downloaded
-                                           //NSLog(@"end download !");
-                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                               
-                                               //NSLog(@"reload data for collection");
-                                               [self.collectionView reloadData];
-                                           });
-                                       }
-                                   }
-                                   
-                               }];
+        [NSURLConnection sendAsynchronousRequest:request_image queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+            
+            if (error) {
+                //NSLog(@"error in image dwnld: %@", [error description]);
+                if (error.code == -1001 && [error.domain isEqualToString:@"NSURLErrorDomain"]) {
+                    [self getImageWithImageUrl:imageUrl andObjectId:objectId lastImageToDownload:NO ImageForCollection:isImageForCollection];
+                }
+            }
+            
+            count_imagesToBeDownloaded--;
+            //NSLog(@"count images to be downloaded after download : %d", count_imagesToBeDownloaded);
+            
+            if (count_imagesToBeDownloaded == 0) {
+                
+                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible: NO];
+                
+                if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.collectionView reloadData];
+                        [self hideLoading];
+                        //NSLog(@"test image");
+                    });
+                }
+            }
+            
+            if ( !error )
+            {
+                //save image in memory
+                [ImageManagement saveImageWithData:data forName:objectId];
+                
+                //if the image is the first of a category : reloadData for collectionView
+                if (isLastImmage == YES || isImageForCollection == YES ) { //Last ImageFromCollection is downloaded
+                    //NSLog(@"end download !");
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.collectionView reloadData];
+                    });
+                }
+            }
+            
+        }];
     });
 }
 
 #pragma mark other
+
+
+-(BOOL) hasBeenUpdatedWithStringDateReference : (NSString*) stringDateReference andStringDate:(NSString*)stringDateToCompare {
+    
+    // Convert string to date object
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    dateFormat.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+    [dateFormat setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ssZZZZZ"];
+    
+    NSDate *dateToCompare = [dateFormat dateFromString:stringDateToCompare];
+    NSDate *dateReference = [dateFormat dateFromString:stringDateReference];
+    
+    if ([dateToCompare timeIntervalSinceDate:dateReference] > 0 || stringDateReference == nil) { //collection has to be updated in iPhone !
+        return YES;
+    }else{
+        return NO;
+    }
+}
 
 - (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL
 {
@@ -918,7 +924,6 @@
     if(!success){
         //NSLog(@"Error excluding %@ from backup %@", [URL lastPathComponent], error);
     }
-    //NSLog(@"prevent backup method called without error");
     return success;
 }
 
