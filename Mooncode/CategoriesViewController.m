@@ -1118,33 +1118,26 @@
         NSString *keyCategory;
         
         if (indexPath.section == 0) { //featured collections
-            
-            if ([self.featuredCollectionsFromServer count] <= indexPath.row) {
-                cell.imageView.image = nil;
-                return (UICollectionViewCell*)cell;
-            }else{
-                keyCategory = [self.featuredCollectionsFromServer objectAtIndex:indexPath.row][@"shopify_collection_id"]; //make it for featured collections
-            }
+    
+            keyCategory = [[self.featuredCollectionsForCV objectAtIndex:indexPath.row][@"shopify_collection_id"] stringValue]; // featured collections
             
         }else{
-            
-            keyCategory = [sortedKeysForCategories objectAtIndex:indexPath.row];
+            keyCategory = [[self.displayedCollectionsForCV objectAtIndex:indexPath.row][@"shopify_collection_id"] stringValue]; // displayed collections
         }
         
-        cell.displayLabel.text = [[dicCollections objectForKey: [NSString stringWithFormat:@"%@", keyCategory]] objectForKey:@"title"];
+        cell.displayLabel.text = dicCollections[keyCategory][@"title"];
 
         
         UIColor *color = [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"red"] floatValue] / 255
                                          green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"green"] floatValue] / 255
                                           blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"blue"] floatValue] / 255
                                          alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"alpha"] floatValue]];
-//        NSLog(@"color for background cell : %@", color.description);
         cell.viewWhite.backgroundColor = color;
         
-        if (cell.viewWhite.hidden) {
-            cell.viewWhite.hidden = NO;
-            cell.displayLabel.hidden = NO;
-        }
+//        if (cell.viewWhite.hidden) {
+//            cell.viewWhite.hidden = NO;
+//            cell.displayLabel.hidden = NO;
+//        }
         
         //check for specific collection image
         UIImage *collectionImage =[ImageManagement getImageFromMemoryWithName:keyCategory];
@@ -1172,7 +1165,6 @@
 #pragma mark - CHTCollectionViewDelegateWaterfallLayout
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout columnCountForSection:(NSInteger)section{
-    NSLog(@"columnCountForSection : %d", section);
     if (section == 0) {
         return 1;
     }else{
