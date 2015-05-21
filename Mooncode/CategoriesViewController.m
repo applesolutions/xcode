@@ -1051,14 +1051,14 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    if (section == 0) { //featured
-        return [self.featuredCollectionsFromServer count];
+    if (section == 0) {
+        return [self.featuredCollectionsForCV count];
     }else{
         
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
             return [arrayProducts count];
         }else{
-            return [sortedKeysForCategories count];
+            return [self.displayedCollectionsForCV count];
         }
     }
 }
