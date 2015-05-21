@@ -157,6 +157,11 @@
     self.displayedCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
     self.featuredCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"featuredCollections"];
     
+    if (self.displayedCollectionsFromServer.count == 0) {
+        [self noCollectionAvailable];
+        return;
+    }
+    
     //check we have in memeory all the collections to display (from server) + display the ones we have
 
     NSMutableArray *updatedDisplayedCollectionsForCV = [[NSMutableArray alloc] init];
@@ -181,7 +186,9 @@
     self.displayedCollectionsForCV = updatedDisplayedCollectionsForCV;
     self.featuredCollectionsForCV = updatedFeaturedCollectionsForCV;
     
-    [self.collectionView reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.collectionView reloadData];
+    });
 }
 
 
@@ -201,6 +208,11 @@
             //update collections diplayed / featured
             wSelf.displayedCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
             wSelf.featuredCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"featuredCollections"];
+            
+            if (wSelf.displayedCollectionsFromServer.count == 0) {
+                [wSelf noCollectionAvailable];
+                return;
+            }
             
             NSMutableArray *arrayCustomCollectionsIds = [[NSMutableArray alloc] init];
             for (NSDictionary *collection in wSelf.displayedCollectionsFromServer) {
@@ -237,7 +249,9 @@
             wSelf.displayedCollectionsForCV = updatedDisplayedCollectionsForCV;
             wSelf.featuredCollectionsForCV = updatedFeaturedCollectionsForCV;
             
-            [wSelf.collectionView reloadData];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [wSelf.collectionView reloadData];
+            });
         
             
             if (fetchCollectionsFromShopify == YES)
@@ -292,8 +306,10 @@
             
             if (arrayProducts != nil) {
                 [self checkForProductsInSales];
-                [self.collectionView reloadData];
-                [self hideLoading];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.collectionView reloadData];
+                    [self hideLoading];
+                });
             }else{
                 arrayProducts = [NSMutableArray new];
                 [self showLoading];
@@ -336,10 +352,10 @@
                 
                 
                 
-                
-                [self.collectionView reloadData];
-                
-                [self hideLoading];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.collectionView reloadData];
+                    [self hideLoading];
+                });
                 
             }else{
                 
@@ -632,19 +648,27 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        [self hideLoading];
+        [self showLoading];
         self.imageBackgroundForLoading.hidden = NO;
         
         self.collectionView.hidden= YES;
         
-        UILabel *labelNewTitleForProduct = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-        labelNewTitleForProduct.center = self.view.center;
-        labelNewTitleForProduct.adjustsFontSizeToFitWidth = YES;
-        labelNewTitleForProduct.font = [UIFont fontWithName:@"ProximaNova-Regular" size:17.0f];
-        labelNewTitleForProduct.textAlignment = UITextAlignmentCenter;
-        labelNewTitleForProduct.numberOfLines = 2;
-        labelNewTitleForProduct.text = @"This shop has no product yet, come back later !";
-        [self.view addSubview:labelNewTitleForProduct];
+//        UILabel *labelNewTitleForProduct = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+//        labelNewTitleForProduct.center = self.view.center;
+//        labelNewTitleForProduct.adjustsFontSizeToFitWidth = YES;
+//        labelNewTitleForProduct.font = [UIFont fontWithName:@"ProximaNova-Regular" size:17.0f];
+//        labelNewTitleForProduct.textAlignment = UITextAlignmentCenter;
+//        labelNewTitleForProduct.numberOfLines = 2;
+//        labelNewTitleForProduct.text = @"This shop has no product yet, come back later !";
+//        [self.view addSubview:labelNewTitleForProduct];
+        
+
+        
+        self.activityLoading.hidden = YES;
+        self.labelLoading.text = @"This shop has no product yet, come back later !";
+        self.buttonReload.hidden = NO;
+        
+        self.loading = NO;
     });
 }
 
@@ -754,6 +778,9 @@
                     dicCollections = [dic_Updated_Collections mutableCopy];
                     dicProductsCorrespondingToCollections = [dic_Updated_ProductsCorrespondingToCollections mutableCopy];
                     
+                    
+                    [self updateCollectionsThatCanBeDisplayed];
+                    
                     //                    [dic_Updated_Collections removeAllObjects];
                     //                    [dic_Updated_ProductsCorrespondingToCollections removeAllObjects];
                     //                    [sorted_Updated_KeysForCategories removeAllObjects];
@@ -828,7 +855,6 @@
                     }
                     
                     //EVERYTHING IS DOWNLOADED !
-                    [self updateCollectionsThatCanBeDisplayed];
                     [self saveTimeUpdateIPhone];
                     self.loading = NO;
                 }
@@ -886,6 +912,8 @@
                 if (isLastImmage == YES || isImageForCollection == YES ) { //Last ImageFromCollection is downloaded
                     //NSLog(@"end download !");
                     dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        UIImage *imahe = [ImageManagement getImageFromMemoryWithName:objectId];
                         [self.collectionView reloadData];
                     });
                 }

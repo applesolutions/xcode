@@ -13,15 +13,15 @@
 
 +(void) saveImageWithData : (NSData*) imageData forName: (NSString *) imageName{
     
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        
+//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+    
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
         
         NSString *imagePath =[documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",imageName]];
         
         [imageData writeToFile:imagePath atomically:NO];
-    });
+//    });
 }
 
 +(void) deleteImageInMemoryWithName : (NSString*) imageName{
