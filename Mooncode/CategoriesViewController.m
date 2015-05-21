@@ -820,8 +820,6 @@
                     
                     for (NSString *id_ImageToDownload in arrayIdsToBeDownloaded) {
                         
-                        //NSLog(@"download loop : %@", id_ImageToDownload);
-                        
                         [self getImageWithImageUrl: [arrayUrlsToBeDownloaded objectAtIndex:[arrayIdsToBeDownloaded indexOfObject:id_ImageToDownload]]
                                        andObjectId: id_ImageToDownload
                                lastImageToDownload: NO   // does not matter
@@ -830,6 +828,7 @@
                     }
                     
                     //EVERYTHING IS DOWNLOADED !
+                    [self updateCollectionsThatCanBeDisplayed];
                     [self saveTimeUpdateIPhone];
                     self.loading = NO;
                 }
