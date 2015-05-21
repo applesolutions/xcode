@@ -195,7 +195,7 @@
                     [updatedDisplayedCollectionsForCV addObject:collection];
                 }
             }
-        
+         
             //display all the featured collections we have in memeory
             NSMutableArray *updatedFeaturedCollectionsForCV = [[NSMutableArray alloc] init];
             for (NSDictionary *collection in wSelf.featuredCollectionsFromServer) {
@@ -347,18 +347,13 @@
         
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == YES) {
             
-            
-            
             [dic_Updated_Collections removeAllObjects];
             [dic_Updated_ProductsCorrespondingToCollections removeAllObjects];
-//            [sorted_Updated_KeysForCategories removeAllObjects];
+
             dic_Updated_Collections = [NSMutableDictionary new];
             dic_Updated_ProductsCorrespondingToCollections = [NSMutableDictionary new];
 //            sorted_Updated_KeysForCategories = [NSMutableArray new];
             
-            //NSLog(@"refresh - dic_Updated_Collections.count : %lu", (unsigned long)[dic_Updated_Collections count]);
-            //NSLog(@"refresh - dicCollections.count : %lu", (unsigned long)[dicCollections count]);
-            //NSLog(@"refresh - count_collectionsToDownload : %d", count_collectionsToDownload);
             count_collectionsToDownload = 0;
 
             
@@ -645,20 +640,20 @@
             
             if ([arrayForProducts count] != 0){  //check if the collection is empty
             
-                //NSLog(@"products to display !");
-                
                 //check if the collection exists in this dictionary and store it with the products
                 if ( [dic_Updated_ProductsCorrespondingToCollections objectForKey: collection_id] ) {
                     
                     NSMutableArray *array = [[dic_Updated_ProductsCorrespondingToCollections objectForKey:collection_id] mutableCopy];
                     [array addObjectsFromArray:arrayForProducts];
                     [dic_Updated_ProductsCorrespondingToCollections setObject:array forKey:collection_id];
-                    //NSLog(@"not first time !");
                     
                 }else{
                     //NSLog(@"first time !");
                     [dic_Updated_ProductsCorrespondingToCollections setObject:arrayForProducts forKey:collection_id];
                 }
+            }
+            else if ( [arrayForProducts count] == 0 && pageNumber == 1){ // no products for this collection
+                [dic_Updated_ProductsCorrespondingToCollections setObject:[NSArray array] forKey:collection_id]; // placeholder array
             }
         
             if ([arrayForProducts count] == 250){ //we still have products to download for this collection
@@ -668,16 +663,15 @@
                 count_collectionsToDownload--;
                 //NSLog(@"count_collectionsToDownload : %d", count_collectionsToDownload );
                 
-                if ([arrayForProducts count] == 0) {
+//                if ([arrayForProducts count] == 0) {
                     //NSLog(@"remove !!!");
-                    [dic_Updated_Collections removeObjectForKey:collection_id];
-                    [dic_Updated_ProductsCorrespondingToCollections removeObjectForKey:collection_id];
-//                    [featuredCollections removeObject:collection_id];
-//                    [displayedCollections removeObject:collection_id];
-                    [sortedKeysForCategories removeObject:collection_id];
+//                    [dic_Updated_Collections removeObjectForKey:collection_id];
+//                    [dic_Updated_ProductsCorrespondingToCollections removeObjectForKey:collection_id];
+//                    [sortedKeysForCategories removeObject:collection_id];
                     //NSLog(@"delete collection for id : %@", collection_id);
-                }else{
-                    
+//                }else{
+                
+                if( [dic_Updated_ProductsCorrespondingToCollections[collection_id] count] > 0){ //test if collection contains products
                     
                     //sort products by date of creation
                     NSMutableArray *arrayProductsForSingleCollection = [dic_Updated_ProductsCorrespondingToCollections[collection_id] mutableCopy];
@@ -687,24 +681,12 @@
                     dic_Updated_ProductsCorrespondingToCollections[collection_id] = sortedArrayProducts;
 
                     
-                    //replace the right collection updated !
-//                    sorted_Updated_KeysForCategories = displayedCollections;
-//                    sorted_Updated_KeysForCategories = [[[dic_Updated_ProductsCorrespondingToCollections allKeys] sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-//                        return [[[dic_Updated_Collections objectForKey:a] objectForKey:@"title"] compare:[[dic_Updated_Collections objectForKey:b] objectForKey:@"title"]];
-//                    }] mutableCopy];
-                    
                     //check if the collection has been updated !!
                     NSData *dicUpdateIPhone = [[NSUserDefaults standardUserDefaults] dataForKey:@"dateLastUpdateIPhone"];
-                    
-                    
-                    NSString * stringDateLastUpdateIPhone = [[NSKeyedUnarchiver unarchiveObjectWithData:dicUpdateIPhone] objectForKey:@"dateLastUpdateIPhone"];
+                    NSString *stringDateLastUpdateIPhone = [[NSKeyedUnarchiver unarchiveObjectWithData:dicUpdateIPhone] objectForKey:@"dateLastUpdateIPhone"];
                     NSString *stringDateProductUpdate = [[dic_Updated_Collections objectForKey:collection_id ] objectForKey:@"updated_at"];
-                    //NSLog(@"date in iphone collection : %@", stringDateLastUpdateIPhone);
-                    //NSLog(@"date update collection : %@", stringDateProductUpdate);
                     
                     if ([self hasBeenUpdatedWithStringDateReference:stringDateLastUpdateIPhone andStringDate:stringDateProductUpdate]){ //collection updated
-                        
-                        //NSLog(@"collection updated");
                         
                         //check for a collection image
                         if ([[dic_Updated_Collections objectForKey:collection_id] objectForKey:@"image"]) {
@@ -723,21 +705,10 @@
                                    lastImageToDownload:YES
                                     ImageForCollection:YES];
                         }
-                        
-                    }else{
-                        //NSLog(@"collection not updated");
                     }
-                    
                 }
                 
-                //NSLog(@"dic_Updated_Collections.count = %lu", (unsigned long)[[dic_Updated_Collections allKeys] count]);
-                //NSLog(@"count sorted keys : %lu", [sorted_Updated_KeysForCategories count] );
-                
                 if (count_collectionsToDownload == 0) { //all collections have been downloaded -> save the date of download !
-                    //                 if ( (int)[[dic_Updated_Collections allKeys] count] == count_collectionsToDownload){
-                    
-                    
-                    //NSLog(@"ENTERED !!!");
                     
 
                     [NSUserDefaultsMethods saveObjectInMemory:dic_Updated_ProductsCorrespondingToCollections toFolder:@"datasForProductsAndCollections"];
@@ -748,11 +719,12 @@
                     //                    dicProductsCorrespondingToCollections = [dic_Updated_ProductsCorrespondingToCollections mutableCopy];
                     //                    sortedKeysForCategories = [sorted_Updated_KeysForCategories mutableCopy];
                     
-                    dicCollections = [NSMutableDictionary dictionaryWithDictionary:[dic_Updated_Collections mutableCopy]];
-                    dicProductsCorrespondingToCollections = [NSMutableDictionary dictionaryWithDictionary:[dic_Updated_ProductsCorrespondingToCollections mutableCopy]];
+//                    dicCollections = [NSMutableDictionary dictionaryWithDictionary:[dic_Updated_Collections mutableCopy]];
+//                    dicProductsCorrespondingToCollections = [NSMutableDictionary dictionaryWithDictionary:[dic_Updated_ProductsCorrespondingToCollections mutableCopy]];
 //                    sortedKeysForCategories = [NSMutableArray arrayWithArray:[sorted_Updated_KeysForCategories mutableCopy]];
                     
-                    //NSLog(@"dic collections to diplay : %@", [dicProductsCorrespondingToCollections description]);
+                    dicCollections = [dic_Updated_Collections mutableCopy];
+                    dicProductsCorrespondingToCollections = [dic_Updated_ProductsCorrespondingToCollections mutableCopy];
                     
                     //                    [dic_Updated_Collections removeAllObjects];
                     //                    [dic_Updated_ProductsCorrespondingToCollections removeAllObjects];
