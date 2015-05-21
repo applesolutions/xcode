@@ -1054,7 +1054,7 @@
 					"$(PROJECT_DIR)/Flurry",
 				);
 				PRODUCT_NAME = Mooncode;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "1ed3957e-3699-4127-9400-b490b025903d";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1078,7 +1078,7 @@
 					"$(PROJECT_DIR)/Flurry",
 				);
 				PRODUCT_NAME = Mooncode;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "1ed3957e-3699-4127-9400-b490b025903d";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

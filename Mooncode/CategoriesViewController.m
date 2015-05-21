@@ -644,7 +644,7 @@
             //NSLog(@"products : %@", [arrayForProducts description]);
             
             if ([arrayForProducts count] != 0){  //check if the collection is empty
-                
+            
                 //NSLog(@"products to display !");
                 
                 //check if the collection exists in this dictionary and store it with the products
@@ -659,10 +659,8 @@
                     //NSLog(@"first time !");
                     [dic_Updated_ProductsCorrespondingToCollections setObject:arrayForProducts forKey:collection_id];
                 }
-            }else{
-                //NSLog(@"no product for this collection ! : %@", [dicFromServer_products description]);
             }
-            
+        
             if ([arrayForProducts count] == 250){ //we still have products to download for this collection
                 [self getProductsInCollectionWithCollectionId:collection_id andPageNumber:(pageNumber + 1)];
             }else{//all the products have been downloaded

@@ -145,8 +145,8 @@
 }
 
 -(void) setParse{
-    [Parse setApplicationId:@"4ertIZqBSIXo66XwRhjH2IT5soOaV1f1DLcrnAjW"
-                  clientKey:@"jCEjAVMt8mqvhy64KMkNZUTR03mZgywKYiPBYrh4"];
+    [Parse setApplicationId:@"zWbyL5uCm51clRDfDqwZrdie1DoLb2akmKgeJB0o"
+                  clientKey:@"JSVHvXKv6VI9Ce3syrNDk9irFmLxTfYdYsRfqtSl"];
 }
 
 -(void) setNotificationsWithApplication: (UIApplication *)application{
