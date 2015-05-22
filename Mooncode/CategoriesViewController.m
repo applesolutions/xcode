@@ -268,7 +268,7 @@
 
           if (dicCollections != nil && dicProductsCorrespondingToCollections != nil) {
               [self updateCollectionsThatCanBeDisplayed];
-              
+
               dispatch_async(dispatch_get_main_queue(), ^{
                 [self.collectionView reloadData];
                 [self hideLoading];
@@ -590,22 +590,22 @@
                                            return [obj2[@"id"] compare:obj1[@"id"]];
                                          }];
                                          dic_Updated_ProductsCorrespondingToCollections[collection_id] = sortedArrayProducts;
-
-                                         //check if the collection has been updated !!
-                                         NSData *dicUpdateIPhone = [[NSUserDefaults standardUserDefaults] dataForKey:@"dateLastUpdateIPhone"];
-                                         NSString *stringDateLastUpdateIPhone = [[NSKeyedUnarchiver unarchiveObjectWithData:dicUpdateIPhone] objectForKey:@"dateLastUpdateIPhone"];
-                                         NSString *stringDateProductUpdate = [[dic_Updated_Collections objectForKey:collection_id] objectForKey:@"updated_at"];
-
-                                         if ([self hasBeenUpdatedWithStringDateReference:stringDateLastUpdateIPhone andStringDate:stringDateProductUpdate]) {  //collection updated
-
-                                             //check for a collection image
-                                             if ([[dic_Updated_Collections objectForKey:collection_id] objectForKey:@"image"]) {
-                                                 NSDictionary *dicCollection = [dic_Updated_Collections objectForKey:collection_id];
-                                                 [self getImageWithImageUrl:[[dicCollection objectForKey:@"image"] objectForKey:@"src"]
-                                                                andObjectId:collection_id
-                                                        lastImageToDownload:YES
-                                                         ImageForCollection:YES];
-                                             }
+                                     }
+                                     
+                                     //check if the collection has been updated !!
+                                     NSData *dicUpdateIPhone = [[NSUserDefaults standardUserDefaults] dataForKey:@"dateLastUpdateIPhone"];
+                                     NSString *stringDateLastUpdateIPhone = [[NSKeyedUnarchiver unarchiveObjectWithData:dicUpdateIPhone] objectForKey:@"dateLastUpdateIPhone"];
+                                     NSString *stringDateProductUpdate = [[dic_Updated_Collections objectForKey:collection_id] objectForKey:@"updated_at"];
+                                     
+                                     if ([self hasBeenUpdatedWithStringDateReference:stringDateLastUpdateIPhone andStringDate:stringDateProductUpdate]) {  //collection updated
+                                         
+                                         //check for a collection image
+                                         if ([[dic_Updated_Collections objectForKey:collection_id] objectForKey:@"image"]) {
+                                             NSDictionary *dicCollection = [dic_Updated_Collections objectForKey:collection_id];
+                                             [self getImageWithImageUrl:[[dicCollection objectForKey:@"image"] objectForKey:@"src"]
+                                                            andObjectId:collection_id
+                                                    lastImageToDownload:YES
+                                                     ImageForCollection:YES];
                                          }
                                      }
 
@@ -721,10 +721,7 @@
 
                                    //if the image is the first of a category : reloadData for collectionView
                                    if (isLastImmage == YES || isImageForCollection == YES) {  //Last ImageFromCollection is downloaded
-                                       //NSLog(@"end download !");
                                        dispatch_async(dispatch_get_main_queue(), ^{
-
-                                         UIImage *imahe = [ImageManagement getImageFromMemoryWithName:objectId];
                                          [self.collectionView reloadData];
                                        });
                                    }
