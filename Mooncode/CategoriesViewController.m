@@ -77,15 +77,13 @@
     __block int count_imagesToBeDownloaded;
 }
 
-#pragma mark ViewLifeCycle
+#pragma mark - ViewLifeCycle
 
 - (void)viewWillDisappear:(BOOL)animated {
-    self.stlmMainViewController = (ScrollViewController *)self.parentViewController.parentViewController;
     [self.stlmMainViewController disableScrollView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    self.stlmMainViewController = (ScrollViewController *)self.parentViewController.parentViewController;
     [self.stlmMainViewController enableScrollView];
 
     NSData *dataFromMemory = [[NSUserDefaults standardUserDefaults] dataForKey:@"arrayProductsInCart"];
@@ -110,55 +108,6 @@
                                              selector:@selector(updatePhoneSettings)
                                                  name:@"updatePhoneSettings"
                                                object:nil];
-}
-
-- (void)updateColors {
-    dispatch_async(dispatch_get_main_queue(), ^{
-
-      self.ViewNavBar.backgroundColor = [self colorFromMemoryWithName:@"colorNavBar"];
-
-      [self.navBar setBarTintColor:self.ViewNavBar.backgroundColor];
-
-      [AppDelegate setAppearance];
-
-      [self.collectionView reloadData];
-    });
-}
-
-- (void)updatePhoneSettings {
-    [self updateColors];
-}
-
-- (void)updateCollectionsThatCanBeDisplayed {
-    NSArray *displayedCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
-    NSArray *featuredCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"featuredCollections"];
-
-    if (displayedCollectionsFromServer.count == 0) {
-        [self noCollectionAvailable];
-        return;
-    }
-
-    //check we have in memeory all the collections to display (from server) + display the ones we have
-
-    NSMutableArray *updatedDisplayedCollectionsForCV = [[NSMutableArray alloc] init];
-    for (NSDictionary *collection in displayedCollectionsFromServer) {
-        if ([dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] &&                         // not in our collections
-            [dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) {  // not in our products
-            [updatedDisplayedCollectionsForCV addObject:collection];
-        }
-    }
-
-    //display all the featured collections we have in memeory
-    NSMutableArray *updatedFeaturedCollectionsForCV = [[NSMutableArray alloc] init];
-    for (NSDictionary *collection in featuredCollectionsFromServer) {
-        if ([dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] &&                         // not in our collections
-            [dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) {  // not in our products
-            [updatedFeaturedCollectionsForCV addObject:collection];
-        }
-    }
-
-    self.displayedCollectionsForCV = updatedDisplayedCollectionsForCV;
-    self.featuredCollectionsForCV = updatedFeaturedCollectionsForCV;
 }
 
 - (void)viewDidLoad {
@@ -228,6 +177,8 @@
     };
 
     [[self navigationController] setNavigationBarHidden:YES animated:YES];  //do not remove
+    
+    self.stlmMainViewController = (ScrollViewController *)self.parentViewController.parentViewController;
 
     count_imagesToBeDownloaded = 0;
 
@@ -296,6 +247,57 @@
     });
 }
 
+- (void)updateColors {
+    dispatch_async(dispatch_get_main_queue(), ^{
+
+      self.ViewNavBar.backgroundColor = [self colorFromMemoryWithName:@"colorNavBar"];
+
+      [self.navBar setBarTintColor:self.ViewNavBar.backgroundColor];
+
+      [AppDelegate setAppearance];
+
+      [self.collectionView reloadData];
+    });
+}
+
+- (void)updatePhoneSettings {
+    [self updateColors];
+}
+
+- (void)updateCollectionsThatCanBeDisplayed {
+    NSArray *displayedCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
+    NSArray *featuredCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"featuredCollections"];
+
+    if (displayedCollectionsFromServer.count == 0) {
+        [self noCollectionAvailable];
+        return;
+    }
+
+    //check we have in memeory all the collections to display (from server) + display the ones we have
+
+    NSMutableArray *updatedDisplayedCollectionsForCV = [[NSMutableArray alloc] init];
+    for (NSDictionary *collection in displayedCollectionsFromServer) {
+        if ([dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] &&                         // not in our collections
+            [dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) {  // not in our products
+            [updatedDisplayedCollectionsForCV addObject:collection];
+        }
+    }
+
+    //display all the featured collections we have in memeory
+    NSMutableArray *updatedFeaturedCollectionsForCV = [[NSMutableArray alloc] init];
+    for (NSDictionary *collection in featuredCollectionsFromServer) {
+        if ([dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] &&                         // not in our collections
+            [dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) {  // not in our products
+            [updatedFeaturedCollectionsForCV addObject:collection];
+        }
+    }
+
+    //sort arrays "updatedFeaturedCollectionsForCV" & "updatedDisplayedCollectionsForCV" by "placeInArray"
+
+    self.displayedCollectionsForCV = updatedDisplayedCollectionsForCV;
+    self.featuredCollectionsForCV = updatedFeaturedCollectionsForCV;
+}
+
 - (void)refreshTable {
     [self.refreshControl endRefreshing];
 
@@ -311,7 +313,7 @@
     }
 }
 
-#pragma mark request for products only
+#pragma mark - Products Only Downloader
 
 - (void)makeRequestForPage_productsOnly:(int)pageNumber {
     self.loading = YES;
@@ -418,7 +420,7 @@
                            }];
 }
 
-#pragma mark request collections
+#pragma mark - Collections Downloader
 
 - (void)makeRequestForPage:(int)pageNumber {
     self.loading = YES;
@@ -541,7 +543,7 @@
     });
 }
 
-#pragma mark request products
+#pragma mark - Products Downloader
 
 - (void)getProductsInCollectionWithCollectionId:(NSString *)collection_id andPageNumber:(int)pageNumber {
     NSString *website_string = [[NSUserDefaults standardUserDefaults] stringForKey:@"website_url"];
@@ -591,14 +593,14 @@
                                          }];
                                          dic_Updated_ProductsCorrespondingToCollections[collection_id] = sortedArrayProducts;
                                      }
-                                     
+
                                      //check if the collection has been updated !!
                                      NSData *dicUpdateIPhone = [[NSUserDefaults standardUserDefaults] dataForKey:@"dateLastUpdateIPhone"];
                                      NSString *stringDateLastUpdateIPhone = [[NSKeyedUnarchiver unarchiveObjectWithData:dicUpdateIPhone] objectForKey:@"dateLastUpdateIPhone"];
                                      NSString *stringDateProductUpdate = [[dic_Updated_Collections objectForKey:collection_id] objectForKey:@"updated_at"];
-                                     
+
                                      if ([self hasBeenUpdatedWithStringDateReference:stringDateLastUpdateIPhone andStringDate:stringDateProductUpdate]) {  //collection updated
-                                         
+
                                          //check for a collection image
                                          if ([[dic_Updated_Collections objectForKey:collection_id] objectForKey:@"image"]) {
                                              NSDictionary *dicCollection = [dic_Updated_Collections objectForKey:collection_id];
@@ -678,7 +680,7 @@
                            }];
 }
 
-#pragma mark images
+#pragma mark - Image Downloader
 
 - (void)getImageWithImageUrl:(NSString *)imageUrl andObjectId:(NSString *)objectId lastImageToDownload:(BOOL)isLastImmage ImageForCollection:(BOOL)isImageForCollection {
     dispatch_async(dispatch_get_global_queue(0, 0), ^(void) {
@@ -731,34 +733,7 @@
     });
 }
 
-#pragma mark other
-
-- (BOOL)hasBeenUpdatedWithStringDateReference:(NSString *)stringDateReference andStringDate:(NSString *)stringDateToCompare {
-    // Convert string to date object
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    dateFormat.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
-    [dateFormat setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ssZZZZZ"];
-
-    NSDate *dateToCompare = [dateFormat dateFromString:stringDateToCompare];
-    NSDate *dateReference = [dateFormat dateFromString:stringDateReference];
-
-    if ([dateToCompare timeIntervalSinceDate:dateReference] > 0 || stringDateReference == nil) {  //collection has to be updated in iPhone !
-        return YES;
-    } else {
-        return NO;
-    }
-}
-
-- (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL {
-    NSError *error = nil;
-    BOOL success = [URL setResourceValue:[NSNumber numberWithBool:YES]
-                                  forKey:NSURLIsExcludedFromBackupKey
-                                   error:&error];
-    if (!success) {
-        //NSLog(@"Error excluding %@ from backup %@", [URL lastPathComponent], error);
-    }
-    return success;
-}
+#pragma mark - UI
 
 - (void)showLoading {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -784,6 +759,24 @@
     });
 }
 
+#pragma mark - Date
+
+- (BOOL)hasBeenUpdatedWithStringDateReference:(NSString *)stringDateReference andStringDate:(NSString *)stringDateToCompare {
+    // Convert string to date object
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    dateFormat.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+    [dateFormat setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ssZZZZZ"];
+
+    NSDate *dateToCompare = [dateFormat dateFromString:stringDateToCompare];
+    NSDate *dateReference = [dateFormat dateFromString:stringDateReference];
+
+    if ([dateToCompare timeIntervalSinceDate:dateReference] > 0 || stringDateReference == nil) {  //collection has to be updated in iPhone !
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
 - (void)saveTimeUpdateIPhone {
     //save the date of the update in the iphone
 
@@ -804,6 +797,19 @@
     //NSLog(@"date update - saved date : %@", [anotherDateFormatter stringFromDate:date]);
 }
 
+#pragma mark - Other
+
+- (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL {
+    NSError *error = nil;
+    BOOL success = [URL setResourceValue:[NSNumber numberWithBool:YES]
+                                  forKey:NSURLIsExcludedFromBackupKey
+                                   error:&error];
+    if (!success) {
+        //NSLog(@"Error excluding %@ from backup %@", [URL lastPathComponent], error);
+    }
+    return success;
+}
+
 - (void)checkForProductsInSales {
     [arrayProducts enumerateObjectsUsingBlock:^(id dicProduct, NSUInteger idx, BOOL *stop) {
 
@@ -818,6 +824,8 @@
     }];
 }
 
+#pragma mark - Helpers
+
 - (UIColor *)colorFromMemoryWithName:(NSString *)colorName {
     return [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:colorName] objectForKey:@"red"] floatValue] / 255
                            green:[[[[NSUserDefaults standardUserDefaults] objectForKey:colorName] objectForKey:@"green"] floatValue] / 255
@@ -825,7 +833,7 @@
                            alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:colorName] objectForKey:@"alpha"] floatValue]];
 }
 
-#pragma mark IBActions
+#pragma mark - IBActions
 
 - (IBAction)goLeft:(id)sender {
     //access the parent view controller
@@ -848,7 +856,7 @@
     [Store fetchSettingsFromServer:self.fetchSettingsHandler];
 }
 
-#pragma mark collection View delegate
+#pragma mark - UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Storyboard_autolayout" bundle:nil];
@@ -880,26 +888,6 @@
                 [self.navigationController pushViewController:vc1 animated:YES];
             }
         }
-    }
-}
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (section == 0) {
-        return [self.featuredCollectionsForCV count];
-    } else {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
-            return [arrayProducts count];
-        } else {
-            return [self.displayedCollectionsForCV count];
-        }
-    }
-}
-
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
-        return 1;
-    } else {
-        return 2;
     }
 }
 
@@ -959,6 +947,28 @@
         }
 
         return (UICollectionViewCell *)cell;
+    }
+}
+
+#pragma mark - UICollectionViewDataSource
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    if (section == 0) {
+        return [self.featuredCollectionsForCV count];
+    } else {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
+            return [arrayProducts count];
+        } else {
+            return [self.displayedCollectionsForCV count];
+        }
+    }
+}
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
+        return 1;
+    } else {
+        return 2;
     }
 }
 
