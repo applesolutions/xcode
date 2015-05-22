@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "CHTCollectionViewWaterfallLayout.h"
 
-@interface CategoriesViewController : UIViewController <CHTCollectionViewDelegateWaterfallLayout>
-
-
+@interface CategoriesViewController : UIViewController<CHTCollectionViewDelegateWaterfallLayout>
 
 @end
