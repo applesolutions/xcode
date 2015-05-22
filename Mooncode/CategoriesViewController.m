@@ -115,11 +115,8 @@
 - (void)updateColors {
     dispatch_async(dispatch_get_main_queue(), ^{
 
-      self.ViewNavBar.backgroundColor =
-          [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"red"] floatValue] / 255
-                          green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"green"] floatValue] / 255
-                           blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"blue"] floatValue] / 255
-                          alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"alpha"] floatValue]];
+      self.ViewNavBar.backgroundColor = [self colorFromMemoryWithName:@"colorNavBar"];
+
       [self.navBar setBarTintColor:self.ViewNavBar.backgroundColor];
 
       [AppDelegate setAppearance];
@@ -587,14 +584,6 @@
 
                                      count_collectionsToDownload--;
 
-                                     //                if ([arrayForProducts count] == 0) {
-                                     //NSLog(@"remove !!!");
-                                     //                    [dic_Updated_Collections removeObjectForKey:collection_id];
-                                     //                    [dic_Updated_ProductsCorrespondingToCollections removeObjectForKey:collection_id];
-                                     //                    [sortedKeysForCategories removeObject:collection_id];
-                                     //NSLog(@"delete collection for id : %@", collection_id);
-                                     //                }else{
-
                                      if ([dic_Updated_ProductsCorrespondingToCollections[collection_id] count] > 0) {  //test if collection contains products
 
                                          //sort products by date of creation
@@ -627,26 +616,10 @@
                                          [NSUserDefaultsMethods saveObjectInMemory:dic_Updated_ProductsCorrespondingToCollections toFolder:@"datasForProductsAndCollections"];
                                          [NSUserDefaultsMethods saveObjectInMemory:dic_Updated_Collections toFolder:@"datasForDicCollections"];
 
-                                         //TAKE THE SERVER TO SCREEN !
-                                         //                    dicCollections = [dic_Updated_Collections mutableCopy];
-                                         //                    dicProductsCorrespondingToCollections = [dic_Updated_ProductsCorrespondingToCollections mutableCopy];
-                                         //                    sortedKeysForCategories = [sorted_Updated_KeysForCategories mutableCopy];
-
-                                         //                    dicCollections = [NSMutableDictionary dictionaryWithDictionary:[dic_Updated_Collections mutableCopy]];
-                                         //                    dicProductsCorrespondingToCollections = [NSMutableDictionary dictionaryWithDictionary:[dic_Updated_ProductsCorrespondingToCollections mutableCopy]];
-                                         //                    sortedKeysForCategories = [NSMutableArray arrayWithArray:[sorted_Updated_KeysForCategories mutableCopy]];
-
                                          dicCollections = [dic_Updated_Collections mutableCopy];
                                          dicProductsCorrespondingToCollections = [dic_Updated_ProductsCorrespondingToCollections mutableCopy];
 
                                          [self updateCollectionsThatCanBeDisplayed];
-
-                                         //                    [dic_Updated_Collections removeAllObjects];
-                                         //                    [dic_Updated_ProductsCorrespondingToCollections removeAllObjects];
-                                         //                    [sorted_Updated_KeysForCategories removeAllObjects];
-                                         //                    dic_Updated_Collections = [NSMutableDictionary new];
-                                         //                    dic_Updated_ProductsCorrespondingToCollections = [NSMutableDictionary new];
-                                         //                    sorted_Updated_KeysForCategories = [NSMutableArray new];
 
                                          if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {  //change
 
@@ -662,35 +635,26 @@
                                          NSString *stringDateLastUpdateIPhone = [[NSKeyedUnarchiver unarchiveObjectWithData:dicUpdateIPhone] objectForKey:@"dateLastUpdateIPhone"];
 
                                          //get all unique images ! avoid to download each image several times !
-                                         __block NSMutableArray *arrayIdsToBeDownloaded = [[NSMutableArray alloc] init];
-                                         __block NSMutableArray *arrayUrlsToBeDownloaded = [[NSMutableArray alloc] init];
+                                         NSMutableDictionary *productImagesToDownload = [[NSMutableDictionary alloc] init];
 
-                                         for (NSString *key in [dicProductsCorrespondingToCollections allKeys]) {  //ENUMERATE ALL THE PRODUCTS TO KNOW IF UPDATED !
-                                             for (NSDictionary *dicProduct in [dicProductsCorrespondingToCollections objectForKey:key]) {
+                                         for (NSString *key in dicProductsCorrespondingToCollections.allKeys) {  //ENUMERATE ALL THE PRODUCTS TO KNOW IF UPDATED !
+                                             for (NSDictionary *dicProduct in dicProductsCorrespondingToCollections[key]) {
                                                  NSString *stringDateProductUpdate = [dicProduct objectForKey:@"updated_at"];
 
-                                                 if ([self hasBeenUpdatedWithStringDateReference:stringDateLastUpdateIPhone andStringDate:stringDateProductUpdate] || (                                                                                           // update !
-                                                                                                                                                                          [ImageManagement getImageFromMemoryWithName:[dicProduct objectForKey:@"id"]] == nil &&  //first time !
-                                                                                                                                                                          [dicProduct objectForKey:@"id"] != nil && [dicProduct objectForKey:@"image"] != nil)) {
-                                                     if ([arrayIdsToBeDownloaded containsObject:[dicProduct objectForKey:@"id"]]) {  //objectId already to download !
-                                                         //NSLog(@"image already downloaded !");
-                                                         continue;
-                                                     }
-
+                                                 if (![productImagesToDownload.allKeys containsObject:[dicProduct objectForKey:@"id"]] &&
+                                                     ([self hasBeenUpdatedWithStringDateReference:stringDateLastUpdateIPhone andStringDate:stringDateProductUpdate] ||
+                                                      ([ImageManagement getImageFromMemoryWithName:[dicProduct objectForKey:@"id"]] == nil &&  //first time !
+                                                       [dicProduct objectForKey:@"id"] != nil && [dicProduct objectForKey:@"image"] != nil))) {
                                                      if ([dicProduct objectForKey:@"image"]) {
-                                                         //NSLog(@"image not already downloaded !");
-                                                         [arrayIdsToBeDownloaded addObject:[dicProduct objectForKey:@"id"]];
-                                                         [arrayUrlsToBeDownloaded addObject:[[dicProduct objectForKey:@"image"] objectForKey:@"src"]];
+                                                         productImagesToDownload[[dicProduct[@"id"] stringValue]] = dicProduct[@"image"][@"src"];
                                                      }
                                                  }
                                              }
                                          }
 
-                                         //DOWNLOAD IMAGES
-
                                          dispatch_async(dispatch_get_main_queue(), ^{
 
-                                           if ([arrayIdsToBeDownloaded count] > 0) {
+                                           if (productImagesToDownload.allKeys.count > 0) {
                                                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
                                            }
                                            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == YES) {
@@ -700,9 +664,9 @@
                                            }
                                          });
 
-                                         for (NSString *id_ImageToDownload in arrayIdsToBeDownloaded) {
-                                             [self getImageWithImageUrl:[arrayUrlsToBeDownloaded objectAtIndex:[arrayIdsToBeDownloaded indexOfObject:id_ImageToDownload]]
-                                                            andObjectId:id_ImageToDownload
+                                         for (NSString *productId in productImagesToDownload.allKeys) {
+                                             [self getImageWithImageUrl:productImagesToDownload[productId]
+                                                            andObjectId:productId
                                                     lastImageToDownload:NO    // does not matter
                                                      ImageForCollection:NO];  // modif
                                          }
