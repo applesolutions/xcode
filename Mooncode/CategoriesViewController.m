@@ -57,10 +57,6 @@
 @property(nonatomic, strong) __block NSArray *displayedCollectionsForCV;
 @property(nonatomic, strong) __block NSArray *featuredCollectionsForCV;
 
-//copy of the server (not modified)
-@property(nonatomic, strong) __block NSArray *featuredCollectionsFromServer;
-@property(nonatomic, strong) __block NSArray *displayedCollectionsFromServer;
-
 @end
 
 #define CELL_IDENTIFIER @"WaterfallCell"
@@ -144,10 +140,10 @@
 }
 
 - (void)updateCollectionsThatCanBeDisplayed {
-    self.displayedCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
-    self.featuredCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"featuredCollections"];
+    NSArray *displayedCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
+    NSArray *featuredCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"featuredCollections"];
 
-    if (self.displayedCollectionsFromServer.count == 0) {
+    if (displayedCollectionsFromServer.count == 0) {
         [self noCollectionAvailable];
         return;
     }
@@ -155,7 +151,7 @@
     //check we have in memeory all the collections to display (from server) + display the ones we have
 
     NSMutableArray *updatedDisplayedCollectionsForCV = [[NSMutableArray alloc] init];
-    for (NSDictionary *collection in self.displayedCollectionsFromServer) {
+    for (NSDictionary *collection in displayedCollectionsFromServer) {
         if ([dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] &&                         // not in our collections
             [dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) {  // not in our products
             [updatedDisplayedCollectionsForCV addObject:collection];
@@ -164,7 +160,7 @@
 
     //display all the featured collections we have in memeory
     NSMutableArray *updatedFeaturedCollectionsForCV = [[NSMutableArray alloc] init];
-    for (NSDictionary *collection in self.featuredCollectionsFromServer) {
+    for (NSDictionary *collection in featuredCollectionsFromServer) {
         if ([dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] &&                         // not in our collections
             [dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) {  // not in our products
             [updatedFeaturedCollectionsForCV addObject:collection];
@@ -189,16 +185,16 @@
           token = updatedToken;
 
           //update collections diplayed / featured
-          wSelf.displayedCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
-          wSelf.featuredCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"featuredCollections"];
+          NSArray *displayedCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
+          NSArray *featuredCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"featuredCollections"];
 
-          if (wSelf.displayedCollectionsFromServer.count == 0) {
+          if (displayedCollectionsFromServer.count == 0) {
               [wSelf noCollectionAvailable];
               return;
           }
 
           NSMutableArray *arrayCustomCollectionsIds = [[NSMutableArray alloc] init];
-          for (NSDictionary *collection in wSelf.displayedCollectionsFromServer) {
+          for (NSDictionary *collection in displayedCollectionsFromServer) {
               [arrayCustomCollectionsIds addObject:[collection[@"shopify_collection_id"] stringValue]];
           }
           [[NSUserDefaults standardUserDefaults] setObject:arrayCustomCollectionsIds forKey:@"arrayCustomCollectionsIds"];
@@ -207,7 +203,7 @@
           //check we have in memeory all the collections to display (from server) + display the ones we have
           BOOL fetchCollectionsFromShopify = NO;
           NSMutableArray *updatedDisplayedCollectionsForCV = [[NSMutableArray alloc] init];
-          for (NSDictionary *collection in wSelf.displayedCollectionsFromServer) {
+          for (NSDictionary *collection in displayedCollectionsFromServer) {
               if (![dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] ||                         // not in our collections
                   ![dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) {  // not in our products
                   fetchCollectionsFromShopify = YES;
@@ -218,7 +214,7 @@
 
           //display all the featured collections we have in memeory
           NSMutableArray *updatedFeaturedCollectionsForCV = [[NSMutableArray alloc] init];
-          for (NSDictionary *collection in wSelf.featuredCollectionsFromServer) {
+          for (NSDictionary *collection in featuredCollectionsFromServer) {
               if ([dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] &&                         // not in our collections
                   [dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) {  // not in our products
                   [updatedFeaturedCollectionsForCV addObject:collection];
@@ -313,9 +309,6 @@
               //                sortedKeysForCategories = [[[dicProductsCorrespondingToCollections allKeys] sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
               //                    return [[[dicCollections objectForKey:a] objectForKey:@"title"] compare:[[dicCollections objectForKey:b] objectForKey:@"title"]];
               //                }] mutableCopy];
-
-              self.displayedCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
-              self.featuredCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"featuredCollections"];
 
               dispatch_async(dispatch_get_main_queue(), ^{
                 [self.collectionView reloadData];
