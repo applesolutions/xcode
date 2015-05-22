@@ -31,30 +31,28 @@
 
 @interface CategoriesViewController ()
 
-@property(strong, nonatomic) UICollectionView *collectionView;
-
-@property(nonatomic, strong) ScrollViewController *stlmMainViewController;
-
+//IBOUTLETS
+@property(strong, nonatomic) IBOutlet UIBarButtonItem *navBarButtonLeft;
 @property(strong, nonatomic) IBOutlet UIBarButtonItem *buttonCart;
+
+@property(strong, nonatomic) IBOutlet UIView *viewForLabel;
+@property(strong, nonatomic) IBOutlet UIView *ViewNavBar;
+
+@property(strong, nonatomic) IBOutlet UINavigationBar *navBar;
 @property(strong, nonatomic) IBOutlet UILabel *labelLoading;
 @property(strong, nonatomic) IBOutlet UIActivityIndicatorView *activityLoading;
 @property(strong, nonatomic) IBOutlet UIImageView *imageBackgroundForLoading;
-@property(strong, nonatomic) IBOutlet UIView *viewForLabel;
-
-@property(strong, nonatomic) IBOutlet UIView *ViewNavBar;
-
 @property(strong, nonatomic) IBOutlet UIButton *buttonReload;
 
+//GLOBAL PROPERTIES
+@property(strong, nonatomic) UICollectionView *collectionView;
+@property(nonatomic, strong) ScrollViewController *stlmMainViewController;
 @property(strong, nonatomic) UIRefreshControl *refreshControl;
 
 @property(nonatomic) __block BOOL loading;
-
-@property(strong, nonatomic) IBOutlet UIBarButtonItem *navBarButtonLeft;
-@property(strong, nonatomic) IBOutlet UINavigationBar *navBar;
-
 @property(nonatomic, copy) void (^fetchSettingsHandler)(NSString *token, NSArray *displayedCollections, NSArray *featuredCollections, NSError *error);
 
-@property(nonatomic, strong) __block NSArray *displayedCollectionsForCV;
+@property(nonatomic, strong) __block NSArray *displayedCollectionsForCV;  //arrays that have to be displayed ( collections + products downloaded )
 @property(nonatomic, strong) __block NSArray *featuredCollectionsForCV;
 
 @end
