@@ -223,8 +223,7 @@
             [wSelf.collectionView reloadData];
           });
 
-          if (fetchCollectionsFromShopify == YES)
-              [wSelf makeRequestForPage:1];
+          if (fetchCollectionsFromShopify == YES) [wSelf makeRequestForPage:1];
 
       } else {
           NSLog(@"error settings fetched: %@", error);
@@ -341,7 +340,6 @@
 
             dic_Updated_Collections = [NSMutableDictionary new];
             dic_Updated_ProductsCorrespondingToCollections = [NSMutableDictionary new];
-            //            sorted_Updated_KeysForCategories = [NSMutableArray new];
 
             count_collectionsToDownload = 0;
 
@@ -855,25 +853,27 @@
 }
 
 - (void)showLoading {
-    self.labelLoading.hidden = NO;
-    self.activityLoading.hidden = NO;
-    [self.activityLoading startAnimating];
-    self.imageBackgroundForLoading.hidden = NO;
-    self.viewForLabel.hidden = NO;
-    self.collectionView.hidden = YES;
-
-    self.buttonReload.hidden = YES;
+    dispatch_async(dispatch_get_main_queue(), ^{
+      self.labelLoading.hidden = NO;
+      self.activityLoading.hidden = NO;
+      [self.activityLoading startAnimating];
+      self.imageBackgroundForLoading.hidden = NO;
+      self.viewForLabel.hidden = NO;
+      self.collectionView.hidden = YES;
+      self.buttonReload.hidden = YES;
+    });
 }
 
 - (void)hideLoading {
-    self.labelLoading.hidden = YES;
-    self.activityLoading.hidden = YES;
-    [self.activityLoading stopAnimating];
-    self.imageBackgroundForLoading.hidden = YES;
-    self.viewForLabel.hidden = YES;
-    self.collectionView.hidden = NO;
-
-    self.buttonReload.hidden = YES;
+    dispatch_async(dispatch_get_main_queue(), ^{
+      self.labelLoading.hidden = YES;
+      self.activityLoading.hidden = YES;
+      [self.activityLoading stopAnimating];
+      self.imageBackgroundForLoading.hidden = YES;
+      self.viewForLabel.hidden = YES;
+      self.collectionView.hidden = NO;
+      self.buttonReload.hidden = YES;
+    });
 }
 
 - (void)saveTimeUpdateIPhone {
@@ -943,9 +943,7 @@
         vc1.dicProduct = [arrayProducts objectAtIndex:indexPath.row];
         vc1.product_id = [vc1.dicProduct objectForKey:@"id"];
         vc1.image = [ImageManagement getImageFromMemoryWithName:vc1.product_id];
-        dispatch_async(dispatch_get_main_queue(), ^{
-          [self.navigationController pushViewController:vc1 animated:YES];
-        });
+        [self.navigationController pushViewController:vc1 animated:YES];
     } else {
         CategoryProductsViewController *vc1 = [sb instantiateViewControllerWithIdentifier:@"CategoryProductsViewController"];
 
