@@ -60,6 +60,10 @@
 #define CELL_IDENTIFIER @"WaterfallCell"
 #define CELL_FEATURED_IDENTIFIER @"CHTCollectionViewWaterfallFeaturedCell"
 
+const NSString *loadingMessage = @"Thank you for downloading our App!\n \nNow downloading the content, it should take less than a minute and only happen once. \n \nMake sure you are connected to the Internet !";
+const NSString *noInternetConnectionMessage = @"It seems you are not connected to the internet... \nReconnect and try again :)";
+const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, come back later !";
+
 @implementation CategoriesViewController {
     __block NSString *token;
 
@@ -168,16 +172,13 @@
       } else {
           NSLog(@"error settings fetched: %@", error);
           if ([dicCollections count] == 0) {
-              wSelf.activityLoading.hidden = YES;
-              wSelf.labelLoading.text = @"No Internet connection detected.";
-              wSelf.buttonReload.hidden = NO;
-              wSelf.loading = NO;
+              [wSelf showErrorViewWithMessage:noInternetConnectionMessage];
           }
       }
     };
 
     [[self navigationController] setNavigationBarHidden:YES animated:YES];  //do not remove
-    
+
     self.stlmMainViewController = (ScrollViewController *)self.parentViewController.parentViewController;
 
     count_imagesToBeDownloaded = 0;
@@ -206,11 +207,11 @@
               [self checkForProductsInSales];
               dispatch_async(dispatch_get_main_queue(), ^{
                 [self.collectionView reloadData];
-                [self hideLoading];
+                [self stopLoadingToDisplayCollections];
               });
           } else {
               arrayProducts = [NSMutableArray new];
-              [self showLoading];
+              [self showLoadingStateWithMessage:loadingMessage];
           }
 
       } else {
@@ -222,11 +223,11 @@
 
               dispatch_async(dispatch_get_main_queue(), ^{
                 [self.collectionView reloadData];
-                [self hideLoading];
+                [self stopLoadingToDisplayCollections];
               });
 
           } else {
-              [self showLoading];
+              [self showLoadingStateWithMessage:loadingMessage];
           }
       }
 
@@ -393,7 +394,7 @@
                                            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
                                        }
 
-                                       [self hideLoading];
+                                       [self stopLoadingToDisplayCollections];
                                        [self.collectionView reloadData];
                                        //NSLog(@"test aaaaa");
                                      });
@@ -467,6 +468,7 @@
                                                           if (count_collectionsToDownload == 0) {
                                                               //NSLog(@"display no display");
                                                               [self noCollectionAvailable];
+                                                              self.loading = NO;
                                                               return;
                                                           }
 
@@ -516,31 +518,7 @@
     [dicProductsCorrespondingToCollections removeAllObjects];
     [self.collectionView reloadData];
 
-    [NSUserDefaultsMethods removeFilesInFolderWithName:@"datasForProductsAndCollections"];
-    [NSUserDefaultsMethods removeFilesInFolderWithName:@"datasForDicCollections"];
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-
-      [self showLoading];
-      self.imageBackgroundForLoading.hidden = NO;
-
-      self.collectionView.hidden = YES;
-
-      //        UILabel *labelNewTitleForProduct = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-      //        labelNewTitleForProduct.center = self.view.center;
-      //        labelNewTitleForProduct.adjustsFontSizeToFitWidth = YES;
-      //        labelNewTitleForProduct.font = [UIFont fontWithName:@"ProximaNova-Regular" size:17.0f];
-      //        labelNewTitleForProduct.textAlignment = UITextAlignmentCenter;
-      //        labelNewTitleForProduct.numberOfLines = 2;
-      //        labelNewTitleForProduct.text = @"This shop has no product yet, come back later !";
-      //        [self.view addSubview:labelNewTitleForProduct];
-
-      self.activityLoading.hidden = YES;
-      self.labelLoading.text = @"This shop has no product yet, come back later !";
-      self.buttonReload.hidden = NO;
-
-      self.loading = NO;
-    });
+    [self showErrorViewWithMessage:noCollectionToDisplayMessage];
 }
 
 #pragma mark - Products Downloader
@@ -658,7 +636,7 @@
                                                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
                                            }
                                            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == YES) {
-                                               [self hideLoading];
+                                               [self stopLoadingToDisplayCollections];
                                                [self.collectionView reloadData];
                                                //NSLog(@"test aaaaa");
                                            }
@@ -711,7 +689,7 @@
                                    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
                                        dispatch_async(dispatch_get_main_queue(), ^{
                                          [self.collectionView reloadData];
-                                         [self hideLoading];
+                                         [self stopLoadingToDisplayCollections];
                                          //NSLog(@"test image");
                                        });
                                    }
@@ -735,27 +713,37 @@
 
 #pragma mark - UI
 
-- (void)showLoading {
+- (void)showErrorViewWithMessage:(const NSString *)errorMessage {
     dispatch_async(dispatch_get_main_queue(), ^{
-      self.labelLoading.hidden = NO;
+      self.labelLoading.text = errorMessage;
+      self.collectionView.hidden = YES;
+      self.viewForLabel.hidden = NO;
+
+      self.imageBackgroundForLoading.hidden = NO;
+      self.viewForLabel.hidden = NO;
+      self.activityLoading.hidden = YES;
+      [self.activityLoading stopAnimating];
+      self.buttonReload.hidden = NO;
+    });
+}
+
+- (void)showLoadingStateWithMessage:(const NSString *)loadingMessage {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      self.labelLoading.text = loadingMessage;
+      self.collectionView.hidden = YES;
+      self.viewForLabel.hidden = NO;
+
       self.activityLoading.hidden = NO;
       [self.activityLoading startAnimating];
       self.imageBackgroundForLoading.hidden = NO;
-      self.viewForLabel.hidden = NO;
-      self.collectionView.hidden = YES;
       self.buttonReload.hidden = YES;
     });
 }
 
-- (void)hideLoading {
+- (void)stopLoadingToDisplayCollections {
     dispatch_async(dispatch_get_main_queue(), ^{
-      self.labelLoading.hidden = YES;
-      self.activityLoading.hidden = YES;
-      [self.activityLoading stopAnimating];
-      self.imageBackgroundForLoading.hidden = YES;
-      self.viewForLabel.hidden = YES;
       self.collectionView.hidden = NO;
-      self.buttonReload.hidden = YES;
+      self.viewForLabel.hidden = YES;
     });
 }
 
@@ -849,9 +837,9 @@
     });
 }
 - (IBAction)reload:(id)sender {
-    self.buttonReload.hidden = YES;
-    self.labelLoading.text = @"Thank you for downloading our App!\n \nNow downloading the content, it should take less than a minute and only happen once. \n \nMake sure you are connected to the Internet !";
-    [self showLoading];
+    //    self.buttonReload.hidden = YES;
+    //    self.labelLoading.text = @"Thank you for downloading our App!\n \nNow downloading the content, it should take less than a minute and only happen once. \n \nMake sure you are connected to the Internet !";
+    [self showLoadingStateWithMessage:loadingMessage];
 
     [Store fetchSettingsFromServer:self.fetchSettingsHandler];
 }
