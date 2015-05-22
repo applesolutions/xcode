@@ -866,6 +866,13 @@
     }];
 }
 
+- (UIColor *)colorFromMemoryWithName:(NSString *)colorName {
+    return [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:colorName] objectForKey:@"red"] floatValue] / 255
+                           green:[[[[NSUserDefaults standardUserDefaults] objectForKey:colorName] objectForKey:@"green"] floatValue] / 255
+                            blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:colorName] objectForKey:@"blue"] floatValue] / 255
+                           alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:colorName] objectForKey:@"alpha"] floatValue]];
+}
+
 #pragma mark IBActions
 
 - (IBAction)goLeft:(id)sender {
