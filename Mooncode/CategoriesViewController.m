@@ -75,9 +75,6 @@
     __block NSMutableDictionary *dic_Updated_ProductsCorrespondingToCollections;
     __block NSMutableDictionary *dic_Updated_Collections;
 
-    //list of ids..
-    __block NSMutableArray *sortedKeysForCategories;
-
     __block NSMutableArray *arrayIndexesActiclesOnSales;
 
     __block int count_collectionsToDownload;
@@ -261,8 +258,6 @@
 
       arrayProducts = [NSMutableArray new];
       array_Updated_Products = [NSMutableArray new];
-
-      sortedKeysForCategories = [NSMutableArray new];
 
       arrayIndexesActiclesOnSales = [NSMutableArray new];
 
@@ -570,7 +565,6 @@
 
     [dicCollections removeAllObjects];
     [dicProductsCorrespondingToCollections removeAllObjects];
-    [sortedKeysForCategories removeAllObjects];
     [self.collectionView reloadData];
 
     [NSUserDefaultsMethods removeFilesInFolderWithName:@"datasForProductsAndCollections"];
