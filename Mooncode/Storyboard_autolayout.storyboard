@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jRv-Tz-4Bh">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jRv-Tz-4Bh">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -291,7 +291,6 @@ Make sure you are
                     <navigationItem key="navigationItem" id="3ZL-pP-58x"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="ViewNavBar" destination="M3P-EZ-bGE" id="wfy-Lv-otY"/>
                         <outlet property="activityLoading" destination="yib-sJ-VrB" id="y5f-Za-FpE"/>
                         <outlet property="buttonCart" destination="tmC-61-10z" id="K3X-rV-70Y"/>
                         <outlet property="buttonReload" destination="JdL-SD-p9W" id="C7A-fc-0T0"/>
@@ -299,7 +298,8 @@ Make sure you are
                         <outlet property="labelLoading" destination="303-5k-hVM" id="Q2R-Qr-UqM"/>
                         <outlet property="navBar" destination="79U-vg-ua7" id="osl-07-9Lj"/>
                         <outlet property="navBarButtonLeft" destination="6f2-cF-XFw" id="eU7-2C-52v"/>
-                        <outlet property="viewForLabel" destination="c9Q-Xl-c4H" id="m6P-8V-pyh"/>
+                        <outlet property="viewError" destination="c9Q-Xl-c4H" id="s1n-bM-EoZ"/>
+                        <outlet property="viewNavBar" destination="M3P-EZ-bGE" id="AZ6-hS-rKI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CZY-xj-E0v" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -791,7 +791,7 @@ Make sure you are
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Zcn-Qg-dym" id="jbk-13-NSV">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" tag="200" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fAS-8g-leS">
+                                                <imageView userInteractionEnabled="NO" tag="200" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fAS-8g-leS">
                                                     <rect key="frame" x="8" y="7" width="88" height="108"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="fAS-8g-leS" secondAttribute="height" multiplier="88:107" id="Npa-aj-Pff"/>
@@ -803,7 +803,7 @@ Make sure you are
                                                         </mask>
                                                     </variation>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Qte" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="1" translatesAutoresizingMaskIntoConstraints="NO" id="t4g-69-oge">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Qte" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="1" translatesAutoresizingMaskIntoConstraints="NO" id="t4g-69-oge">
                                                     <rect key="frame" x="116" y="72" width="456" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="0Nr-8G-BhW"/>
@@ -812,7 +812,7 @@ Make sure you are
                                                     <color key="textColor" red="0.42352941179999998" green="0.42352941179999998" blue="0.42352941179999998" alpha="1" colorSpace="deviceRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="103" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Price" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="1" translatesAutoresizingMaskIntoConstraints="NO" id="sSJ-Ua-Uye">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="103" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="1" translatesAutoresizingMaskIntoConstraints="NO" id="sSJ-Ua-Uye">
                                                     <rect key="frame" x="116" y="97" width="456" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="osZ-Yy-awT"/>
@@ -821,7 +821,7 @@ Make sure you are
                                                     <color key="textColor" red="0.42352941179999998" green="0.42352941179999998" blue="0.42352941179999998" alpha="1" colorSpace="deviceRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Details" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="1" translatesAutoresizingMaskIntoConstraints="NO" id="Kbh-44-cB6">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Details" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="1" translatesAutoresizingMaskIntoConstraints="NO" id="Kbh-44-cB6">
                                                     <rect key="frame" x="116" y="43" width="456" height="26"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="26" id="EFg-qf-KVc"/>
@@ -830,7 +830,7 @@ Make sure you are
                                                     <color key="textColor" red="0.42352941179999998" green="0.42352941179999998" blue="0.42352941179999998" alpha="1" colorSpace="deviceRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Title" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="1" translatesAutoresizingMaskIntoConstraints="NO" id="eFl-Uy-jC2">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="1" translatesAutoresizingMaskIntoConstraints="NO" id="eFl-Uy-jC2">
                                                     <rect key="frame" x="116" y="7" width="456" height="31"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="31" id="nEW-fu-Bqk"/>

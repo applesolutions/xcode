@@ -35,8 +35,8 @@
 @property(strong, nonatomic) IBOutlet UIBarButtonItem *navBarButtonLeft;
 @property(strong, nonatomic) IBOutlet UIBarButtonItem *buttonCart;
 
-@property(strong, nonatomic) IBOutlet UIView *viewForLabel;
-@property(strong, nonatomic) IBOutlet UIView *ViewNavBar;
+@property(strong, nonatomic) IBOutlet UIView *viewError;
+@property(strong, nonatomic) IBOutlet UIView *viewNavBar;
 
 @property(strong, nonatomic) IBOutlet UINavigationBar *navBar;
 @property(strong, nonatomic) IBOutlet UILabel *labelLoading;
@@ -106,7 +106,7 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
         self.navBarButtonLeft.image = [UIImage imageNamed:@"icon-instagram"];
     }
 
-    self.viewForLabel.layer.cornerRadius = 5;
+    self.viewError.layer.cornerRadius = 5;
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(updatePhoneSettings)
@@ -251,9 +251,9 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 - (void)updateColors {
     dispatch_async(dispatch_get_main_queue(), ^{
 
-      self.ViewNavBar.backgroundColor = [self colorFromMemoryWithName:@"colorNavBar"];
+      self.viewNavBar.backgroundColor = [self colorFromMemoryWithName:@"colorNavBar"];
 
-      [self.navBar setBarTintColor:self.ViewNavBar.backgroundColor];
+      [self.navBar setBarTintColor:self.viewNavBar.backgroundColor];
 
       [AppDelegate setAppearance];
 
@@ -717,10 +717,10 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
     dispatch_async(dispatch_get_main_queue(), ^{
       self.labelLoading.text = errorMessage;
       self.collectionView.hidden = YES;
-      self.viewForLabel.hidden = NO;
+      self.viewError.hidden = NO;
 
       self.imageBackgroundForLoading.hidden = NO;
-      self.viewForLabel.hidden = NO;
+      self.viewError.hidden = NO;
       self.activityLoading.hidden = YES;
       [self.activityLoading stopAnimating];
       self.buttonReload.hidden = NO;
@@ -731,7 +731,7 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
     dispatch_async(dispatch_get_main_queue(), ^{
       self.labelLoading.text = loadingMessage;
       self.collectionView.hidden = YES;
-      self.viewForLabel.hidden = NO;
+      self.viewError.hidden = NO;
 
       self.activityLoading.hidden = NO;
       [self.activityLoading startAnimating];
@@ -743,7 +743,7 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 - (void)stopLoadingToDisplayCollections {
     dispatch_async(dispatch_get_main_queue(), ^{
       self.collectionView.hidden = NO;
-      self.viewForLabel.hidden = YES;
+      self.viewError.hidden = YES;
     });
 }
 
