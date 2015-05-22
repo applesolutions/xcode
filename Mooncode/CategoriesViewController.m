@@ -503,20 +503,11 @@
     NSArray *arrayCustomCollectionsIds = [[NSUserDefaults standardUserDefaults] objectForKey:@"arrayCustomCollectionsIds"];
 
     for (NSDictionary *dicCollection in arrayCollections) {
-        //CUSTOM collections ******************************************************************************************
-        //**************************************************************************************************************
-
-        if ([arrayCustomCollectionsIds count] > 0 &&
-            ![arrayCustomCollectionsIds containsObject:[dicCollection[@"id"] stringValue]]) {
-            //NSLog(@"remove collection");
-            continue;
+        if ([arrayCustomCollectionsIds containsObject:[dicCollection[@"id"] stringValue]]) {
+            [arrayAddedOrModifiedCollections addObject:dicCollection];
+            [dic_Updated_Collections setObject:dicCollection forKey:[[dicCollection objectForKey:@"id"] stringValue]];
+            count_collectionsToDownload++;
         }
-        //**************************************************************************************************************
-        //**************************************************************************************************************
-
-        [arrayAddedOrModifiedCollections addObject:dicCollection];
-        [dic_Updated_Collections setObject:dicCollection forKey:[[dicCollection objectForKey:@"id"] stringValue]];
-        count_collectionsToDownload++;
     }
     return arrayAddedOrModifiedCollections;
 }
