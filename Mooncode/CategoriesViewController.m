@@ -159,10 +159,6 @@
 
     self.displayedCollectionsForCV = updatedDisplayedCollectionsForCV;
     self.featuredCollectionsForCV = updatedFeaturedCollectionsForCV;
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-      [self.collectionView reloadData];
-    });
 }
 
 - (void)viewDidLoad {
@@ -271,6 +267,8 @@
           dicProductsCorrespondingToCollections = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"datasForProductsAndCollections"];
 
           if (dicCollections != nil && dicProductsCorrespondingToCollections != nil) {
+              [self updateCollectionsThatCanBeDisplayed];
+              
               dispatch_async(dispatch_get_main_queue(), ^{
                 [self.collectionView reloadData];
                 [self hideLoading];
