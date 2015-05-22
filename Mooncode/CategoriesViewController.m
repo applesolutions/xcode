@@ -221,7 +221,7 @@
             [wSelf.collectionView reloadData];
           });
 
-          if (fetchCollectionsFromShopify == YES) [wSelf makeRequestForPage:1];
+          if (fetchCollectionsFromShopify == YES && self.loading == NO) [wSelf makeRequestForPage:1];
 
       } else {
           NSLog(@"error settings fetched: %@", error);
@@ -309,12 +309,10 @@
             [dic_Updated_Collections removeAllObjects];
             [dic_Updated_ProductsCorrespondingToCollections removeAllObjects];
 
-            count_collectionsToDownload = 0;
+            [Store fetchSettingsFromServer:self.fetchSettingsHandler];
         } else {
             [array_Updated_Products removeAllObjects];
         }
-
-        [Store fetchSettingsFromServer:self.fetchSettingsHandler];
     }
 }
 
@@ -429,6 +427,7 @@
 
 - (void)makeRequestForPage:(int)pageNumber {
     self.loading = YES;
+    count_collectionsToDownload = 0;
 
     __block NSMutableArray *arrayAddedOrModifiedCollections = [NSMutableArray new];
     NSString *website_string = [[NSUserDefaults standardUserDefaults] stringForKey:@"website_url"];
@@ -596,7 +595,6 @@
                                  } else {  //all the products have been downloaded
 
                                      count_collectionsToDownload--;
-                                     //NSLog(@"count_collectionsToDownload : %d", count_collectionsToDownload );
 
                                      //                if ([arrayForProducts count] == 0) {
                                      //NSLog(@"remove !!!");
