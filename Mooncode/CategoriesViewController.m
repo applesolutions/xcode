@@ -61,7 +61,6 @@
 #define CELL_FEATURED_IDENTIFIER @"CHTCollectionViewWaterfallFeaturedCell"
 
 @implementation CategoriesViewController {
-    NSString *website_string;
     __block NSString *token;
 
     __block NSMutableArray *arrayProducts;
@@ -261,8 +260,6 @@
       dicProductsCorrespondingToCollections = [NSMutableDictionary new];
       dicCollections = [[NSMutableDictionary alloc] init];
 
-      website_string = [[NSUserDefaults standardUserDefaults] stringForKey:@"website_url"];
-
       if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
           arrayProducts = [[NSUserDefaultsMethods getObjectFromMemoryInFolder:@"arrayProducts"] mutableCopy];
 
@@ -357,6 +354,7 @@
 - (void)makeRequestForPage_productsOnly:(int)pageNumber {
     self.loading = YES;
 
+    NSString *website_string = [[NSUserDefaults standardUserDefaults] stringForKey:@"website_url"];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/admin/products.json?published_status=published&page=%d&limit=250", website_string, pageNumber]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setValue:token forHTTPHeaderField:@"X-Shopify-Access-Token"];
@@ -464,8 +462,7 @@
     self.loading = YES;
 
     __block NSMutableArray *arrayAddedOrModifiedCollections = [NSMutableArray new];
-
-    //ask for the published collections
+    NSString *website_string = [[NSUserDefaults standardUserDefaults] stringForKey:@"website_url"];
     NSString *collectionType = @"smart_collections";
     NSString *string_url = [NSString stringWithFormat:@"%@/admin/%@.json?published_status=published&page=%d&limit=250", website_string, collectionType, pageNumber];
     NSURL *url = [NSURL URLWithString:string_url];
@@ -593,6 +590,7 @@
 #pragma mark request products
 
 - (void)getProductsInCollectionWithCollectionId:(NSString *)collection_id andPageNumber:(int)pageNumber {
+    NSString *website_string = [[NSUserDefaults standardUserDefaults] stringForKey:@"website_url"];
     NSString *string_url = [NSString stringWithFormat:@"%@/admin/products.json?published_status=published&collection_id=%@&page=%d&limit=250", website_string, collection_id, pageNumber];
     NSURL *url = [NSURL URLWithString:string_url];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
