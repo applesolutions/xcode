@@ -614,15 +614,8 @@
                                              //check for a collection image
                                              if ([[dic_Updated_Collections objectForKey:collection_id] objectForKey:@"image"]) {
                                                  NSDictionary *dicCollection = [dic_Updated_Collections objectForKey:collection_id];
-
                                                  [self getImageWithImageUrl:[[dicCollection objectForKey:@"image"] objectForKey:@"src"]
                                                                 andObjectId:collection_id
-                                                        lastImageToDownload:YES
-                                                         ImageForCollection:YES];
-                                             } else {
-                                                 //  download the first image of the first product
-                                                 [self getImageWithImageUrl:[[[[dic_Updated_ProductsCorrespondingToCollections objectForKey:collection_id] firstObject] objectForKey:@"image"] objectForKey:@"src"]
-                                                                andObjectId:[[[dic_Updated_ProductsCorrespondingToCollections objectForKey:collection_id] firstObject] objectForKey:@"id"]
                                                         lastImageToDownload:YES
                                                          ImageForCollection:YES];
                                              }
@@ -988,42 +981,24 @@
     } else {
         NSString *keyCategory;
 
-        if (indexPath.section == 0) {  //featured collections
-
+        if (indexPath.section == 0) {
             keyCategory = [[self.featuredCollectionsForCV objectAtIndex:indexPath.row][@"shopify_collection_id"] stringValue];  // featured collections
-
         } else {
             keyCategory = [[self.displayedCollectionsForCV objectAtIndex:indexPath.row][@"shopify_collection_id"] stringValue];  // displayed collections
         }
 
         cell.displayLabel.text = dicCollections[keyCategory][@"title"];
-
-        UIColor *color = [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"red"] floatValue] / 255
-                                         green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"green"] floatValue] / 255
-                                          blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"blue"] floatValue] / 255
-                                         alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorViewTitleCollection"] objectForKey:@"alpha"] floatValue]];
-        cell.viewWhite.backgroundColor = color;
-
-        //        if (cell.viewWhite.hidden) {
-        //            cell.viewWhite.hidden = NO;
-        //            cell.displayLabel.hidden = NO;
-        //        }
+        cell.viewWhite.backgroundColor = [self colorFromMemoryWithName:@"colorViewTitleCollection"];
 
         //check for specific collection image
         UIImage *collectionImage = [ImageManagement getImageFromMemoryWithName:keyCategory];
-        if (collectionImage != nil) {
-            cell.imageView.image = [ImageManagement getImageFromMemoryWithName:keyCategory];
-        } else {  //take the fist product image available
-
-            for (NSDictionary *dicProduct in [dicProductsCorrespondingToCollections objectForKey:keyCategory]) {
-                NSString *productId = [dicProduct objectForKey:@"id"];
-
-                if ([ImageManagement getImageFromMemoryWithName:productId] != nil) {
-                    cell.imageView.image = [ImageManagement getImageFromMemoryWithName:productId];
-                    break;
-                }
-            }
+        if (collectionImage) {
+            cell.imageView.image = collectionImage;
+        } else {
+            cell.imageView.image = nil;
+            cell.imageView.backgroundColor = [self colorFromMemoryWithName:@"colorViewTitleCollection"];
         }
+
         return (UICollectionViewCell *)cell;
     }
 }
