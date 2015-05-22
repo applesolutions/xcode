@@ -309,14 +309,9 @@
             [dic_Updated_Collections removeAllObjects];
             [dic_Updated_ProductsCorrespondingToCollections removeAllObjects];
 
-            dic_Updated_Collections = [NSMutableDictionary new];
-            dic_Updated_ProductsCorrespondingToCollections = [NSMutableDictionary new];
-
             count_collectionsToDownload = 0;
-
         } else {
             [array_Updated_Products removeAllObjects];
-            array_Updated_Products = [NSMutableArray new];
         }
 
         [Store fetchSettingsFromServer:self.fetchSettingsHandler];
