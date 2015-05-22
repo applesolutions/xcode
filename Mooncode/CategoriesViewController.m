@@ -65,14 +65,13 @@
 
     __block NSMutableArray *arrayProducts;
     __block NSMutableArray *array_Updated_Products;
+    __block NSMutableArray *arrayIndexesActiclesOnSales;
 
     __block NSMutableDictionary *dicProductsCorrespondingToCollections;
     __block NSMutableDictionary *dicCollections;
 
     __block NSMutableDictionary *dic_Updated_ProductsCorrespondingToCollections;
     __block NSMutableDictionary *dic_Updated_Collections;
-
-    __block NSMutableArray *arrayIndexesActiclesOnSales;
 
     __block int count_collectionsToDownload;
     __block int count_imagesToBeDownloaded;
@@ -235,30 +234,26 @@
       }
     };
 
+    [[self navigationController] setNavigationBarHidden:YES animated:YES];  //do not remove
+
     count_imagesToBeDownloaded = 0;
 
     CGRect frame = self.collectionView.frame;
     frame.origin.y = 64;
     frame.size.height = self.view.frame.size.height - 64;
     self.collectionView.frame = frame;
-
     [self.view addSubview:self.collectionView];
 
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.collectionView addSubview:self.refreshControl];
     [self.refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
 
-    [[self navigationController] setNavigationBarHidden:YES animated:YES];  //do not remove
+    array_Updated_Products = [[NSMutableArray alloc] init];
+    arrayIndexesActiclesOnSales = [[NSMutableArray alloc] init];
+    dic_Updated_Collections = [[NSMutableDictionary alloc] init];
+    dic_Updated_ProductsCorrespondingToCollections = [[NSMutableDictionary alloc] init];
 
     dispatch_sync(dispatch_get_global_queue(0, 0), ^{
-
-      arrayProducts = [NSMutableArray new];
-      array_Updated_Products = [NSMutableArray new];
-
-      arrayIndexesActiclesOnSales = [NSMutableArray new];
-
-      dicProductsCorrespondingToCollections = [NSMutableDictionary new];
-      dicCollections = [[NSMutableDictionary alloc] init];
 
       if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
           arrayProducts = [[NSUserDefaultsMethods getObjectFromMemoryInFolder:@"arrayProducts"] mutableCopy];
@@ -275,30 +270,10 @@
           }
 
       } else {
-          NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-          NSString *documentsDirectory = [paths objectAtIndex:0];
+          dicCollections = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"datasForDicCollections"];
+          dicProductsCorrespondingToCollections = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"datasForProductsAndCollections"];
 
-          NSString *imagePath = [documentsDirectory stringByAppendingPathComponent:@"datasForProductsAndCollections"];
-          NSString *imagePath_collections = [documentsDirectory stringByAppendingPathComponent:@"datasForDicCollections"];
-
-          NSData *dataTest = [NSData dataWithContentsOfFile:imagePath];
-          NSData *dataTest_collections = [NSData dataWithContentsOfFile:imagePath_collections];
-
-          dic_Updated_Collections = [[NSMutableDictionary alloc] init];
-          dic_Updated_ProductsCorrespondingToCollections = [[NSMutableDictionary alloc] init];
-          //            sorted_Updated_KeysForCategories = [NSMutableArray new];
-
-          if (dataTest != nil && dataTest_collections != nil) {
-              dicCollections = [[NSKeyedUnarchiver unarchiveObjectWithData:dataTest_collections] mutableCopy];
-              dicProductsCorrespondingToCollections = [[NSKeyedUnarchiver unarchiveObjectWithData:dataTest] mutableCopy];
-
-              //                NSLog(@"array products : %@", [dicCollections description]);
-              //                NSLog(@"products : %@", [dicProductsCorrespondingToCollections description]);
-
-              //                sortedKeysForCategories = [[[dicProductsCorrespondingToCollections allKeys] sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-              //                    return [[[dicCollections objectForKey:a] objectForKey:@"title"] compare:[[dicCollections objectForKey:b] objectForKey:@"title"]];
-              //                }] mutableCopy];
-
+          if (dicCollections != nil && dicProductsCorrespondingToCollections != nil) {
               dispatch_async(dispatch_get_main_queue(), ^{
                 [self.collectionView reloadData];
                 [self hideLoading];
@@ -310,7 +285,6 @@
       }
 
       [Store fetchSettingsFromServer:self.fetchSettingsHandler];
-
     });
 
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
