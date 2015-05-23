@@ -29,6 +29,8 @@
 #import "Store.h"
 #import "ProtocolCell.h"
 
+#import "ProductsDownlaodOperation.h"
+
 @interface CategoriesViewController ()
 
 //IBOUTLETS
@@ -53,6 +55,8 @@
 
 @property(nonatomic, strong) __block NSArray *displayedCollectionsForCV;  //arrays that have to be displayed ( collections + products downloaded )
 @property(nonatomic, strong) __block NSArray *featuredCollectionsForCV;
+
+@property(nonatomic, strong) NSOperationQueue *productsOperationQueue;
 
 @end
 
@@ -119,6 +123,8 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
     [[self navigationController] setNavigationBarHidden:YES animated:YES];  //do not remove
 
     self.stlmMainViewController = (ScrollViewController *)self.parentViewController.parentViewController;
+    
+    self.productsOperationQueue = [[NSOperationQueue alloc] init];
 
     count_imagesToBeDownloaded = 0;
 
@@ -473,6 +479,16 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 #pragma mark - Products Downloader
 
 - (void)getProductsInCollectionWithCollectionId:(NSString *)collection_id andPageNumber:(int)pageNumber {
+    
+    ProductsDownlaodOperation *productsOperation = [[ProductsDownlaodOperation alloc] initWithCollectionId:collection_id pageNumber:pageNumber token:token  completionBlock:^(NSURLResponse *response, NSData *data, NSError *error) {
+        
+         NSDictionary *dicFromServer_products = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+        NSLog(@"block response : %@", [dicFromServer_products description]);
+        NSLog(@"main thread : %d", [NSThread isMainThread]);
+        
+    }];
+    [self.productsOperationQueue addOperation:productsOperation];
+    
     NSString *website_string = [[NSUserDefaults standardUserDefaults] stringForKey:@"website_url"];
     NSString *string_url = [NSString stringWithFormat:@"%@/admin/products.json?published_status=published&collection_id=%@&page=%d&limit=250", website_string, collection_id, pageNumber];
     NSURL *url = [NSURL URLWithString:string_url];
