@@ -74,7 +74,6 @@
     NSString *imagePath =[documentsDirectory stringByAppendingPathComponent:folderName];
     
     if([dataToStore writeToFile:imagePath atomically:NO]){
-        NSLog(@"datas well saved ! ");
         return YES;
     }else{
         NSLog(@"error saving file  ");
