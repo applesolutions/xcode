@@ -201,6 +201,10 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
         } else if (self.loading == NO && [notification.userInfo[@"forceShopifyUpdate"] boolValue] == NO) {
             if ([self isMissingCollectionsInMemoryToDisplay]) [self makeRequestForPage:1];
         }
+    }else{
+        if ([dicCollections count] == 0) {
+            [self showErrorViewWithMessage:noInternetConnectionMessage];
+        }
     }
 }
 
