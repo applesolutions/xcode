@@ -373,6 +373,8 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 - (void)makeRequestForPage:(int)pageNumber {
     self.loading = YES;
     count_collectionsToDownload = 0;
+    [dic_Updated_Collections removeAllObjects];
+    [dic_Updated_ProductsCorrespondingToCollections removeAllObjects];
 
     __block NSMutableArray *arrayAddedOrModifiedCollections = [NSMutableArray new];
     NSString *website_string = [[NSUserDefaults standardUserDefaults] stringForKey:@"website_url"];
@@ -545,7 +547,9 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 
                                          dicCollections = [dic_Updated_Collections mutableCopy];
                                          dicProductsCorrespondingToCollections = [dic_Updated_ProductsCorrespondingToCollections mutableCopy];
-
+                                         [dic_Updated_Collections removeAllObjects];
+                                         [dic_Updated_ProductsCorrespondingToCollections removeAllObjects];
+                                         
                                          [self updateCollectionsThatCanBeDisplayed];
 
                                          if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {  //change
