@@ -547,7 +547,9 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
                                      NSString *stringDateLastUpdateIPhone = [[NSKeyedUnarchiver unarchiveObjectWithData:dicUpdateIPhone] objectForKey:@"dateLastUpdateIPhone"];
                                      NSString *stringDateProductUpdate = [[dic_Updated_Collections objectForKey:collection_id] objectForKey:@"updated_at"];
 
-                                     if ([self hasBeenUpdatedWithStringDateReference:stringDateLastUpdateIPhone andStringDate:stringDateProductUpdate]) {  //collection updated
+                                     if ([ImageManagement getImageFromMemoryWithName:collection_id] == nil ||
+                                         [self hasBeenUpdatedWithStringDateReference:stringDateLastUpdateIPhone
+                                                                       andStringDate:stringDateProductUpdate]) {  //collection updated
 
                                          //check for a collection image
                                          if ([[dic_Updated_Collections objectForKey:collection_id] objectForKey:@"image"]) {
