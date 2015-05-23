@@ -131,14 +131,7 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
               [wSelf noCollectionAvailable];
               return;
           }
-
-          NSMutableArray *arrayCustomCollectionsIds = [[NSMutableArray alloc] init];
-          for (NSDictionary *collection in displayedCollectionsFromServer) {
-              [arrayCustomCollectionsIds addObject:[collection[@"shopify_collection_id"] stringValue]];
-          }
-          [[NSUserDefaults standardUserDefaults] setObject:arrayCustomCollectionsIds forKey:@"arrayCustomCollectionsIds"];
-          [[NSUserDefaults standardUserDefaults] synchronize];
-
+          
           //check we have in memeory all the collections to display (from server) + display the ones we have
           BOOL fetchCollectionsFromShopify = NO;
           NSMutableArray *updatedDisplayedCollectionsForCV = [[NSMutableArray alloc] init];
@@ -263,6 +256,27 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 
 - (void)updatePhoneSettings {
     [self updateColors];
+
+    //check if there is a missing collection in memeory to display
+    //YES : launch collection downloader
+    
+
+    //update the displayedCollection
+}
+
+- (BOOL)isMissingCollectionsInMemoryToDisplay {
+    NSArray *displayedCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
+
+    //check we have in memeory all the collections to display (from server) + display the ones we have
+    BOOL missingCollections = NO;
+    for (NSDictionary *collection in displayedCollectionsFromServer) {
+        if (![dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] ||                         // not in our collections
+            ![dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) {  // not in our products
+            missingCollections = YES;
+            break;
+        }
+    }
+    return missingCollections;
 }
 
 - (void)updateCollectionsThatCanBeDisplayed {

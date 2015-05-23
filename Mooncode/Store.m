@@ -36,20 +36,21 @@
             NSString *shopify_token = (NSString*)settings[@"shopify_token"];
             NSString *twitter = (NSString*)settings[@"twitter"];
             NSString *instagram = [settings[@"instagram_id"] stringValue];
-            
-//            NSArray *featuredCollections = settings[@"featured_collections"];
-//            NSArray *displayedCollections = settings[@"displayed_collections"];
-            
-            //check difference between memeory and server
-            
-//            NSArray *displayedCollectionsMemory = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
-//            NSArray *featuredCollectionsMemory = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"featuredCollections"];
-            
         
-            [NSUserDefaultsMethods saveObjectInMemory:settings[@"featured_collections"] toFolder:@"featuredCollections"];
-            [NSUserDefaultsMethods saveObjectInMemory:settings[@"displayed_collections"] toFolder:@"displayedCollections"];
-            //post  notif to say we have updated the collections displayed / featured
+            
+            NSArray *displayedCollectionsFromServer = settings[@"displayed_collections"];
+            NSArray *featuredCollectionsFromServer = settings[@"featured_collections"];
+            [NSUserDefaultsMethods saveObjectInMemory:displayedCollectionsFromServer toFolder:@"displayedCollections"];
+            [NSUserDefaultsMethods saveObjectInMemory:featuredCollectionsFromServer toFolder:@"featuredCollections"];
 
+            //post  notif to say we have updated the collections displayed / featured
+            
+            NSMutableArray *arrayCustomCollectionsIds = [[NSMutableArray alloc] init];
+            for (NSDictionary *collection in displayedCollectionsFromServer) {
+                [arrayCustomCollectionsIds addObject:[collection[@"shopify_collection_id"] stringValue]];
+            }
+            [[NSUserDefaults standardUserDefaults] setObject:arrayCustomCollectionsIds forKey:@"arrayCustomCollectionsIds"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
             
             if (twitter) {
                 twitter = [twitter stringByReplacingOccurrencesOfString:@"@" withString:@""];
