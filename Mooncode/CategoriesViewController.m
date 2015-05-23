@@ -167,7 +167,7 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
             [wSelf.collectionView reloadData];
           });
 
-          if (fetchCollectionsFromShopify == YES && self.loading == NO) [wSelf makeRequestForPage:1];
+          if (self.loading == NO) [wSelf makeRequestForPage:1];
 
       } else {
           NSLog(@"error settings fetched: %@", error);
