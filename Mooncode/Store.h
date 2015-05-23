@@ -10,7 +10,6 @@
 
 @interface Store : NSObject
 
-+(void) fetchSettingsFromServer:(void (^)(NSString*token, NSArray*displayedCollections, NSArray*featuredCollections,  NSError*error))callback;
-
++ (void)fetchSettingsFromServerAndForceShopifyUpdate:(BOOL)forceShopifyUpdate;
 
 @end

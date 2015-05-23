@@ -50,7 +50,6 @@
 @property(strong, nonatomic) UIRefreshControl *refreshControl;
 
 @property(nonatomic) __block BOOL loading;
-@property(nonatomic, copy) void (^fetchSettingsHandler)(NSString *token, NSArray *displayedCollections, NSArray *featuredCollections, NSError *error);
 
 @property(nonatomic, strong) __block NSArray *displayedCollectionsForCV;  //arrays that have to be displayed ( collections + products downloaded )
 @property(nonatomic, strong) __block NSArray *featuredCollectionsForCV;
@@ -107,68 +106,15 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
     }
 
     self.viewError.layer.cornerRadius = 5;
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updatePhoneSettings)
-                                                 name:@"updatePhoneSettings"
-                                               object:nil];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    __weak typeof(self) wSelf = self;
-    self.fetchSettingsHandler = ^void(NSString *updatedToken, NSArray *displayedCollectionsaaa, NSArray *featuredCollectionsaaa, NSError *error) {
-
-      if (!error) {
-          token = updatedToken;
-
-          //update collections diplayed / featured
-          NSArray *displayedCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
-          NSArray *featuredCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"featuredCollections"];
-
-          if (displayedCollectionsFromServer.count == 0) {
-              [wSelf noCollectionAvailable];
-              return;
-          }
-          
-          //check we have in memeory all the collections to display (from server) + display the ones we have
-          BOOL fetchCollectionsFromShopify = NO;
-          NSMutableArray *updatedDisplayedCollectionsForCV = [[NSMutableArray alloc] init];
-          for (NSDictionary *collection in displayedCollectionsFromServer) {
-              if (![dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] ||                         // not in our collections
-                  ![dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) {  // not in our products
-                  fetchCollectionsFromShopify = YES;
-              } else {
-                  [updatedDisplayedCollectionsForCV addObject:collection];
-              }
-          }
-
-          //display all the featured collections we have in memeory
-          NSMutableArray *updatedFeaturedCollectionsForCV = [[NSMutableArray alloc] init];
-          for (NSDictionary *collection in featuredCollectionsFromServer) {
-              if ([dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] &&                         // not in our collections
-                  [dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) {  // not in our products
-                  [updatedFeaturedCollectionsForCV addObject:collection];
-              }
-          }
-
-          wSelf.displayedCollectionsForCV = updatedDisplayedCollectionsForCV;
-          wSelf.featuredCollectionsForCV = updatedFeaturedCollectionsForCV;
-
-          dispatch_async(dispatch_get_main_queue(), ^{
-            [wSelf.collectionView reloadData];
-          });
-
-          if (self.loading == NO) [wSelf makeRequestForPage:1];
-
-      } else {
-          NSLog(@"error settings fetched: %@", error);
-          if ([dicCollections count] == 0) {
-              [wSelf showErrorViewWithMessage:noInternetConnectionMessage];
-          }
-      }
-    };
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updatePhoneSettings:)
+                                                 name:@"updatePhoneSettings"
+                                               object:nil];
 
     [[self navigationController] setNavigationBarHidden:YES animated:YES];  //do not remove
 
@@ -184,7 +130,7 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.collectionView addSubview:self.refreshControl];
-    [self.refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
+    [self.refreshControl addTarget:self action:@selector(reloadCollectionView) forControlEvents:UIControlEventValueChanged];
 
     array_Updated_Products = [[NSMutableArray alloc] init];
     arrayIndexesActiclesOnSales = [[NSMutableArray alloc] init];
@@ -224,7 +170,7 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
           }
       }
 
-      [Store fetchSettingsFromServer:self.fetchSettingsHandler];
+      [Store fetchSettingsFromServerAndForceShopifyUpdate:YES];
     });
 
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -254,14 +200,19 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
     });
 }
 
-- (void)updatePhoneSettings {
-    [self updateColors];
+- (void)updatePhoneSettings:(NSNotification *)notification {
+    if (!notification.userInfo[@"error"]) {
+        token = [[NSUserDefaults standardUserDefaults] objectForKey:@"shopifyToken"];
+        [self updateColors];
 
-    //check if there is a missing collection in memeory to display
-    //YES : launch collection downloader
-    
+        [self updateCollectionsThatCanBeDisplayed];
 
-    //update the displayedCollection
+        if (self.loading == NO && [notification.userInfo[@"forceShopifyUpdate"] boolValue] == YES) {  //we force the download of Shopify
+            [self makeRequestForPage:1];
+        } else if (self.loading == NO && [notification.userInfo[@"forceShopifyUpdate"] boolValue] == NO) {
+            if ([self isMissingCollectionsInMemoryToDisplay]) [self makeRequestForPage:1];
+        }
+    }
 }
 
 - (BOOL)isMissingCollectionsInMemoryToDisplay {
@@ -311,9 +262,13 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 
     self.displayedCollectionsForCV = updatedDisplayedCollectionsForCV;
     self.featuredCollectionsForCV = updatedFeaturedCollectionsForCV;
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self.collectionView reloadData];
+    });
 }
 
-- (void)refreshTable {
+- (void)reloadCollectionView {
     [self.refreshControl endRefreshing];
 
     if (self.loading == NO) {
@@ -321,7 +276,8 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
             [dic_Updated_Collections removeAllObjects];
             [dic_Updated_ProductsCorrespondingToCollections removeAllObjects];
 
-            [Store fetchSettingsFromServer:self.fetchSettingsHandler];
+            //            [Store fetchSettingsFromServer:self.fetchSettingsHandler];
+            [Store fetchSettingsFromServerAndForceShopifyUpdate:YES];
         } else {
             [array_Updated_Products removeAllObjects];
         }
@@ -855,7 +811,8 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
     //    self.labelLoading.text = @"Thank you for downloading our App!\n \nNow downloading the content, it should take less than a minute and only happen once. \n \nMake sure you are connected to the Internet !";
     [self showLoadingStateWithMessage:loadingMessage];
 
-    [Store fetchSettingsFromServer:self.fetchSettingsHandler];
+    //    [Store fetchSettingsFromServer:self.fetchSettingsHandler];
+    [Store fetchSettingsFromServerAndForceShopifyUpdate:YES];
 }
 
 #pragma mark - UICollectionViewDelegate

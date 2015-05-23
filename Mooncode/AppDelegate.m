@@ -207,7 +207,7 @@
 #pragma mark - refresh phone settings
 
 -(void) fetchSettingsFromServer{
-    [Store fetchSettingsFromServer:nil];
+    [Store fetchSettingsFromServerAndForceShopifyUpdate:NO];
 }
 
 
