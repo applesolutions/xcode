@@ -48,11 +48,6 @@
 //    [Flurry startSession:@""];
     
     
-//    @{@"primary":@[@"colorLabelCollections"],
-//      @"secondary":@[@"colorNavBar",@"colorSettingsView", @"colorButtons"],
-//      @"transparency":@[@"colorViewTitleCollection"]
-//      };
-    
     //colorNavBar
     if ( [[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] == nil) //secondary
         [[NSUserDefaults standardUserDefaults] setObject:[NSDictionary dictionaryWithObjectsAndKeys:    @44 ,  @"red"   ,
@@ -104,30 +99,6 @@
                                                                                                     @1.0 ,  @"alpha", nil]
                                               forKey:@"backgroundColor"];
     
-    //CUSTOM collections ******************************************************************************************
-    //**************************************************************************************************************
-    
-    NSArray *arrayCustomCollectionsIds = [NSArray arrayWithObjects:
-//                                          @"5714232",
-//                                          @"9202724",
-//                                          @"7935780",
-//                                          @"26412852",
-//                                          @"26297760",
-//                                          @"8192184",
-//                                          @"26179840",
-//                                          @"26909296",
-//                                          @"12889797",
-//                                          @"23039669",
-//                                          @"14395853",
-//                                          @"23181225",
-                                          nil];
-    
-    // NEVER REMOVE THIS LINE !!!! ********
-//    [[NSUserDefaults standardUserDefaults] setObject:arrayCustomCollectionsIds forKey:@"arrayCustomCollectionsIds"]; // NEVER REMOVE THIS LINE !!!! ********
-    // NEVER REMOVE THIS LINE !!!! ********
-    
-    //**************************************************************************************************************
-    //**************************************************************************************************************
     
     [[NSUserDefaults standardUserDefaults] synchronize];
     
