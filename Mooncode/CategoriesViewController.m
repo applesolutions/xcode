@@ -187,18 +187,7 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
     });
 }
 
-- (void)updateColors {
-    dispatch_async(dispatch_get_main_queue(), ^{
-
-      self.viewNavBar.backgroundColor = [self colorFromMemoryWithName:@"colorNavBar"];
-
-      [self.navBar setBarTintColor:self.viewNavBar.backgroundColor];
-
-      [AppDelegate setAppearance];
-
-      [self.collectionView reloadData];
-    });
-}
+#pragma mark - Collections Manegement
 
 - (void)updatePhoneSettings:(NSNotification *)notification {
     if (!notification.userInfo[@"error"]) {
@@ -266,22 +255,6 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
     dispatch_async(dispatch_get_main_queue(), ^{
       [self.collectionView reloadData];
     });
-}
-
-- (void)reloadCollectionView {
-    [self.refreshControl endRefreshing];
-
-    if (self.loading == NO) {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == YES) {
-            [dic_Updated_Collections removeAllObjects];
-            [dic_Updated_ProductsCorrespondingToCollections removeAllObjects];
-
-            //            [Store fetchSettingsFromServer:self.fetchSettingsHandler];
-            [Store fetchSettingsFromServerAndForceShopifyUpdate:YES];
-        } else {
-            [array_Updated_Products removeAllObjects];
-        }
-    }
 }
 
 #pragma mark - Products Only Downloader
@@ -719,6 +692,19 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
     });
 }
 
+- (void)updateColors {
+    dispatch_async(dispatch_get_main_queue(), ^{
+
+      self.viewNavBar.backgroundColor = [self colorFromMemoryWithName:@"colorNavBar"];
+
+      [self.navBar setBarTintColor:self.viewNavBar.backgroundColor];
+
+      [AppDelegate setAppearance];
+
+      [self.collectionView reloadData];
+    });
+}
+
 #pragma mark - Date
 
 - (BOOL)hasBeenUpdatedWithStringDateReference:(NSString *)stringDateReference andStringDate:(NSString *)stringDateToCompare {
@@ -815,6 +801,23 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 
     //    [Store fetchSettingsFromServer:self.fetchSettingsHandler];
     [Store fetchSettingsFromServerAndForceShopifyUpdate:YES];
+}
+
+#pragma mark - CollectionView
+
+- (void)reloadCollectionView {
+    [self.refreshControl endRefreshing];
+
+    if (self.loading == NO) {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == YES) {
+            [dic_Updated_Collections removeAllObjects];
+            [dic_Updated_ProductsCorrespondingToCollections removeAllObjects];
+
+            [Store fetchSettingsFromServerAndForceShopifyUpdate:YES];
+        } else {
+            [array_Updated_Products removeAllObjects];
+        }
+    }
 }
 
 #pragma mark - UICollectionViewDelegate
