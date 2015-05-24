@@ -105,6 +105,7 @@
 		AAAD436F1A60706900B8AB56 /* NSUserDefaultsMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAD436E1A60706900B8AB56 /* NSUserDefaultsMethods.m */; };
 		AAAD43A51A61844100B8AB56 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AAAD43A71A61844100B8AB56 /* Localizable.strings */; };
 		AAAF917B1B10FB6500846CD4 /* ProductsDownlaodOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAF917A1B10FB6500846CD4 /* ProductsDownlaodOperation.m */; };
+		AAAF917F1B11330B00846CD4 /* CollectionsDownloaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAF917E1B11330B00846CD4 /* CollectionsDownloaderOperation.m */; };
 		AABE084219F1AC79009AF8D1 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABE084019F1AC79009AF8D1 /* Bolts.framework */; };
 		AABE084319F1AC79009AF8D1 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABE084119F1AC79009AF8D1 /* Parse.framework */; };
 		AABE084519F1AC8B009AF8D1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABE084419F1AC8B009AF8D1 /* AudioToolbox.framework */; };
@@ -306,6 +307,8 @@
 		AAAD43A61A61844100B8AB56 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AAAF91791B10FB6500846CD4 /* ProductsDownlaodOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductsDownlaodOperation.h; sourceTree = "<group>"; };
 		AAAF917A1B10FB6500846CD4 /* ProductsDownlaodOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductsDownlaodOperation.m; sourceTree = "<group>"; };
+		AAAF917D1B11330B00846CD4 /* CollectionsDownloaderOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionsDownloaderOperation.h; path = Mooncode/CollectionsDownloaderOperation.h; sourceTree = "<group>"; };
+		AAAF917E1B11330B00846CD4 /* CollectionsDownloaderOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionsDownloaderOperation.m; path = Mooncode/CollectionsDownloaderOperation.m; sourceTree = "<group>"; };
 		AABE084019F1AC79009AF8D1 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		AABE084119F1AC79009AF8D1 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		AABE084419F1AC8B009AF8D1 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -689,6 +692,8 @@
 			children = (
 				AAAF91791B10FB6500846CD4 /* ProductsDownlaodOperation.h */,
 				AAAF917A1B10FB6500846CD4 /* ProductsDownlaodOperation.m */,
+				AAAF917D1B11330B00846CD4 /* CollectionsDownloaderOperation.h */,
+				AAAF917E1B11330B00846CD4 /* CollectionsDownloaderOperation.m */,
 			);
 			name = Operations;
 			sourceTree = "<group>";
@@ -908,6 +913,7 @@
 				AAF1838B1AE6E74A00A44A35 /* FCFileManager.m in Sources */,
 				AAAD436F1A60706900B8AB56 /* NSUserDefaultsMethods.m in Sources */,
 				AA2EB2E81A693ADD00AEA228 /* AFURLRequestSerialization.m in Sources */,
+				AAAF917F1B11330B00846CD4 /* CollectionsDownloaderOperation.m in Sources */,
 				AAAF917B1B10FB6500846CD4 /* ProductsDownlaodOperation.m in Sources */,
 				AA96651119FCBB2F0008ED03 /* CartViewController.m in Sources */,
 				AA13FD571A05752200696FE1 /* ModifyProductInCartViewController.m in Sources */,

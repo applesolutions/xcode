@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^CompletionBlock)(NSURLResponse *response, NSData *data, NSError *error);
+typedef void (^CompletionBlock)(NSURLResponse *response, NSData *data, NSError *error, NSString *collectionId, int pageNumber);
 
 @interface ProductsDownlaodOperation : NSOperation
 

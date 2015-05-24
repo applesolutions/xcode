@@ -34,7 +34,7 @@
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
 
                              if (self.block) {
-                                 self.block(response, data, error);
+                                 self.block(response, data, error, self.collectionId, self.pageNumber);
                              }
 
                            }];
