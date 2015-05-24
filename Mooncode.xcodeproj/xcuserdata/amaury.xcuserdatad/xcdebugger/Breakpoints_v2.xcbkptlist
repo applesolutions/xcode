@@ -490,13 +490,29 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Mooncode/CategoriesViewController.m"
-            timestampString = "454114725.083403"
+            timestampString = "454196663.080445"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1088"
-            endingLineNumber = "1088"
+            startingLineNumber = "1063"
+            endingLineNumber = "1063"
             landmarkName = "@implementation CategoriesViewController"
             landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Mooncode/CategoriesViewController.m"
+            timestampString = "454196799.849786"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "301"
+            endingLineNumber = "301"
+            landmarkName = "-isMissingCollectionsInMemoryToDisplay"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
