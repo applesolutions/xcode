@@ -10,24 +10,6 @@
 
 @implementation CHTCollectionViewWaterfallFeaturedCell
 
-#pragma mark - Accessors
-- (UILabel *)displayLabel {
-    if (!_displayLabel) {
-        _displayLabel = [[UILabel alloc] initWithFrame:self.contentView.bounds];
-        _displayLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-        _displayLabel.textColor = [UIColor whiteColor];
-        _displayLabel.textAlignment = NSTextAlignmentCenter;
-    }
-    return _displayLabel;
-}
-
-- (void)setDisplayString:(NSString *)displayString {
-    if (![_displayString isEqualToString:displayString]) {
-        _displayString = [displayString copy];
-        self.displayLabel.text = _displayString;
-    }
-}
-
 #pragma mark - Life Cycle
 - (void)dealloc {
     [_displayLabel removeFromSuperview];
@@ -40,32 +22,27 @@
         self.imageView.contentMode = UIViewContentModeScaleAspectFill;
 
         _displayLabel = [[UILabel alloc] initWithFrame:self.contentView.bounds];
-        _displayLabel.frame = CGRectMake(0, 0, self.frame.size.width - 40, 0.2 * self.frame.size.height);
-        _displayLabel.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
+        _displayLabel.frame = CGRectMake(0, 0, self.frame.size.width - 40, 0.5 * self.frame.size.height);
         _displayLabel.adjustsFontSizeToFitWidth = YES;
         _displayLabel.minimumFontSize = 0;
         _displayLabel.textAlignment = UITextAlignmentCenter;
-        _displayLabel.font = [UIFont fontWithName:@"ProximaNova-SemiBold" size:13];
-        _displayLabel.adjustsFontSizeToFitWidth = YES;
         _displayLabel.numberOfLines = 2;
         _displayLabel.textColor = [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorLabelCollections"] objectForKey:@"red"] floatValue] / 255
                                                   green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorLabelCollections"] objectForKey:@"green"] floatValue] / 255
                                                    blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorLabelCollections"] objectForKey:@"blue"] floatValue] / 255
                                                   alpha:1];
+        _displayLabel.font = [UIFont fontWithName:@"ProximaNova-Regular" size:25];
+        _displayLabel.adjustsFontSizeToFitWidth = YES;
+        _displayLabel.center = self.contentView.center;
 
         _viewWhite.translatesAutoresizingMaskIntoConstraints = NO;
-        _viewWhite = [[UIView alloc] initWithFrame:CGRectMake(0, self.contentView.frame.size.height - 0.2 * self.contentView.frame.size.height, self.contentView.frame.size.width, 0.2 * self.contentView.frame.size.height)];
+        _viewWhite = [[UIView alloc] initWithFrame:self.contentView.frame];
 
-        _displayLabel.font = [UIFont fontWithName:@"ProximaNova-Regular" size:17];
-        _displayLabel.adjustsFontSizeToFitWidth = YES;
+        [self addSubview:_viewWhite];
+        [self bringSubviewToFront:self.displayLabel];
 
-        _displayLabel.center = _viewWhite.center;
-
-        [self.contentView addSubview:_viewWhite];
-        [self.contentView bringSubviewToFront:self.displayLabel];
-
-        [self.contentView addSubview:_displayLabel];
-        [self.contentView bringSubviewToFront:_displayLabel];
+        [self addSubview:_displayLabel];
+        [self bringSubviewToFront:_displayLabel];
 
         self.layer.cornerRadius = 2;
         self.layer.masksToBounds = YES;
@@ -77,7 +54,7 @@
         self.imageView.frame = imageViewFrame;
         self.imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.imageView.clipsToBounds = YES;
-        //        [self.contentView addSubview:self.imageView];
+        [self.contentView addSubview:self.imageView];
 
         self.imageViewSale = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.contentView.bounds) - 40, 10, 30, 30)];
         self.imageViewSale.contentMode = UIViewContentModeScaleAspectFit;

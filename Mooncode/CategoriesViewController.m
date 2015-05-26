@@ -334,6 +334,10 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
     }
 
     //sort arrays "updatedFeaturedCollectionsForCV" & "updatedDisplayedCollectionsForCV" by "placeInArray"
+    //sort products by date of creation
+
+    updatedDisplayedCollectionsForCV = [self sortCollectionsInArray:updatedDisplayedCollectionsForCV];
+    updatedFeaturedCollectionsForCV = [self sortCollectionsInArray:updatedFeaturedCollectionsForCV];
 
     self.displayedCollectionsForCV = updatedDisplayedCollectionsForCV;
     self.featuredCollectionsForCV = updatedFeaturedCollectionsForCV;
@@ -341,6 +345,16 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
     dispatch_async(dispatch_get_main_queue(), ^{
       [self.collectionView reloadData];
     });
+}
+
+-(NSMutableArray *)sortCollectionsInArray:(NSArray *)collectionsToBeSorted{
+    return [[collectionsToBeSorted sortedArrayUsingComparator:^NSComparisonResult(id collection1, id collection2) {
+        if([NSNull null] != collection1[@"display_position"] && [NSNull null] != collection2[@"display_position"]){
+            return [collection1[@"display_position"] compare:collection2[@"display_position"]];
+        }else {
+            return (NSComparisonResult)NSOrderedSame;
+        }
+    }] mutableCopy];
 }
 
 #pragma mark - Products Only Downloader
@@ -471,11 +485,11 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 
                              if (!error) {
                                  NSMutableDictionary *dicFromServer = [[NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error] mutableCopy];
-//                                 NSLog(@"all collections : %@ and count collections : %lu", [dicFromServer description], [[dicFromServer objectForKey:collectionType] count]);
+                                 //                                 NSLog(@"all collections : %@ and count collections : %lu", [dicFromServer description], [[dicFromServer objectForKey:collectionType] count]);
 
                                  //CHECK COLLECTIONS ****************************************************
                                  arrayAddedOrModifiedCollections = [self arrayCollectionsWithInitialArray:arrayAddedOrModifiedCollections handleCollections:[dicFromServer objectForKey:@"smart_collections"] andCollectionType:@"smart_collections"];
-                                 
+
                                  //ask for the custom collections
                                  NSString *collectionType_custom = @"custom_collections";
                                  NSString *string_url_custom = [NSString stringWithFormat:@"%@/admin/%@.json?page=%d&limit=250", website_string, collectionType_custom, 1];
@@ -487,9 +501,8 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
                                                         completionHandler:^(NSURLResponse *response_custom, NSData *data_custom, NSError *error_custom) {
 
                                                           if (!error_custom) {
-                                                              
                                                               NSMutableDictionary *dicFromServer_custom = [[NSJSONSerialization JSONObjectWithData:data_custom options:kNilOptions error:&error_custom] mutableCopy];
-//                                                              NSLog(@"dicFromServer_custom : %@", [dicFromServer_custom description]);
+                                                              //                                                              NSLog(@"dicFromServer_custom : %@", [dicFromServer_custom description]);
 
                                                               //CHECK COLLECTIONS ****************************************************
                                                               arrayAddedOrModifiedCollections = [self arrayCollectionsWithInitialArray:arrayAddedOrModifiedCollections handleCollections:[dicFromServer_custom objectForKey:@"custom_collections"] andCollectionType:@"custom_collections"];
@@ -506,7 +519,7 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
                                                           //GET THE PRODUCTS FOR EACH COLLECTION !  ****************************************************
                                                           for (NSDictionary *dicCollectionToDownload in arrayAddedOrModifiedCollections) {  // download products only for new/updated collections
 
-                                                              [self getProductsInCollectionWithCollectionId:[dicCollectionToDownload[@"id"] stringValue]  andPageNumber:1];
+                                                              [self getProductsInCollectionWithCollectionId:[dicCollectionToDownload[@"id"] stringValue] andPageNumber:1];
                                                           }
                                                         }];
 
@@ -601,7 +614,6 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
                             ImageForCollection:YES];
                 }
             }
-
         }
     }
 }
@@ -990,7 +1002,7 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 
         [_collectionView registerClass:[CHTCollectionViewWaterfallCell class]
             forCellWithReuseIdentifier:CELL_IDENTIFIER];
-        [_collectionView registerClass:[CHTCollectionViewWaterfallCell class]
+        [_collectionView registerClass:[CHTCollectionViewWaterfallFeaturedCell class]
             forCellWithReuseIdentifier:CELL_FEATURED_IDENTIFIER];
     }
     return _collectionView;
