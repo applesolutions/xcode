@@ -56,7 +56,9 @@
 @property(nonatomic, strong) __block NSArray *displayedCollectionsForCV;  //arrays that have to be displayed ( collections + products downloaded )
 @property(nonatomic, strong) __block NSArray *featuredCollectionsForCV;
 
-@property(nonatomic, strong) NSOperationQueue *productsOperationQueue;
+@property(nonatomic, strong) __block NSOperationQueue *productsOperationQueue;
+
+@property(nonatomic) __block NSInteger collectionProductsToDownload;
 
 @end
 
@@ -74,8 +76,8 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
     __block NSMutableArray *array_Updated_Products;
     __block NSMutableArray *arrayIndexesActiclesOnSales;
 
-    __block NSMutableDictionary *dicProductsCorrespondingToCollections;
-    __block NSMutableDictionary *dicCollections;
+    __block NSDictionary *dicProductsCorrespondingToCollections;
+    __block NSDictionary *dicCollections;
 
     __block NSMutableDictionary *dic_Updated_ProductsCorrespondingToCollections;
     __block NSMutableDictionary *dic_Updated_Collections;
@@ -168,7 +170,6 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
               [self updateCollectionsThatCanBeDisplayed];
 
               dispatch_async(dispatch_get_main_queue(), ^{
-                [self.collectionView reloadData];
                 [self stopLoadingToDisplayCollections];
               });
 
@@ -201,75 +202,145 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
     if (object == self.productsOperationQueue && [keyPath isEqualToString:@"operationCount"]) {
         //        NSLog(@"operationCount : %d", self.productsOperationQueue.operationCount);
 
-        dispatch_sync(dispatch_get_global_queue(0, 0), ^{
+        //        dispatch_sync(dispatch_get_global_queue(0, 0), ^{
+        //
+        //          if (self.productsOperationQueue.operationCount == 0) {
+        //              [NSUserDefaultsMethods saveObjectInMemory:dic_Updated_ProductsCorrespondingToCollections toFolder:@"datasForProductsAndCollections"];
+        //              [NSUserDefaultsMethods saveObjectInMemory:dic_Updated_Collections toFolder:@"datasForDicCollections"];
+        //
+        //              dicCollections = [dic_Updated_Collections copy];
+        //              dicProductsCorrespondingToCollections = [dic_Updated_ProductsCorrespondingToCollections copy];
+        //              [dic_Updated_Collections removeAllObjects];
+        //              [dic_Updated_ProductsCorrespondingToCollections removeAllObjects];
+        //
+        //              [self updateCollectionsThatCanBeDisplayed];
+        //
+        //              if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {  //change
+        //
+        //                  [arrayProducts removeAllObjects];
+        //                  [dicProductsCorrespondingToCollections enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        //                    [arrayProducts addObjectsFromArray:obj];
+        //                  }];
+        //                  [self checkForProductsInSales];
+        //              }
+        //
+        //              //GET ALL IMAGES TO DOWNLOAD
+        //              NSData *dicUpdateIPhone = [[NSUserDefaults standardUserDefaults] dataForKey:@"dateLastUpdateIPhone"];
+        //              NSString *stringDateLastUpdateIPhone = [[NSKeyedUnarchiver unarchiveObjectWithData:dicUpdateIPhone] objectForKey:@"dateLastUpdateIPhone"];
+        //
+        //              //get all unique images ! avoid to download each image several times !
+        //              NSMutableDictionary *productImagesToDownload = [[NSMutableDictionary alloc] init];
+        //
+        //              for (NSString *key in dicProductsCorrespondingToCollections.allKeys) {  //ENUMERATE ALL THE PRODUCTS TO KNOW IF UPDATED !
+        //                  for (NSDictionary *dicProduct in dicProductsCorrespondingToCollections[key]) {
+        //                      NSString *stringDateProductUpdate = [dicProduct objectForKey:@"updated_at"];
+        //
+        //                      if (![productImagesToDownload.allKeys containsObject:[dicProduct objectForKey:@"id"]] &&
+        //                          ([self hasBeenUpdatedWithStringDateReference:stringDateLastUpdateIPhone andStringDate:stringDateProductUpdate] ||
+        //                           ([ImageManagement getImageFromMemoryWithName:[dicProduct objectForKey:@"id"]] == nil &&  //first time !
+        //                            [dicProduct objectForKey:@"id"] != nil && [dicProduct objectForKey:@"image"] != nil))) {
+        //                          if ([dicProduct objectForKey:@"image"]) {
+        //                              productImagesToDownload[[dicProduct[@"id"] stringValue]] = dicProduct[@"image"][@"src"];
+        //                          }
+        //                      }
+        //                  }
+        //              }
+        //
+        //              dispatch_async(dispatch_get_main_queue(), ^{
+        //
+        //                if (productImagesToDownload.allKeys.count > 0) {
+        //                    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+        //                }
+        //                if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == YES) {
+        //                    [self stopLoadingToDisplayCollections];
+        //                    //                    [self.collectionView reloadData];
+        //                    //NSLog(@"test aaaaa");
+        //                }
+        //              });
+        //
+        //              for (NSString *productId in productImagesToDownload.allKeys) {
+        //                  [self getImageWithImageUrl:productImagesToDownload[productId]
+        //                                 andObjectId:productId
+        //                         lastImageToDownload:NO    // does not matter
+        //                          ImageForCollection:NO];  // modif
+        //              }
+        //
+        //              //EVERYTHING IS DOWNLOADED !
+        //              [self saveTimeUpdateIPhone];
+        //              self.loading = NO;
+        //          }
+        //        });
+    }
+}
 
-          if (self.productsOperationQueue.operationCount == 0) {
-              [NSUserDefaultsMethods saveObjectInMemory:dic_Updated_ProductsCorrespondingToCollections toFolder:@"datasForProductsAndCollections"];
-              [NSUserDefaultsMethods saveObjectInMemory:dic_Updated_Collections toFolder:@"datasForDicCollections"];
+- (void)allCollectionsProductsAreDownloaded {
+    dispatch_sync(dispatch_get_global_queue(0, 0), ^{
 
-              dicCollections = [dic_Updated_Collections mutableCopy];
-              dicProductsCorrespondingToCollections = [dic_Updated_ProductsCorrespondingToCollections mutableCopy];
-              [dic_Updated_Collections removeAllObjects];
-              [dic_Updated_ProductsCorrespondingToCollections removeAllObjects];
+      [NSUserDefaultsMethods saveObjectInMemory:dic_Updated_ProductsCorrespondingToCollections toFolder:@"datasForProductsAndCollections"];
+      [NSUserDefaultsMethods saveObjectInMemory:dic_Updated_Collections toFolder:@"datasForDicCollections"];
 
-              [self updateCollectionsThatCanBeDisplayed];
+      dicCollections = [dic_Updated_Collections copy];
+      dicProductsCorrespondingToCollections = [dic_Updated_ProductsCorrespondingToCollections copy];
+      [dic_Updated_Collections removeAllObjects];
+      [dic_Updated_ProductsCorrespondingToCollections removeAllObjects];
 
-              if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {  //change
+      [self updateCollectionsThatCanBeDisplayed];
 
-                  [arrayProducts removeAllObjects];
-                  [dicProductsCorrespondingToCollections enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-                    [arrayProducts addObjectsFromArray:obj];
-                  }];
-                  [self checkForProductsInSales];
-              }
+      if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {  //change
 
-              //GET ALL IMAGES TO DOWNLOAD
-              NSData *dicUpdateIPhone = [[NSUserDefaults standardUserDefaults] dataForKey:@"dateLastUpdateIPhone"];
-              NSString *stringDateLastUpdateIPhone = [[NSKeyedUnarchiver unarchiveObjectWithData:dicUpdateIPhone] objectForKey:@"dateLastUpdateIPhone"];
+          [arrayProducts removeAllObjects];
+          [dicProductsCorrespondingToCollections enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            [arrayProducts addObjectsFromArray:obj];
+          }];
+          [self checkForProductsInSales];
+      }
 
-              //get all unique images ! avoid to download each image several times !
-              NSMutableDictionary *productImagesToDownload = [[NSMutableDictionary alloc] init];
+      //GET ALL IMAGES TO DOWNLOAD
+      NSData *dicUpdateIPhone = [[NSUserDefaults standardUserDefaults] dataForKey:@"dateLastUpdateIPhone"];
+      NSString *stringDateLastUpdateIPhone = [[NSKeyedUnarchiver unarchiveObjectWithData:dicUpdateIPhone] objectForKey:@"dateLastUpdateIPhone"];
 
-              for (NSString *key in dicProductsCorrespondingToCollections.allKeys) {  //ENUMERATE ALL THE PRODUCTS TO KNOW IF UPDATED !
-                  for (NSDictionary *dicProduct in dicProductsCorrespondingToCollections[key]) {
-                      NSString *stringDateProductUpdate = [dicProduct objectForKey:@"updated_at"];
+      //get all unique images ! avoid to download each image several times !
+      NSMutableDictionary *productImagesToDownload = [[NSMutableDictionary alloc] init];
 
-                      if (![productImagesToDownload.allKeys containsObject:[dicProduct objectForKey:@"id"]] &&
-                          ([self hasBeenUpdatedWithStringDateReference:stringDateLastUpdateIPhone andStringDate:stringDateProductUpdate] ||
-                           ([ImageManagement getImageFromMemoryWithName:[dicProduct objectForKey:@"id"]] == nil &&  //first time !
-                            [dicProduct objectForKey:@"id"] != nil && [dicProduct objectForKey:@"image"] != nil))) {
-                          if ([dicProduct objectForKey:@"image"]) {
-                              productImagesToDownload[[dicProduct[@"id"] stringValue]] = dicProduct[@"image"][@"src"];
-                          }
-                      }
+      for (NSString *key in dicProductsCorrespondingToCollections.allKeys) {  //ENUMERATE ALL THE PRODUCTS TO KNOW IF UPDATED !
+          for (NSDictionary *dicProduct in dicProductsCorrespondingToCollections[key]) {
+              NSString *stringDateProductUpdate = [dicProduct objectForKey:@"updated_at"];
+
+              if (![productImagesToDownload.allKeys containsObject:[dicProduct objectForKey:@"id"]] &&
+                  ([self hasBeenUpdatedWithStringDateReference:stringDateLastUpdateIPhone andStringDate:stringDateProductUpdate] ||
+                   ([ImageManagement getImageFromMemoryWithName:[dicProduct objectForKey:@"id"]] == nil &&  //first time !
+                    [dicProduct objectForKey:@"id"] != nil && [dicProduct objectForKey:@"image"] != nil))) {
+                  if ([dicProduct objectForKey:@"image"]) {
+                      productImagesToDownload[[dicProduct[@"id"] stringValue]] = dicProduct[@"image"][@"src"];
                   }
               }
-
-              dispatch_async(dispatch_get_main_queue(), ^{
-
-                if (productImagesToDownload.allKeys.count > 0) {
-                    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-                }
-                if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == YES) {
-                    [self stopLoadingToDisplayCollections];
-                    [self.collectionView reloadData];
-                    //NSLog(@"test aaaaa");
-                }
-              });
-
-              for (NSString *productId in productImagesToDownload.allKeys) {
-                  [self getImageWithImageUrl:productImagesToDownload[productId]
-                                 andObjectId:productId
-                         lastImageToDownload:NO    // does not matter
-                          ImageForCollection:NO];  // modif
-              }
-
-              //EVERYTHING IS DOWNLOADED !
-              [self saveTimeUpdateIPhone];
-              self.loading = NO;
           }
-        });
-    }
+      }
+
+      dispatch_async(dispatch_get_main_queue(), ^{
+
+        if (productImagesToDownload.allKeys.count > 0) {
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+        }
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == YES) {
+            [self stopLoadingToDisplayCollections];
+            //                    [self.collectionView reloadData];
+            //NSLog(@"test aaaaa");
+        }
+      });
+
+      for (NSString *productId in productImagesToDownload.allKeys) {
+          [self getImageWithImageUrl:productImagesToDownload[productId]
+                         andObjectId:productId
+                 lastImageToDownload:NO    // does not matter
+                  ImageForCollection:NO];  // modif
+      }
+
+      //EVERYTHING IS DOWNLOADED !
+      [self saveTimeUpdateIPhone];
+      self.loading = NO;
+
+    });
 }
 
 #pragma mark - Collections Manegement
@@ -309,51 +380,49 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 }
 
 - (void)updateCollectionsThatCanBeDisplayed {
-    
     @synchronized(self) {
-        
-    dispatch_sync(dispatch_get_global_queue(0, 0), ^{
+        dispatch_sync(dispatch_get_global_queue(0, 0), ^{
 
-      NSArray *displayedCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
-      NSArray *featuredCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"featuredCollections"];
+          NSArray *displayedCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
+          NSArray *featuredCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"featuredCollections"];
+            
+//            NSLog(@"count displayed after saved : %d", displayedCollectionsFromServer.count);
 
-      if (displayedCollectionsFromServer.count == 0) {
-          [self noCollectionAvailable];
-          return;
-      }
-
-      //check we have in memeory all the collections to display (from server) + display the ones we have
-
-      NSMutableArray *updatedDisplayedCollectionsForCV = [[NSMutableArray alloc] init];
-      for (NSDictionary *collection in displayedCollectionsFromServer) {
-          if ([dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] &&
-              [dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) {
-              [updatedDisplayedCollectionsForCV addObject:collection];
+          if (displayedCollectionsFromServer.count == 0) {
+              [self noCollectionAvailable];
+              return;
           }
-      }
 
-      //display all the featured collections we have in memeory
-      NSMutableArray *updatedFeaturedCollectionsForCV = [[NSMutableArray alloc] init];
-      for (NSDictionary *collection in featuredCollectionsFromServer) {
-          if ([dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] &&
-              [dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) {
-              [updatedFeaturedCollectionsForCV addObject:collection];
+          //check we have in memeory all the collections to display (from server) + display the ones we have
+          NSMutableArray *updatedDisplayedCollectionsForCV = [[NSMutableArray alloc] init];
+          for (NSDictionary *collection in displayedCollectionsFromServer) {
+              if ([dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] &&
+                  [dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) {
+                  [updatedDisplayedCollectionsForCV addObject:collection];
+              }
           }
-      }
 
-      //sort collections
-      updatedDisplayedCollectionsForCV = [self sortCollectionsInArray:updatedDisplayedCollectionsForCV];
-      updatedFeaturedCollectionsForCV = [self sortCollectionsInArray:updatedFeaturedCollectionsForCV];
-      NSLog(@"main th : %d", [NSThread isMainThread]);
-      self.displayedCollectionsForCV = [updatedDisplayedCollectionsForCV copy];
-      self.featuredCollectionsForCV = [updatedFeaturedCollectionsForCV copy];
+          //display all the featured collections we have in memeory
+          NSMutableArray *updatedFeaturedCollectionsForCV = [[NSMutableArray alloc] init];
+          for (NSDictionary *collection in featuredCollectionsFromServer) {
+              if ([dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] &&
+                  [dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) {
+                  [updatedFeaturedCollectionsForCV addObject:collection];
+              }
+          }
 
-      dispatch_async(dispatch_get_main_queue(), ^{
-        [self.collectionView reloadData];
-      });
+          //sort collections
+          updatedDisplayedCollectionsForCV = [self sortCollectionsInArray:updatedDisplayedCollectionsForCV];
+          updatedFeaturedCollectionsForCV = [self sortCollectionsInArray:updatedFeaturedCollectionsForCV];
+//          NSLog(@"main th : %d", [NSThread isMainThread]);
+          self.displayedCollectionsForCV = [updatedDisplayedCollectionsForCV copy];
+          self.featuredCollectionsForCV = [updatedFeaturedCollectionsForCV copy];
 
-    });
-        
+          dispatch_async(dispatch_get_main_queue(), ^{
+            [self.collectionView reloadData];
+          });
+
+        });
     }
 }
 
@@ -478,6 +547,7 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 
 - (void)makeRequestForPage:(int)pageNumber {
     self.loading = YES;
+    self.collectionProductsToDownload = 0;
     [dic_Updated_Collections removeAllObjects];
     [dic_Updated_ProductsCorrespondingToCollections removeAllObjects];
 
@@ -526,8 +596,13 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
                                                               return;
                                                           }
 
+                                                          //                                                            [self getProductsForCollections:arrayAddedOrModifiedCollections];
+                                                          self.collectionProductsToDownload = arrayAddedOrModifiedCollections.count;
+
                                                           //GET THE PRODUCTS FOR EACH COLLECTION !  ****************************************************
                                                           for (NSDictionary *dicCollectionToDownload in arrayAddedOrModifiedCollections) {  // download products only for new/updated collections
+
+                                                              //                                                                [NSThread sleepForTimeInterval:0.3f];
 
                                                               [self getProductsInCollectionWithCollectionId:[dicCollectionToDownload[@"id"] stringValue] andPageNumber:1];
                                                           }
@@ -561,8 +636,6 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 - (void)noCollectionAvailable {
     [self saveTimeUpdateIPhone];
 
-    [dicCollections removeAllObjects];
-    [dicProductsCorrespondingToCollections removeAllObjects];
     [self.collectionView reloadData];
 
     [self showErrorViewWithMessage:noCollectionToDisplayMessage];
@@ -624,6 +697,12 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
                             ImageForCollection:YES];
                 }
             }
+
+            self.collectionProductsToDownload--;
+            NSLog(@"count products collections : %d", self.collectionProductsToDownload);
+            if (self.collectionProductsToDownload == 0) {
+                [self allCollectionsProductsAreDownloaded];
+            }
         }
     }
 }
@@ -642,6 +721,97 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
     [self.productsOperationQueue addOperationWithBlock:^{
       [NSThread sleepForTimeInterval:0.3f];
     }];
+}
+
+- (void)getProductsForCollections:(NSArray *)collections {
+    __block NSMutableDictionary *updatedProducts = [[NSMutableDictionary alloc] init];
+
+    void (^blockName)(NSURLResponse *, NSData *, NSError *, NSString *, int) = ^void(NSURLResponse *response, NSData *data, NSError *error, NSString *collection_id, int pageNumber) {
+      if (!error) {
+          NSDictionary *dicFromServer_products = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+          NSArray *arrayForProducts = [dicFromServer_products objectForKey:@"products"];
+          //NSLog(@"products : %@", [arrayForProducts description]);
+
+          if ([arrayForProducts count] != 0) {  //check if the collection is empty
+
+              //check if the collection exists in this dictionary and store it with the products
+              if ([updatedProducts objectForKey:collection_id]) {
+                  NSMutableArray *array = [[updatedProducts objectForKey:collection_id] mutableCopy];
+                  [array addObjectsFromArray:arrayForProducts];
+                  [updatedProducts setObject:array forKey:collection_id];
+
+              } else {
+                  //NSLog(@"first time !");
+                  [updatedProducts setObject:arrayForProducts forKey:collection_id];
+              }
+          } else if ([arrayForProducts count] == 0 && pageNumber == 1) {         // no products for this collection
+              [updatedProducts setObject:[NSArray array] forKey:collection_id];  // placeholder array
+          }
+
+          if ([arrayForProducts count] == 250) {  //we still have products to download for this collection
+
+              ProductsDownlaodOperation *productsOperation = [[ProductsDownlaodOperation alloc]
+                  initWithCollectionId:collection_id
+                            pageNumber:(pageNumber + 1)
+                                 token:token
+                       completionBlock:blockName];
+              [self.productsOperationQueue addOperation:productsOperation];
+
+              //add a waiting queue
+              [self.productsOperationQueue addOperationWithBlock:^{
+                [NSThread sleepForTimeInterval:0.3f];
+              }];
+
+          } else {  //all the products have been downloaded
+
+              if ([updatedProducts[collection_id] count] > 0) {  //test if collection contains products
+
+                  //sort products by date of creation
+                  NSMutableArray *arrayProductsForSingleCollection = [updatedProducts[collection_id] mutableCopy];
+                  NSArray *sortedArrayProducts = [arrayProductsForSingleCollection sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+                    return [obj2[@"id"] compare:obj1[@"id"]];
+                  }];
+                  updatedProducts[collection_id] = sortedArrayProducts;
+              }
+
+              //check if the collection has been updated !!
+              NSData *dicUpdateIPhone = [[NSUserDefaults standardUserDefaults] dataForKey:@"dateLastUpdateIPhone"];
+              NSString *stringDateLastUpdateIPhone = [[NSKeyedUnarchiver unarchiveObjectWithData:dicUpdateIPhone] objectForKey:@"dateLastUpdateIPhone"];
+              NSString *stringDateProductUpdate = [[dic_Updated_Collections objectForKey:collection_id] objectForKey:@"updated_at"];
+
+              if ([ImageManagement getImageFromMemoryWithName:collection_id] == nil ||
+                  [self hasBeenUpdatedWithStringDateReference:stringDateLastUpdateIPhone
+                                                andStringDate:stringDateProductUpdate]) {  //collection updated
+
+                  //check for a collection image
+                  if ([[dic_Updated_Collections objectForKey:collection_id] objectForKey:@"image"]) {
+                      NSDictionary *dicCollection = [dic_Updated_Collections objectForKey:collection_id];
+                      [self getImageWithImageUrl:[[dicCollection objectForKey:@"image"] objectForKey:@"src"]
+                                     andObjectId:collection_id
+                             lastImageToDownload:YES
+                              ImageForCollection:YES];
+                  }
+              }
+          }
+      }
+
+    };
+
+    //GET THE PRODUCTS FOR EACH COLLECTION !  ****************************************************
+    for (NSDictionary *dicCollectionToDownload in collections) {  // download products only for new/updated collections
+
+        ProductsDownlaodOperation *productsOperation = [[ProductsDownlaodOperation alloc]
+            initWithCollectionId:[dicCollectionToDownload[@"id"] stringValue]
+                      pageNumber:1
+                           token:token
+                 completionBlock:blockName];
+        [self.productsOperationQueue addOperation:productsOperation];
+
+        //add a waiting queue
+        //        [self.productsOperationQueue addOperationWithBlock:^{
+        //            [NSThread sleepForTimeInterval:0.3f];
+        //        }];
+    }
 }
 
 #pragma mark - Image Downloader
@@ -852,8 +1022,8 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 
       if (self.loading == NO) {
           if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == YES) {
-              [dic_Updated_Collections removeAllObjects];
-              [dic_Updated_ProductsCorrespondingToCollections removeAllObjects];
+              //              [dic_Updated_Collections removeAllObjects];
+              //              [dic_Updated_ProductsCorrespondingToCollections removeAllObjects];
 
               [Store fetchSettingsFromServerAndForceShopifyUpdate:YES];
           } else {
@@ -876,32 +1046,39 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
         [self.navigationController pushViewController:vc1 animated:YES];
     } else {
         CategoryProductsViewController *vc1 = [sb instantiateViewControllerWithIdentifier:@"CategoryProductsViewController"];
+        @try {
+            if (indexPath.section == 0) {
+                vc1.categoryName = [[self.featuredCollectionsForCV objectAtIndex:indexPath.row][@"shopify_collection_id"] stringValue];
 
-        if (indexPath.section == 0) {
-            vc1.categoryName = [[self.featuredCollectionsForCV objectAtIndex:indexPath.row][@"shopify_collection_id"] stringValue];
+                if ([dicCollections objectForKey:vc1.categoryName]) {
+                    vc1.collectionName = dicCollections[vc1.categoryName][@"title"];
+                    vc1.arrayProducts = dicProductsCorrespondingToCollections[vc1.categoryName];
+                    [self.navigationController pushViewController:vc1 animated:YES];
+                }
 
-            if ([dicCollections objectForKey:vc1.categoryName]) {
-                vc1.collectionName = dicCollections[vc1.categoryName][@"title"];
-                vc1.arrayProducts = dicProductsCorrespondingToCollections[vc1.categoryName];
-                [self.navigationController pushViewController:vc1 animated:YES];
+            } else {
+                vc1.categoryName = [[self.displayedCollectionsForCV objectAtIndex:indexPath.row][@"shopify_collection_id"] stringValue];
+
+                if ([dicCollections objectForKey:vc1.categoryName]) {
+                    vc1.collectionName = dicCollections[vc1.categoryName][@"title"];
+                    vc1.arrayProducts = dicProductsCorrespondingToCollections[vc1.categoryName];
+                    [self.navigationController pushViewController:vc1 animated:YES];
+                }
             }
 
-        } else {
-            vc1.categoryName = [[self.displayedCollectionsForCV objectAtIndex:indexPath.row][@"shopify_collection_id"] stringValue];
-
-            if ([dicCollections objectForKey:vc1.categoryName]) {
-                vc1.collectionName = dicCollections[vc1.categoryName][@"title"];
-                vc1.arrayProducts = dicProductsCorrespondingToCollections[vc1.categoryName];
-                [self.navigationController pushViewController:vc1 animated:YES];
-            }
+        }
+        @catch (NSException *exception) {
+        }
+        @finally {
         }
     }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    //    NSLog(@"cell created ");
-
     id<ProtocolCell> cell;
+
+//    NSLog(@"cell indexpath : %@", [indexPath description]);
+//    NSLog(@"cell collections to display : %d", self.displayedCollectionsForCV.count);
 
     if (indexPath.section == 0) {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_FEATURED_IDENTIFIER forIndexPath:indexPath];
@@ -945,6 +1122,7 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
         }
         @finally {
         }
+
         cell.displayLabel.text = dicCollections[keyCategory][@"title"];
         cell.viewWhite.backgroundColor = [self colorFromMemoryWithName:@"colorViewTitleCollection"];
 
@@ -964,6 +1142,9 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    //    NSLog(@"numberOfItemsInSection featured : %lu", (unsigned long)[self.featuredCollectionsForCV count]);
+//    NSLog(@"datasource collections to display : %d", self.displayedCollectionsForCV.count);
+
     if (section == 0) {
         return [self.featuredCollectionsForCV count];
     } else {

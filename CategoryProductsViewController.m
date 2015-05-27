@@ -38,6 +38,7 @@
 
 @property (strong, nonatomic) IBOutlet UIView *ViewNavBar;
 
+@property (weak, nonatomic) IBOutlet UIView *ViewNoProduct;
 @end
 
 @implementation CategoryProductsViewController{
@@ -68,6 +69,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    if (self.arrayProducts.count == 0) { //no product to display
+        self.collectionView.hidden = YES;
+        self.imageWaiting.hidden = YES;
+        self.ViewNoProduct.hidden = NO;
+        return;
+    }
+    
+    self.ViewNoProduct.hidden = YES;
     
     CGRect frame = self.collectionView.frame;
     frame.origin.y = 64;

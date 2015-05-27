@@ -24,6 +24,7 @@
             <string>ProximaNova-Regular</string>
             <string>ProximaNova-Regular</string>
             <string>ProximaNova-Regular</string>
+            <string>ProximaNova-Regular</string>
         </mutableArray>
         <mutableArray key="ProximaNova-Semibold.otf">
             <string>ProximaNova-Semibold</string>
@@ -650,6 +651,39 @@ Make sure you are
                                     </mask>
                                 </variation>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KeJ-gn-kBV">
+                                <rect key="frame" x="168" y="176" width="264" height="248"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vr7-Wy-dMH">
+                                        <rect key="frame" x="15" y="15" width="234" height="218"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="238" id="9fR-P1-f9f"/>
+                                            <constraint firstAttribute="height" constant="185" id="g6T-lB-mi6"/>
+                                        </constraints>
+                                        <string key="text">This collection has no product yet.
+
+Please come back later...</string>
+                                        <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="17"/>
+                                        <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="g6T-lB-mi6"/>
+                                                <exclude reference="9fR-P1-f9f"/>
+                                            </mask>
+                                        </variation>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.70999999999999996" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Vr7-Wy-dMH" secondAttribute="trailing" constant="15" id="B2H-to-jjv"/>
+                                    <constraint firstItem="Vr7-Wy-dMH" firstAttribute="leading" secondItem="KeJ-gn-kBV" secondAttribute="leading" constant="15" id="BMF-CO-4Mh"/>
+                                    <constraint firstAttribute="bottom" secondItem="Vr7-Wy-dMH" secondAttribute="bottom" constant="15" id="FFB-Ou-9Oj"/>
+                                    <constraint firstAttribute="width" constant="264" id="dva-bS-05O"/>
+                                    <constraint firstItem="Vr7-Wy-dMH" firstAttribute="top" secondItem="KeJ-gn-kBV" secondAttribute="top" constant="15" id="i9i-TC-NN1"/>
+                                    <constraint firstAttribute="height" constant="248" id="sWx-qf-nRp"/>
+                                </constraints>
+                            </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loading" translatesAutoresizingMaskIntoConstraints="NO" id="tLX-oN-GEP">
                                 <rect key="frame" x="0.0" y="66" width="600" height="534"/>
                             </imageView>
@@ -662,11 +696,14 @@ Make sure you are
                             <constraint firstItem="vI0-Q5-HBk" firstAttribute="top" secondItem="tLX-oN-GEP" secondAttribute="bottom" id="Wbd-iG-LVZ"/>
                             <constraint firstAttribute="centerX" secondItem="tLX-oN-GEP" secondAttribute="centerX" id="YKv-8N-g2L"/>
                             <constraint firstItem="61A-Ar-mUJ" firstAttribute="top" secondItem="W9s-mA-pF2" secondAttribute="topMargin" id="ZMd-tz-gvM"/>
+                            <constraint firstAttribute="centerX" secondItem="KeJ-gn-kBV" secondAttribute="centerX" id="fce-MP-GAi"/>
+                            <constraint firstAttribute="centerY" secondItem="KeJ-gn-kBV" secondAttribute="centerY" id="h9J-SA-ZEU"/>
                             <constraint firstAttribute="width" secondItem="61A-Ar-mUJ" secondAttribute="width" id="tIg-Vl-ila"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="ViewNavBar" destination="61A-Ar-mUJ" id="mwn-Ug-mEN"/>
+                        <outlet property="ViewNoProduct" destination="KeJ-gn-kBV" id="J5z-IR-z9I"/>
                         <outlet property="buttonCart" destination="clY-HC-xfu" id="fgP-Oi-x4Z"/>
                         <outlet property="imageWaiting" destination="tLX-oN-GEP" id="5GS-Qr-IdA"/>
                         <outlet property="navBar" destination="n64-YN-0ea" id="6TR-Yx-h2C"/>
