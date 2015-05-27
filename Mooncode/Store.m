@@ -31,8 +31,7 @@
                    callback:^(NSDictionary *settings, NSError *error) {
 
                      if (!error) {
-//                         NSLog(@"settings : %@", [settings description]);
-
+                         
                          NSString *shopify_token = (NSString *)settings[@"shopify_token"];
                          NSString *twitter = (NSString *)settings[@"twitter"];
                          NSString *instagram = [settings[@"instagram_id"] stringValue];

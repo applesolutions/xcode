@@ -709,7 +709,7 @@
                 //                NSLog(@"too bad !");
                 return CGSizeMake([UIScreen mainScreen].bounds.size.width - 40 , 500);
             }else{
-                NSLog(@"all good ");
+//                NSLog(@"all good ");
                 return CGSizeMake([UIScreen mainScreen].bounds.size.width - 40 , newHeight);
             }
         }
