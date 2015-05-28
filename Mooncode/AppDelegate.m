@@ -27,6 +27,12 @@
 //    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
     //*************************
     //
+
+//        [[NSUserDefaults standardUserDefaults] setObject:@"https://dprisa-mexico.myshopify.com" forKey:@"website_url"];
+//        [[NSUserDefaults standardUserDefaults] setObject:@"https://pet-shop-buoy.myshopify.com" forKey:@"website_url"];
+//        [[NSUserDefaults standardUserDefaults] setObject:@"https://shuzia.myshopify.com" forKey:@"website_url"];
+//        [[NSUserDefaults standardUserDefaults] setObject:@"https://piecebypiece.myshopify.com" forKey:@"website_url"];
+    
     
 //    [[NSUserDefaults standardUserDefaults] setObject:@"https://adrift.myshopify.com" forKey:@"website_url"];
     [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_url"];
