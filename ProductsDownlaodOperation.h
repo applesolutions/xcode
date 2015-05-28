@@ -12,10 +12,15 @@ typedef void (^CompletionBlock)(NSURLResponse *response, NSData *data, NSError *
 
 @interface ProductsDownlaodOperation : NSOperation
 
+@property(readonly) BOOL isExecuting;
+@property(readonly) BOOL isFinished;
+
 @property (strong, nonatomic) NSString *collectionId;
 @property int pageNumber;
 @property (strong, nonatomic) NSString *token;
 @property(nonatomic,copy) CompletionBlock block;
+
+
 
 -(id)initWithCollectionId:(NSString*)collectionId pageNumber:(int)pageNumber token:(NSString*)token completionBlock:(CompletionBlock)completionBlock;
 

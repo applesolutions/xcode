@@ -668,8 +668,8 @@ Please come back later...</string>
                                         <nil key="highlightedColor"/>
                                         <variation key="default">
                                             <mask key="constraints">
-                                                <exclude reference="g6T-lB-mi6"/>
                                                 <exclude reference="9fR-P1-f9f"/>
+                                                <exclude reference="g6T-lB-mi6"/>
                                             </mask>
                                         </variation>
                                     </label>
