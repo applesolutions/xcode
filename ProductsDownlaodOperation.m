@@ -19,41 +19,40 @@
 
 @synthesize isExecuting, isFinished;
 
-- (id)initWithCollectionId:(NSString *)collectionId pageNumber:(int)pageNumber token:(NSString *)token completionBlock:(CompletionBlock)completionBlock {
-    if (![super init]) return nil;
+#pragma mark - Init Methods
 
-    _collectionId = collectionId;
-    _pageNumber = pageNumber;
-    _token = token;
-    _block = completionBlock;
-
-    return self;
-}
-
-- (id)initWithCollectionId:(NSString *)collectionId token:(NSString *)token completionBlock:(CompletionBlock2)completionBlock2 {
+- (id)initWithCollectionId:(NSString *)collectionId token:(NSString *)token completionBlock:(ProductsCompletion)completionHandler {
     if (![super init]) return nil;
 
     _collectionId = collectionId;
     _pageNumber = 1;
     _token = token;
-    _block2 = completionBlock2;
+    _completionHandler = completionHandler;
 
     return self;
 }
 
-- (id)initWithCollectionId:(NSString *)collectionId pageNumber:(int)pageNumber token:(NSString *)token downloadedCollections:(NSArray *)downloadedProducts completionBlock:(CompletionBlock2)completionBlock {
+- (id)initWithCollectionId:(NSString *)collectionId pageNumber:(int)pageNumber token:(NSString *)token downloadedCollections:(NSArray *)downloadedProducts completionBlock:(ProductsCompletion)completionHandler {
     if (![super init]) return nil;
 
     _collectionId = collectionId;
     _pageNumber = pageNumber;
     _token = token;
-    _block2 = completionBlock;
+    _completionHandler = completionHandler;
     _downloadedProducts = downloadedProducts;
 
     return self;
 }
 
+#pragma mark - Overridden Methods
+
 - (void)start {
+    if (self.isCancelled == YES) {
+        NSError *canceledError = [NSError errorWithDomain:@"productsOperationCanceled" code:500 userInfo:nil];
+        [self endProductsDownlaodWithProducts:self.downloadedProducts forCollectionId:self.collectionId error:canceledError];
+        return;
+    }
+
     self.isExecuting = YES;
     self.isFinished = NO;
 
@@ -72,33 +71,37 @@
                                        queue:[[NSOperationQueue alloc] init]
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
 
+                             if (self.isCancelled == YES) {
+                                 NSError *canceledError = [NSError errorWithDomain:@"productsOperationCanceled" code:500 userInfo:nil];
+                                 [wSelf endProductsDownlaodWithProducts:wSelf.downloadedProducts forCollectionId:wSelf.collectionId error:canceledError];
+                                 return;
+                             }
+
                              if (!error) {
                                  NSLog(@"collection id : %@", self.collectionId);
                                  NSDictionary *dicFromServer_products = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
                                  NSMutableArray *arrayForProducts = [[dicFromServer_products objectForKey:@"products"] mutableCopy];
-                                 
+
                                  NSMutableArray *updatedProducts = [[NSMutableArray alloc] init];
                                  if (arrayForProducts.count) [updatedProducts addObjectsFromArray:arrayForProducts];
                                  if (self.downloadedProducts) [updatedProducts addObjectsFromArray:self.downloadedProducts];
 
                                  if (arrayForProducts.count == 1) {
-                                     
-                                     
                                      [self willChangeValueForKey:@"isFinished"];
                                      [self willChangeValueForKey:@"isExecuting"];
-                                     
+
                                      self.isFinished = YES;
                                      self.isExecuting = NO;
-                                     
+
                                      [self didChangeValueForKey:@"isExecuting"];
                                      [self didChangeValueForKey:@"isFinished"];
-                                     
+
                                      ProductsDownlaodOperation *productsOperation = [[ProductsDownlaodOperation alloc]
                                           initWithCollectionId:wSelf.collectionId
                                                     pageNumber:(wSelf.pageNumber + 1)
                                                          token:wSelf.token
                                          downloadedCollections:arrayForProducts
-                                               completionBlock:wSelf.block2];
+                                               completionBlock:wSelf.completionHandler];
                                      if ([NSOperationQueue currentQueue]) {
                                          [[NSOperationQueue currentQueue] addOperation:productsOperation];
                                      }
@@ -109,28 +112,13 @@
                                      }];
 
                                  } else {
-                                     [self endProductsDownlaodWithProducts:updatedProducts forCollectionId:self.collectionId error:nil];
+                                     [wSelf endProductsDownlaodWithProducts:updatedProducts forCollectionId:self.collectionId error:nil];
                                  }
                              } else {
+                                 [wSelf endProductsDownlaodWithProducts:wSelf.downloadedProducts forCollectionId:wSelf.collectionId error:error];
                              }
 
                            }];
-}
-
-- (void)endProductsDownlaodWithProducts:(NSArray *)products forCollectionId:(NSString *)collectionId error:(NSError *)error {
-    
-    if (self.block2) {
-        self.block2(products, collectionId, error);
-    }
-    
-    [self willChangeValueForKey:@"isFinished"];
-    [self willChangeValueForKey:@"isExecuting"];
-
-    self.isFinished = YES;
-    self.isExecuting = NO;
-
-    [self didChangeValueForKey:@"isExecuting"];
-    [self didChangeValueForKey:@"isFinished"];
 }
 
 - (BOOL)isConcurrent {
@@ -151,6 +139,23 @@
         [self didChangeValueForKey:@"isFinished"];
     }
     return isCancelled;
+}
+
+#pragma mark - Helper
+
+- (void)endProductsDownlaodWithProducts:(NSArray *)products forCollectionId:(NSString *)collectionId error:(NSError *)error {
+    if (self.completionHandler) {
+        self.completionHandler(products, collectionId, error);
+    }
+
+    [self willChangeValueForKey:@"isFinished"];
+    [self willChangeValueForKey:@"isExecuting"];
+
+    self.isFinished = YES;
+    self.isExecuting = NO;
+
+    [self didChangeValueForKey:@"isExecuting"];
+    [self didChangeValueForKey:@"isFinished"];
 }
 
 @end
