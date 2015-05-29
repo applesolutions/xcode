@@ -60,7 +60,7 @@
 
                              if (!error) {
                                  NSMutableDictionary *smartCollections = [[NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error] mutableCopy];
-                                 [downloadedCollections addObject:smartCollections[@"smart_collections"]];
+                                 [downloadedCollections addObjectsFromArray:smartCollections[@"smart_collections"]];
 
                                  //CUSTOM COLLECTIONS
                                  NSString *stringUrlCustom = [NSString stringWithFormat:@"%@/admin/custom_collections.json?limit=250", websiteString];
