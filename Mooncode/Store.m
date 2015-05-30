@@ -29,7 +29,7 @@
               andParameters:parametersSettings
                withPassword:password
                    callback:^(NSDictionary *settings, NSError *error) {
-
+                       
                      if (!error) {
                          NSLog(@"main th : %d", [NSThread isMainThread]);
                          

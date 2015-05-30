@@ -75,6 +75,7 @@
 		AA4B4AFF1B1633A100D943B6 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B4AEC1B1633A100D943B6 /* UIProgressView+AFNetworking.m */; };
 		AA4B4B001B1633A100D943B6 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B4AEE1B1633A100D943B6 /* UIRefreshControl+AFNetworking.m */; };
 		AA4B4B011B1633A100D943B6 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B4AF01B1633A100D943B6 /* UIWebView+AFNetworking.m */; };
+		AA4F6DEE1B1A13D60045E874 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4F6DED1B1A13D60045E874 /* Constants.m */; };
 		AA6390D41A385DD1008462BF /* ImageManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6390D31A385DD1008462BF /* ImageManagement.m */; };
 		AA6390DB1A38670C008462BF /* NSString+URL_Shopify.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6390DA1A38670C008462BF /* NSString+URL_Shopify.m */; };
 		AA6390DE1A38880B008462BF /* SocialMedias.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6390DD1A38880B008462BF /* SocialMedias.m */; };
@@ -255,6 +256,9 @@
 		AA4B4AEE1B1633A100D943B6 /* UIRefreshControl+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIRefreshControl+AFNetworking.m"; sourceTree = "<group>"; };
 		AA4B4AEF1B1633A100D943B6 /* UIWebView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+AFNetworking.h"; sourceTree = "<group>"; };
 		AA4B4AF01B1633A100D943B6 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
+		AA4F6DE71B1A11240045E874 /* MoonCode-prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MoonCode-prefix.pch"; sourceTree = "<group>"; };
+		AA4F6DEA1B1A13360045E874 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		AA4F6DED1B1A13D60045E874 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		AA6390D21A385DD1008462BF /* ImageManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageManagement.h; sourceTree = "<group>"; };
 		AA6390D31A385DD1008462BF /* ImageManagement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageManagement.m; sourceTree = "<group>"; };
 		AA6390D91A38670C008462BF /* NSString+URL_Shopify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+URL_Shopify.h"; path = "../NSString+URL_Shopify.h"; sourceTree = "<group>"; };
@@ -570,6 +574,16 @@
 			name = AFNetworking;
 			sourceTree = "<group>";
 		};
+		AA4F6DEF1B1A14640045E874 /* PCH + Constants */ = {
+			isa = PBXGroup;
+			children = (
+				AA4F6DE71B1A11240045E874 /* MoonCode-prefix.pch */,
+				AA4F6DEA1B1A13360045E874 /* Constants.h */,
+				AA4F6DED1B1A13D60045E874 /* Constants.m */,
+			);
+			name = "PCH + Constants";
+			sourceTree = "<group>";
+		};
 		AA6390D51A385DE0008462BF /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -590,6 +604,7 @@
 		AA930A3719E9F00E0084A250 = {
 			isa = PBXGroup;
 			children = (
+				AA4F6DEF1B1A14640045E874 /* PCH + Constants */,
 				AA4B4B021B1633AB00D943B6 /* AFNetworking */,
 				AAAF917C1B10FB6B00846CD4 /* Operations */,
 				AAAD43A71A61844100B8AB56 /* Localizable.strings */,
@@ -889,6 +904,7 @@
 				AA2EB32A1A693B4600AEA228 /* SBInstagramWebViewController.m in Sources */,
 				AA2EB2B71A693A5A00AEA228 /* InstagramComment.m in Sources */,
 				AA2EB2AF1A693A5A00AEA228 /* IKCell.m in Sources */,
+				AA4F6DEE1B1A13D60045E874 /* Constants.m in Sources */,
 				AA2EB2B51A693A5A00AEA228 /* InstagramModel.m in Sources */,
 				AA2EB3231A693B4600AEA228 /* SBInstagramController.m in Sources */,
 				AA2EB3221A693B4600AEA228 /* SBInstagramHTTPRequestOperationManager.m in Sources */,
@@ -1000,6 +1016,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREFIX_HEADER = "MoonCode-prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1040,6 +1057,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREFIX_HEADER = "MoonCode-prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;

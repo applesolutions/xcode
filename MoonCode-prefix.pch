@@ -1,0 +1,17 @@
+//
+//  MoonCode-prefix.pch
+//  Mooncode
+//
+//  Created by amaury soviche on 30/05/15.
+//  Copyright (c) 2015 Amaury Soviche. All rights reserved.
+//
+
+#ifndef Mooncode_MoonCode_prefix_pch
+#define Mooncode_MoonCode_prefix_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#include "Constants.h"
+
+#endif
