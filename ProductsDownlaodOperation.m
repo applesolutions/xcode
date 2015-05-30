@@ -56,10 +56,8 @@
     self.isExecuting = YES;
     self.isFinished = NO;
 
-    //    [NSThread sleepForTimeInterval:0.3f];
-
     NSString *website_string = [[NSUserDefaults standardUserDefaults] stringForKey:@"website_url"];
-    NSString *string_url = [NSString stringWithFormat:@"%@/admin/products.json?published_status=published&collection_id=%@&page=%d&limit=1", website_string, self.collectionId, self.pageNumber];
+    NSString *string_url = [NSString stringWithFormat:@"%@/admin/products.json?published_status=published&collection_id=%@&page=%d&limit=250", website_string, self.collectionId, self.pageNumber];
     NSURL *url = [NSURL URLWithString:string_url];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setValue:self.token forHTTPHeaderField:@"X-Shopify-Access-Token"];
@@ -86,7 +84,7 @@
                                  if (arrayForProducts.count) [updatedProducts addObjectsFromArray:arrayForProducts];
                                  if (self.downloadedProducts) [updatedProducts addObjectsFromArray:self.downloadedProducts];
 
-                                 if (arrayForProducts.count == 1) {
+                                 if (arrayForProducts.count == 250) {
                                      [self willChangeValueForKey:@"isFinished"];
                                      [self willChangeValueForKey:@"isExecuting"];
 
@@ -102,14 +100,10 @@
                                                          token:wSelf.token
                                          downloadedCollections:updatedProducts
                                                completionBlock:wSelf.completionHandler];
+
                                      if ([NSOperationQueue currentQueue]) {
                                          [[NSOperationQueue currentQueue] addOperation:productsOperation];
                                      }
-
-                                     //add a waiting queue
-                                     [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-                                       [NSThread sleepForTimeInterval:0.3f];
-                                     }];
 
                                  } else {
                                      [wSelf endProductsDownlaodWithProducts:updatedProducts forCollectionId:self.collectionId error:nil];
