@@ -47,11 +47,11 @@
 @property(strong, nonatomic) IBOutlet UIImageView *imageBackgroundForLoading;
 @property(strong, nonatomic) IBOutlet UIButton *buttonReload;
 
-//GLOBAL PROPERTIES
 @property(strong, nonatomic) UICollectionView *collectionView;
 @property(nonatomic, strong) ScrollViewController *stlmMainViewController;
 @property(strong, nonatomic) UIRefreshControl *refreshControl;
 
+//GLOBAL PROPERTIES
 @property(nonatomic) __block BOOL loading;
 
 @property(nonatomic, strong) __block NSArray *displayedCollectionsForCV;  //arrays that have to be displayed ( collections + products downloaded )
@@ -193,6 +193,27 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
     });
 }
 
+#pragma mark - NSNotifications
+
+- (void)updatePhoneSettings:(NSNotification *)notification {
+    if (!notification.userInfo[@"error"]) {
+        token = [[NSUserDefaults standardUserDefaults] objectForKey:@"shopifyToken"];
+        [self updateColors];
+
+        [self updateCollectionsThatCanBeDisplayed];
+
+        if (self.loading == NO && [notification.userInfo[@"forceShopifyUpdate"] boolValue] == YES) {  //we force the download of Shopify
+            [self downloadCollectionsAndProducts];
+        } else if (self.loading == NO && [notification.userInfo[@"forceShopifyUpdate"] boolValue] == NO) {
+            if ([self isMissingCollectionsInMemoryToDisplay]) [self downloadCollectionsAndProducts];
+        }
+    } else {
+        if ([dicCollections count] == 0) {
+            [self showErrorViewWithMessage:noInternetConnectionMessage];
+        }
+    }
+}
+
 #pragma mark - Collections Downloader
 
 - (void)downloadCollectionsAndProducts {
@@ -228,25 +249,6 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 }
 
 #pragma mark - Collections Manegement
-
-- (void)updatePhoneSettings:(NSNotification *)notification {
-    if (!notification.userInfo[@"error"]) {
-        token = [[NSUserDefaults standardUserDefaults] objectForKey:@"shopifyToken"];
-        [self updateColors];
-
-        [self updateCollectionsThatCanBeDisplayed];
-
-        if (self.loading == NO && [notification.userInfo[@"forceShopifyUpdate"] boolValue] == YES) {  //we force the download of Shopify
-            [self downloadCollectionsAndProducts];
-        } else if (self.loading == NO && [notification.userInfo[@"forceShopifyUpdate"] boolValue] == NO) {
-            if ([self isMissingCollectionsInMemoryToDisplay]) [self downloadCollectionsAndProducts];
-        }
-    } else {
-        if ([dicCollections count] == 0) {
-            [self showErrorViewWithMessage:noInternetConnectionMessage];
-        }
-    }
-}
 
 - (BOOL)isMissingCollectionsInMemoryToDisplay {
     NSArray *displayedCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
@@ -690,7 +692,6 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 
       if (self.loading == NO) {
           if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == YES) {
-
               [Store fetchSettingsFromServerAndForceShopifyUpdate:YES];
           } else {
               [array_Updated_Products removeAllObjects];
