@@ -32,6 +32,8 @@
 #import "ProductsDownlaodOperation.h"
 #import "CollectionsDownloaderOperation.h"
 
+#import "CollectionsHelper.h"
+
 @interface CategoriesViewController ()
 
 //IBOUTLETS
@@ -205,7 +207,9 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
         if (self.loading == NO && [notification.userInfo[@"forceShopifyUpdate"] boolValue] == YES) {  //we force the download of Shopify
             [self downloadCollectionsAndProducts];
         } else if (self.loading == NO && [notification.userInfo[@"forceShopifyUpdate"] boolValue] == NO) {
-            if ([self isMissingCollectionsInMemoryToDisplay]) [self downloadCollectionsAndProducts];
+            if ([CollectionsHelper isMissingCollectionsInMemoryToDisplayWithProducts:dicProductsCorrespondingToCollections collections:dicCollections]){
+                [self downloadCollectionsAndProducts];
+            }
         }
     } else {
         if ([dicCollections count] == 0) {
@@ -228,7 +232,7 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
                                               completionBlock:^(NSArray *collections, NSError *error) {
 
                                                 if (!error) {
-                                                    NSArray *wantedCollections = [wSelf collectionsToKeepFromServerWithInitialArray:collections];
+                                                    NSArray *wantedCollections = [CollectionsHelper collectionsToKeepFromServerWithInitialArray:collections];
 
                                                     //check if no collection are available from the server ****************************************
                                                     if (wantedCollections.count == 0) {
@@ -250,24 +254,9 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 
 #pragma mark - Collections Manegement
 
-- (BOOL)isMissingCollectionsInMemoryToDisplay {
-    NSArray *displayedCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
-
-    //check we have in memeory all the collections to display (from server) + display the ones we have
-    BOOL missingCollections = NO;
-    for (NSDictionary *collection in displayedCollectionsFromServer) {
-        if (![dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] ||                         // not in our collections
-            ![dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) {  // not in our products
-            missingCollections = YES;
-            break;
-        }
-    }
-    return missingCollections;
-}
-
 - (void)updateCollectionsThatCanBeDisplayed {
     @synchronized(self) {
-        dispatch_sync(dispatch_get_global_queue(0, 0), ^{
+//        dispatch_sync(dispatch_get_global_queue(0, 0), ^{
 
           NSArray *displayedCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
           NSArray *featuredCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"featuredCollections"];
@@ -298,9 +287,9 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
           }
 
           //sort collections
-          updatedDisplayedCollectionsForCV = [self sortCollectionsInArray:updatedDisplayedCollectionsForCV];
-          updatedFeaturedCollectionsForCV = [self sortCollectionsInArray:updatedFeaturedCollectionsForCV];
-          //          NSLog(@"main th : %d", [NSThread isMainThread]);
+          updatedDisplayedCollectionsForCV = [CollectionsHelper sortCollectionsInArray:updatedDisplayedCollectionsForCV];
+          updatedFeaturedCollectionsForCV = [CollectionsHelper sortCollectionsInArray:updatedFeaturedCollectionsForCV];
+
           self.displayedCollectionsForCV = [updatedDisplayedCollectionsForCV copy];
           self.featuredCollectionsForCV = [updatedFeaturedCollectionsForCV copy];
 
@@ -308,46 +297,14 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
             [self.collectionView reloadData];
           });
 
-        });
+//        });
     }
-}
-
-- (NSMutableArray *)sortCollectionsInArray:(NSArray *)collectionsToBeSorted {
-    return [[collectionsToBeSorted sortedArrayUsingComparator:^NSComparisonResult(id collection1, id collection2) {
-      if ([NSNull null] != collection1[@"display_position"] && [NSNull null] != collection2[@"display_position"]) {
-          return [collection1[@"display_position"] compare:collection2[@"display_position"]];
-      } else {
-          return (NSComparisonResult)NSOrderedSame;
-      }
-    }] mutableCopy];
-}
-
-- (NSArray *)collectionsToKeepFromServerWithInitialArray:(NSArray *)initialCollections {
-    NSArray *arrayCustomCollectionsIds = [[NSUserDefaults standardUserDefaults] objectForKey:@"arrayCustomCollectionsIds"];
-
-    NSMutableArray *collectionsWanted = [[NSMutableArray alloc] init];
-    for (NSDictionary *dicCollection in initialCollections) {
-        if ([arrayCustomCollectionsIds containsObject:[dicCollection[@"id"] stringValue]]) {
-            [collectionsWanted addObject:dicCollection];
-            continue;
-        }
-    }
-    return [collectionsWanted copy];
-}
-
-- (NSDictionary *)fromArrayToDictionary:(NSArray *)collections {
-    NSMutableDictionary *transformedCollections = [[NSMutableDictionary alloc] init];
-
-    for (NSDictionary *dicCollection in collections) {
-        transformedCollections[[dicCollection[@"id"] stringValue]] = dicCollection;
-    }
-    return [transformedCollections copy];
 }
 
 #pragma mark - Products Downloader
 
 - (void)getProductsForCollections:(NSArray *)collections {
-    NSDictionary *updatedCollections = [self fromArrayToDictionary:collections];
+    NSDictionary *updatedCollections = [CollectionsHelper fromArrayToDictionary:collections];
     __block NSMutableDictionary *updatedProducts = [[NSMutableDictionary alloc] init];
     __block NSInteger countCollectionsToDownload = collections.count;
 
