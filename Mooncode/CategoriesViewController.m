@@ -62,7 +62,14 @@
 @property(nonatomic, strong) __block NSOperationQueue *productsOperationQueue;
 @property(nonatomic, strong) __block NSOperationQueue *collectionsOperationQueue;
 
+@property(nonatomic, strong) __block NSDictionary *dicProductsCorrespondingToCollections;
+@property(nonatomic, strong) __block NSDictionary *dicCollections;
+
 @property(nonatomic) __block NSInteger collectionProductsToDownload;
+@property(nonatomic) __block NSInteger count_imagesToBeDownloaded;
+
+@property(nonatomic) __block NSString *token;
+
 @end
 
 #define CELL_IDENTIFIER @"WaterfallCell"
@@ -73,16 +80,9 @@ const NSString *noInternetConnectionMessage = @"It seems you are not connected t
 const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, come back later !";
 
 @implementation CategoriesViewController {
-    __block NSString *token;
-
     __block NSMutableArray *arrayProducts;
     __block NSMutableArray *array_Updated_Products;
     __block NSMutableArray *arrayIndexesActiclesOnSales;
-
-    __block NSDictionary *dicProductsCorrespondingToCollections;
-    __block NSDictionary *dicCollections;
-
-    __block int count_imagesToBeDownloaded;
 }
 
 #pragma mark - ViewLifeCycle
@@ -131,7 +131,7 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
     self.collectionsOperationQueue = [[NSOperationQueue alloc] init];
     self.collectionsOperationQueue.maxConcurrentOperationCount = 1;
 
-    count_imagesToBeDownloaded = 0;
+    self.count_imagesToBeDownloaded = 0;
 
     CGRect frame = self.collectionView.frame;
     frame.origin.y = 64;
@@ -163,10 +163,10 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
           }
 
       } else {
-          dicCollections = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"datasForDicCollections"];
-          dicProductsCorrespondingToCollections = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"datasForProductsAndCollections"];
+          self.dicCollections = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"datasForDicCollections"];
+          self.dicProductsCorrespondingToCollections = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"datasForProductsAndCollections"];
 
-          if (dicCollections != nil && dicProductsCorrespondingToCollections != nil) {
+          if (self.dicCollections != nil && self.dicProductsCorrespondingToCollections != nil) {
               [self updateCollectionsThatCanBeDisplayed];
 
               dispatch_async(dispatch_get_main_queue(), ^{
@@ -199,7 +199,7 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 
 - (void)updatePhoneSettings:(NSNotification *)notification {
     if (!notification.userInfo[@"error"]) {
-        token = [[NSUserDefaults standardUserDefaults] objectForKey:@"shopifyToken"];
+        self.token = [[NSUserDefaults standardUserDefaults] objectForKey:@"shopifyToken"];
         [self updateColors];
 
         [self updateCollectionsThatCanBeDisplayed];
@@ -207,12 +207,12 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
         if (self.loading == NO && [notification.userInfo[@"forceShopifyUpdate"] boolValue] == YES) {  //we force the download of Shopify
             [self downloadCollectionsAndProducts];
         } else if (self.loading == NO && [notification.userInfo[@"forceShopifyUpdate"] boolValue] == NO) {
-            if ([CollectionsHelper isMissingCollectionsInMemoryToDisplayWithProducts:[dicProductsCorrespondingToCollections copy] collections:[dicCollections copy]]) {
+            if ([CollectionsHelper isMissingCollectionsInMemoryToDisplayWithProducts:[self.dicProductsCorrespondingToCollections copy] collections:[self.dicCollections copy]]) {
                 [self downloadCollectionsAndProducts];
             }
         }
     } else {
-        if ([dicCollections count] == 0) {
+        if ([self.dicCollections count] == 0) {
             [self showErrorViewWithMessage:noInternetConnectionMessage];
         }
     }
@@ -229,7 +229,7 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 
     __weak typeof(self) wSelf = self;
     CollectionsDownloaderOperation *collectionsDownloaderOperation =
-        [[CollectionsDownloaderOperation alloc] initWithToken:token
+        [[CollectionsDownloaderOperation alloc] initWithToken:self.token
                                               completionBlock:^(NSArray *collections, NSError *error) {
 
                                                 if (!error) {
@@ -248,7 +248,7 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 
                                                 } else {
                                                     wSelf.loading = NO;
-                                                    if ([dicCollections count] == 0) [wSelf showErrorViewWithMessage:noInternetConnectionMessage];
+                                                    if ([self.dicCollections count] == 0) [wSelf showErrorViewWithMessage:noInternetConnectionMessage];
                                                 }
                                               }];
 
@@ -269,8 +269,8 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
     //check we have in memeory all the collections to display (from server) + display the ones we have
     NSMutableArray *updatedDisplayedCollectionsForCV = [[NSMutableArray alloc] init];
     for (NSDictionary *collection in displayedCollectionsFromServer) {
-        if ([dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] &&
-            [dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) {
+        if ([self.dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] &&
+            [self.dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) {
             [updatedDisplayedCollectionsForCV addObject:collection];
         }
     }
@@ -278,8 +278,8 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
     //display all the featured collections we have in memeory
     NSMutableArray *updatedFeaturedCollectionsForCV = [[NSMutableArray alloc] init];
     for (NSDictionary *collection in featuredCollectionsFromServer) {
-        if ([dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] &&
-            [dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) {
+        if ([self.dicCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]] &&
+            [self.dicProductsCorrespondingToCollections objectForKey:[collection[@"shopify_collection_id"] stringValue]]) {
             [updatedFeaturedCollectionsForCV addObject:collection];
         }
     }
@@ -348,7 +348,7 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 
         ProductsDownlaodOperation *productsOperation = [[ProductsDownlaodOperation alloc]
             initWithCollectionId:collectionId
-                           token:token
+                           token:self.token
                  completionBlock:blockName];
 
         [self.productsOperationQueue addOperation:productsOperation];
@@ -364,15 +364,15 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
     [NSUserDefaultsMethods saveObjectInMemory:products toFolder:@"datasForProductsAndCollections"];
     [NSUserDefaultsMethods saveObjectInMemory:collections toFolder:@"datasForDicCollections"];
 
-    dicCollections = [collections copy];
-    dicProductsCorrespondingToCollections = [products copy];
+    self.dicCollections = [collections copy];
+    self.dicProductsCorrespondingToCollections = [products copy];
 
     [self updateCollectionsThatCanBeDisplayed];
 
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {  //change
 
         [arrayProducts removeAllObjects];
-        [dicProductsCorrespondingToCollections enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        [self.dicProductsCorrespondingToCollections enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
           [arrayProducts addObjectsFromArray:obj];
         }];
         [self checkForProductsInSales];
@@ -385,8 +385,8 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
     //get all unique images ! avoid to download each image several times !
     NSMutableDictionary *productImagesToDownload = [[NSMutableDictionary alloc] init];
 
-    for (NSString *key in dicProductsCorrespondingToCollections.allKeys) {  //ENUMERATE ALL THE PRODUCTS TO KNOW IF UPDATED !
-        for (NSDictionary *dicProduct in dicProductsCorrespondingToCollections[key]) {
+    for (NSString *key in self.dicProductsCorrespondingToCollections.allKeys) {  //ENUMERATE ALL THE PRODUCTS TO KNOW IF UPDATED !
+        for (NSDictionary *dicProduct in self.dicProductsCorrespondingToCollections[key]) {
             NSString *stringDateProductUpdate = [dicProduct objectForKey:@"updated_at"];
 
             if (![productImagesToDownload.allKeys containsObject:[dicProduct objectForKey:@"id"]] &&
@@ -429,7 +429,7 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 - (void)getImageWithImageUrl:(NSString *)imageUrl andObjectId:(NSString *)objectId lastImageToDownload:(BOOL)isLastImmage ImageForCollection:(BOOL)isImageForCollection {
     dispatch_async(dispatch_get_global_queue(0, 0), ^(void) {
 
-      count_imagesToBeDownloaded++;
+      self.count_imagesToBeDownloaded++;
       //NSLog(@"count for dwnld image : %d", count_imagesToBeDownloaded);
 
       NSURL *urlForImage = [NSURL URLWithString:[imageUrl getShopifyUrlforSize:@"large"]];
@@ -446,10 +446,10 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
                                    }
                                }
 
-                               count_imagesToBeDownloaded--;
+                               self.count_imagesToBeDownloaded--;
                                //NSLog(@"count images to be downloaded after download : %d", count_imagesToBeDownloaded);
 
-                               if (count_imagesToBeDownloaded == 0) {
+                               if (self.count_imagesToBeDownloaded == 0) {
                                    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 
                                    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"areCollectionsDisplayed"] == NO) {
@@ -662,18 +662,18 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
             if (indexPath.section == 0) {
                 vc1.categoryName = [[self.featuredCollectionsForCV objectAtIndex:indexPath.row][@"shopify_collection_id"] stringValue];
 
-                if ([dicCollections objectForKey:vc1.categoryName]) {
-                    vc1.collectionName = dicCollections[vc1.categoryName][@"title"];
-                    vc1.arrayProducts = dicProductsCorrespondingToCollections[vc1.categoryName];
+                if ([self.dicCollections objectForKey:vc1.categoryName]) {
+                    vc1.collectionName = self.dicCollections[vc1.categoryName][@"title"];
+                    vc1.arrayProducts = self.dicProductsCorrespondingToCollections[vc1.categoryName];
                     [self.navigationController pushViewController:vc1 animated:YES];
                 }
 
             } else {
                 vc1.categoryName = [[self.displayedCollectionsForCV objectAtIndex:indexPath.row][@"shopify_collection_id"] stringValue];
 
-                if ([dicCollections objectForKey:vc1.categoryName]) {
-                    vc1.collectionName = dicCollections[vc1.categoryName][@"title"];
-                    vc1.arrayProducts = dicProductsCorrespondingToCollections[vc1.categoryName];
+                if ([self.dicCollections objectForKey:vc1.categoryName]) {
+                    vc1.collectionName = self.dicCollections[vc1.categoryName][@"title"];
+                    vc1.arrayProducts = self.dicProductsCorrespondingToCollections[vc1.categoryName];
                     [self.navigationController pushViewController:vc1 animated:YES];
                 }
             }
@@ -735,7 +735,7 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
         @finally {
         }
 
-        cell.displayLabel.text = dicCollections[keyCategory][@"title"];
+        cell.displayLabel.text = self.dicCollections[keyCategory][@"title"];
         cell.viewWhite.backgroundColor = [self colorFromMemoryWithName:@"colorViewTitleCollection"];
 
         //check for specific collection image
@@ -826,7 +826,7 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
     NSString *website_string = [[NSUserDefaults standardUserDefaults] stringForKey:@"website_url"];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/admin/products.json?published_status=published&page=%d&limit=250", website_string, pageNumber]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setValue:token forHTTPHeaderField:@"X-Shopify-Access-Token"];
+    [request setValue:self.token forHTTPHeaderField:@"X-Shopify-Access-Token"];
     [request setURL:url];
 
     [NSURLConnection sendAsynchronousRequest:request
