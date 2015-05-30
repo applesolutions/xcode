@@ -31,6 +31,7 @@
                    callback:^(NSDictionary *settings, NSError *error) {
 
                      if (!error) {
+                         NSLog(@"main th : %d", [NSThread isMainThread]);
                          
                          NSString *shopify_token = (NSString *)settings[@"shopify_token"];
                          NSString *twitter = (NSString *)settings[@"twitter"];
@@ -121,11 +122,8 @@
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
 
                              if (!error) {
-                                 //added
-                                 //            NSString* contentStringFile = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                                 NSDictionary *settings = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
 
-                                 //            NSLog(@"content of file test : %@", settings);
+                                 NSDictionary *settings = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
 
                                  if (settings != (id)[NSNull null] && [settings respondsToSelector:@selector(allKeys)]) {
                                      giveFileContent(settings, nil);
