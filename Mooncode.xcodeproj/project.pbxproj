@@ -118,6 +118,7 @@
 		AABE085319F1ACBB009AF8D1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABE085219F1ACBB009AF8D1 /* Security.framework */; };
 		AABE085719F1ACCD009AF8D1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABE085619F1ACCD009AF8D1 /* SystemConfiguration.framework */; };
 		AAC89DDA1A375D8F00D33C36 /* LaunchImage.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC89DD91A375D8F00D33C36 /* LaunchImage.m */; };
+		AACFCDAD1B190A6900376132 /* CollectionsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AACFCDAC1B190A6900376132 /* CollectionsHelper.m */; };
 		AAD654CA1A894B94007EDE85 /* libFlurry_6.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAD654C91A894B94007EDE85 /* libFlurry_6.0.0.a */; };
 		AAF1838B1AE6E74A00A44A35 /* FCFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF1838A1AE6E74A00A44A35 /* FCFileManager.m */; };
 /* End PBXBuildFile section */
@@ -322,6 +323,8 @@
 		AABE085619F1ACCD009AF8D1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		AAC89DD81A375D8F00D33C36 /* LaunchImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchImage.h; sourceTree = "<group>"; };
 		AAC89DD91A375D8F00D33C36 /* LaunchImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchImage.m; sourceTree = "<group>"; };
+		AACFCDAB1B190A6900376132 /* CollectionsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionsHelper.h; sourceTree = "<group>"; };
+		AACFCDAC1B190A6900376132 /* CollectionsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionsHelper.m; sourceTree = "<group>"; };
 		AAD654C81A894B94007EDE85 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
 		AAD654C91A894B94007EDE85 /* libFlurry_6.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_6.0.0.a; sourceTree = "<group>"; };
 		AAF183891AE6E74A00A44A35 /* FCFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCFileManager.h; sourceTree = "<group>"; };
@@ -578,6 +581,8 @@
 				AA6390DD1A38880B008462BF /* SocialMedias.m */,
 				AAAD436D1A60706900B8AB56 /* NSUserDefaultsMethods.h */,
 				AAAD436E1A60706900B8AB56 /* NSUserDefaultsMethods.m */,
+				AACFCDAB1B190A6900376132 /* CollectionsHelper.h */,
+				AACFCDAC1B190A6900376132 /* CollectionsHelper.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -895,6 +900,7 @@
 				AA6390DB1A38670C008462BF /* NSString+URL_Shopify.m in Sources */,
 				AA85EF4919FCCDF600C06F60 /* CHTCollectionViewWaterfallHeader.m in Sources */,
 				AA4B4AF81B1633A100D943B6 /* AFURLRequestSerialization.m in Sources */,
+				AACFCDAD1B190A6900376132 /* CollectionsHelper.m in Sources */,
 				AA4B4AFE1B1633A100D943B6 /* UIImageView+AFNetworking.m in Sources */,
 				AA85EF4819FCCDF600C06F60 /* CHTCollectionViewWaterfallCell.m in Sources */,
 				AA85EF4A19FCCDF600C06F60 /* CHTCollectionViewWaterfallFooter.m in Sources */,
