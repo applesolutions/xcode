@@ -100,7 +100,7 @@
                                           initWithCollectionId:wSelf.collectionId
                                                     pageNumber:(wSelf.pageNumber + 1)
                                                          token:wSelf.token
-                                         downloadedCollections:arrayForProducts
+                                         downloadedCollections:updatedProducts
                                                completionBlock:wSelf.completionHandler];
                                      if ([NSOperationQueue currentQueue]) {
                                          [[NSOperationQueue currentQueue] addOperation:productsOperation];
