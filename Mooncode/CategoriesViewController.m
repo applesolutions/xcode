@@ -207,7 +207,7 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
         if (self.loading == NO && [notification.userInfo[@"forceShopifyUpdate"] boolValue] == YES) {  //we force the download of Shopify
             [self downloadCollectionsAndProducts];
         } else if (self.loading == NO && [notification.userInfo[@"forceShopifyUpdate"] boolValue] == NO) {
-            if ([CollectionsHelper isMissingCollectionsInMemoryToDisplayWithProducts:dicProductsCorrespondingToCollections collections:dicCollections]){
+            if ([CollectionsHelper isMissingCollectionsInMemoryToDisplayWithProducts:[dicProductsCorrespondingToCollections copy] collections:[dicCollections copy]]) {
                 [self downloadCollectionsAndProducts];
             }
         }
@@ -240,7 +240,8 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
                                                         wSelf.loading = NO;
                                                         return;
                                                     } else {
-                                                        [wSelf getProductsForCollections:wantedCollections];
+                                                        NSDictionary *transformedCollections = [CollectionsHelper fromArrayToDictionary:wantedCollections];
+                                                        [wSelf getProductsForCollections:transformedCollections];
                                                     }
 
                                                 } else {
@@ -256,7 +257,7 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 
 - (void)updateCollectionsThatCanBeDisplayed {
     @synchronized(self) {
-//        dispatch_sync(dispatch_get_global_queue(0, 0), ^{
+        dispatch_sync(dispatch_get_global_queue(0, 0), ^{
 
           NSArray *displayedCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"displayedCollections"];
           NSArray *featuredCollectionsFromServer = [NSUserDefaultsMethods getObjectFromMemoryInFolder:@"featuredCollections"];
@@ -297,16 +298,15 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
             [self.collectionView reloadData];
           });
 
-//        });
+        });
     }
 }
 
 #pragma mark - Products Downloader
 
-- (void)getProductsForCollections:(NSArray *)collections {
-    NSDictionary *updatedCollections = [CollectionsHelper fromArrayToDictionary:collections];
+- (void)getProductsForCollections:(NSDictionary *)collections {
     __block NSMutableDictionary *updatedProducts = [[NSMutableDictionary alloc] init];
-    __block NSInteger countCollectionsToDownload = collections.count;
+    __block NSInteger countCollectionsToDownload = [collections allKeys].count;
 
     void (^blockName)(NSArray *, NSString *, NSError *) = ^void(NSArray *products, NSString *collectionId, NSError *error) {
 
@@ -327,15 +327,15 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
       //check if the collection has been updated !!
       NSData *dicUpdateIPhone = [[NSUserDefaults standardUserDefaults] dataForKey:@"dateLastUpdateIPhone"];
       NSString *stringDateLastUpdateIPhone = [[NSKeyedUnarchiver unarchiveObjectWithData:dicUpdateIPhone] objectForKey:@"dateLastUpdateIPhone"];
-      NSString *stringDateProductUpdate = [[updatedCollections objectForKey:collectionId] objectForKey:@"updated_at"];
+      NSString *stringDateProductUpdate = [[collections objectForKey:collectionId] objectForKey:@"updated_at"];
 
       if ([ImageManagement getImageFromMemoryWithName:collectionId] == nil ||
           [self hasBeenUpdatedWithStringDateReference:stringDateLastUpdateIPhone
                                         andStringDate:stringDateProductUpdate]) {  //collection updated
 
           //check for a collection image
-          if ([updatedCollections[collectionId] objectForKey:@"image"]) {
-              [self getImageWithImageUrl:updatedCollections[collectionId][@"image"][@"src"]
+          if ([collections[collectionId] objectForKey:@"image"]) {
+              [self getImageWithImageUrl:collections[collectionId][@"image"][@"src"]
                              andObjectId:collectionId
                      lastImageToDownload:YES
                       ImageForCollection:YES];
@@ -344,18 +344,19 @@ const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, c
 
       if (countCollectionsToDownload == 0) {
           NSLog(@"done !");
-          [self downloadIsFinishedWithCollections:updatedCollections products:updatedProducts];
+          [self downloadIsFinishedWithCollections:collections products:updatedProducts];
       }
 
     };
 
     //GET THE PRODUCTS FOR EACH COLLECTION !  ****************************************************
-    for (NSDictionary *dicCollectionToDownload in collections) {  // download products only for new/updated collections
+    for (NSString *collectionId in [collections allKeys]) {  // download products only for new/updated collections
 
         ProductsDownlaodOperation *productsOperation = [[ProductsDownlaodOperation alloc]
-            initWithCollectionId:[dicCollectionToDownload[@"id"] stringValue]
+            initWithCollectionId:collectionId
                            token:token
                  completionBlock:blockName];
+
         [self.productsOperationQueue addOperation:productsOperation];
 
         //add a waiting queue
