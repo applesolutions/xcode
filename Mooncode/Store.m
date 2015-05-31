@@ -98,12 +98,8 @@
                                                                              object:nil
                                                                            userInfo:@{ @"forceShopifyUpdate" : [NSNumber numberWithBool:forceShopifyUpdate] }];
 
-                     } else {
-                         [[NSNotificationCenter defaultCenter] postNotificationName:@"updatePhoneSettings"
-                                                                             object:nil
-                                                                           userInfo:@{ @"error" : error,
-                                                                                       @"forceShopifyUpdate" : [NSNumber numberWithBool:forceShopifyUpdate] }];  //error : don't update shopify
                      }
+                       
                    }];
 }
 
