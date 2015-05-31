@@ -24,32 +24,28 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    
-//    self.tabBar.translucent = NO; // set NO -> cuts the view
-    
+    //    self.tabBar.translucent = NO; // set NO -> cuts the view
+
     self.tabBar.tintColor = [UIColor whiteColor];
-    
+
     CGRect frame = CGRectMake(0.0, 0.0, self.view.bounds.size.width, 49);
     UIView *v = [[UIView alloc] initWithFrame:frame];
+    v.tag = 500;
     [v setBackgroundColor:[self colorFromMemoryWithName:@"colorNavBar"]];
     [[self tabBar] addSubview:v];
 
     //set the images of tab bar items
-    
-    
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(instagramTokenChanged)
                                                  name:@"instagramTokenChanged"
                                                object:nil];
-    
+
     //change the colors
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(updatePhoneSettings)
                                                  name:@"updatePhoneSettings"
                                                object:nil];
-    
-    
 
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Storyboard_autolayout" bundle:nil];
 
@@ -110,7 +106,6 @@
 
     [self setViewControllers:arrayVC animated:YES];
     [self setSelectedIndex:1];
-    
 }
 
 - (void)instagramTokenChanged {
@@ -118,27 +113,19 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"updateInstagramFeed" object:nil];
 }
 
--(void)updatePhoneSettings{
+- (void)updatePhoneSettings {
     //change the color of the tabBar
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
-        CGRect frame = CGRectMake(0.0, 0.0, self.view.bounds.size.width, 49);
-        UIView *v = [[UIView alloc] initWithFrame:frame];
-        [v setBackgroundColor:[self colorFromMemoryWithName:@"colorNavBar"]];
-        
-        for (UIView *subV in self.tabBar.subviews) {
-            if ([subV isKindOfClass:[UIView class]]) {
-                
-            [subV removeFromSuperview];
-            }
-        }
 
-        [[self tabBar] addSubview:v];
+      for (UIView *subV in self.tabBar.subviews) {
+          if (subV.tag == 500) {
+              subV.backgroundColor = [self colorFromMemoryWithName:@"colorNavBar"];
+          }
+      }
     });
-    
 
-//    [self colorFromMemoryWithName:@"colorNavBar"];
-    
+    //    [self colorFromMemoryWithName:@"colorNavBar"];
 }
 - (UIColor *)colorFromMemoryWithName:(NSString *)colorName {
     return [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:colorName] objectForKey:@"red"] floatValue] / 255
