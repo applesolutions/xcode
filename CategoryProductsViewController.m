@@ -52,6 +52,9 @@
 #pragma mark - Life Cycle
 
 -(void) viewWillAppear:(BOOL)animated{
+    [self.tabBarController.tabBar setHidden:NO];
+    [self.view layoutIfNeeded];
+    
     NSData *dataFromMemory = [[NSUserDefaults standardUserDefaults]objectForKey:@"arrayProductsInCart"];
     
     if([[NSKeyedUnarchiver unarchiveObjectWithData:dataFromMemory] count] == 0 ){
@@ -81,7 +84,7 @@
     
     CGRect frame = self.collectionView.frame;
     frame.origin.y = 64;
-    frame.size.height = self.view.frame.size.height - 64;
+    frame.size.height = self.view.frame.size.height - 64 - self.tabBarController.tabBar.frame.size.height;
     self.collectionView.frame = frame;
     
     self.activity = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];

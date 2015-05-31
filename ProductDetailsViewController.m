@@ -75,6 +75,10 @@
 #pragma mark view lifeCycle
 
 -(void) viewWillAppear:(BOOL)animated{
+    
+    [self.tabBarController.tabBar setHidden:YES];
+    [self.view layoutIfNeeded];
+    
     NSData *dataFromMemory = [[NSUserDefaults standardUserDefaults]objectForKey:@"arrayProductsInCart"];
     
     if([[NSKeyedUnarchiver unarchiveObjectWithData:dataFromMemory] count] == 0 ){
@@ -570,5 +574,10 @@
                                url:nil
                     viewController:self];
 }
+
+#pragma mark - Overriden UIViewController methods
+//- (BOOL)hidesBottomBarWhenPushed {
+//    return YES;
+//}
 
 @end

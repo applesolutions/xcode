@@ -502,32 +502,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Mooncode/Store.m"
-            timestampString = "454690187.537613"
+            filePath = "Mooncode/TabBarController.m"
+            timestampString = "454797573.051219"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
-            landmarkName = "+fetchSettingsFromServerAndForceShopifyUpdate:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Mooncode/Store.m"
-            timestampString = "454690791.705013"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
-            landmarkName = "+fetchSettingsFromServerAndForceShopifyUpdate:"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
+            landmarkName = "-updatePhoneSettings"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

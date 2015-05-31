@@ -76,6 +76,7 @@
 		AA4B4B001B1633A100D943B6 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B4AEE1B1633A100D943B6 /* UIRefreshControl+AFNetworking.m */; };
 		AA4B4B011B1633A100D943B6 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B4AF01B1633A100D943B6 /* UIWebView+AFNetworking.m */; };
 		AA4F6DEE1B1A13D60045E874 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4F6DED1B1A13D60045E874 /* Constants.m */; };
+		AA4F6DF21B1B96C70045E874 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4F6DF11B1B96C70045E874 /* TabBarController.m */; };
 		AA6390D41A385DD1008462BF /* ImageManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6390D31A385DD1008462BF /* ImageManagement.m */; };
 		AA6390DB1A38670C008462BF /* NSString+URL_Shopify.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6390DA1A38670C008462BF /* NSString+URL_Shopify.m */; };
 		AA6390DE1A38880B008462BF /* SocialMedias.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6390DD1A38880B008462BF /* SocialMedias.m */; };
@@ -259,6 +260,8 @@
 		AA4F6DE71B1A11240045E874 /* MoonCode-prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MoonCode-prefix.pch"; sourceTree = "<group>"; };
 		AA4F6DEA1B1A13360045E874 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		AA4F6DED1B1A13D60045E874 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		AA4F6DF01B1B96C70045E874 /* TabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarController.h; sourceTree = "<group>"; };
+		AA4F6DF11B1B96C70045E874 /* TabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarController.m; sourceTree = "<group>"; };
 		AA6390D21A385DD1008462BF /* ImageManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageManagement.h; sourceTree = "<group>"; };
 		AA6390D31A385DD1008462BF /* ImageManagement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageManagement.m; sourceTree = "<group>"; };
 		AA6390D91A38670C008462BF /* NSString+URL_Shopify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+URL_Shopify.h"; path = "../NSString+URL_Shopify.h"; sourceTree = "<group>"; };
@@ -638,6 +641,8 @@
 				AAABB3D61A36F44E005B53E1 /* Storyboard_autolayout.storyboard */,
 				AAA1C34619EF460800C257FE /* ScrollViewController.h */,
 				AAA1C34719EF460800C257FE /* ScrollViewController.m */,
+				AA4F6DF01B1B96C70045E874 /* TabBarController.h */,
+				AA4F6DF11B1B96C70045E874 /* TabBarController.m */,
 				AA9F651B1A02B8D300242FBA /* CategoriesViewController.h */,
 				AA9F651C1A02B8D300242FBA /* CategoriesViewController.m */,
 				AA9F650F1A0099A300242FBA /* CategoryProductsViewController.h */,
@@ -933,6 +938,7 @@
 				AA4B4AF71B1633A100D943B6 /* AFURLConnectionOperation.m in Sources */,
 				AA4B4AFF1B1633A100D943B6 /* UIProgressView+AFNetworking.m in Sources */,
 				AA13FD5A1A05BB2500696FE1 /* NSString+HTML.m in Sources */,
+				AA4F6DF21B1B96C70045E874 /* TabBarController.m in Sources */,
 				AA4B4AFC1B1633A100D943B6 /* UIAlertView+AFNetworking.m in Sources */,
 				AA96650819FCAE6E0008ED03 /* ProductDetailsViewController.m in Sources */,
 				AA2EB3201A693B4600AEA228 /* SBInstagramCell.m in Sources */,

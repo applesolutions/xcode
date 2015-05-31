@@ -84,11 +84,11 @@
 #pragma mark - ViewLifeCycle
 
 - (void)viewWillDisappear:(BOOL)animated {
-    [self.stlmMainViewController disableScrollView];
+//    [self.stlmMainViewController disableScrollView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [self.stlmMainViewController enableScrollView];
+//    [self.stlmMainViewController enableScrollView];
 
     NSData *dataFromMemory = [[NSUserDefaults standardUserDefaults] dataForKey:@"arrayProductsInCart"];
 
@@ -131,7 +131,7 @@
 
     CGRect frame = self.collectionView.frame;
     frame.origin.y = 64;
-    frame.size.height = self.view.frame.size.height - 64;
+    frame.size.height = self.view.frame.size.height - 64 - self.tabBarController.tabBar.frame.size.height;
     self.collectionView.frame = frame;
     [self.view addSubview:self.collectionView];
 
