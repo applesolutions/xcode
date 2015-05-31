@@ -11,6 +11,14 @@
 #ifndef Mooncode_Constants_h
 #define Mooncode_Constants_h
 
-extern NSString *const MyFirstConstant;
+//*********UI MESSAGES**********
+extern NSString *const loadingMessage;
+extern NSString *const noInternetConnectionMessage;
+extern NSString *const noCollectionToDisplayMessage;
+
+
+//********* shop constants ******
+extern NSString *const website_url;
+extern NSString *const website_cart_url;
 
 #endif

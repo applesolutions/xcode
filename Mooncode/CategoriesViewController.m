@@ -75,10 +75,6 @@
 #define CELL_IDENTIFIER @"WaterfallCell"
 #define CELL_FEATURED_IDENTIFIER @"CHTCollectionViewWaterfallFeaturedCell"
 
-const NSString *loadingMessage = @"Thank you for downloading our App!\n \nNow downloading the content, it should take less than a minute and only happen once. \n \nMake sure you are connected to the Internet !";
-const NSString *noInternetConnectionMessage = @"It seems you are not connected to the internet... \nReconnect and try again :)";
-const NSString *noCollectionToDisplayMessage = @"This shop has no product yet, come back later !";
-
 @implementation CategoriesViewController {
     __block NSMutableArray *arrayProducts;
     __block NSMutableArray *array_Updated_Products;
