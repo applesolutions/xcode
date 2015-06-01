@@ -77,6 +77,7 @@
 		AA4B4B011B1633A100D943B6 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B4AF01B1633A100D943B6 /* UIWebView+AFNetworking.m */; };
 		AA4F6DEE1B1A13D60045E874 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4F6DED1B1A13D60045E874 /* Constants.m */; };
 		AA4F6DF21B1B96C70045E874 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4F6DF11B1B96C70045E874 /* TabBarController.m */; };
+		AA4F6E001B1CEFB70045E874 /* UIColor+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4F6DFF1B1CEFB70045E874 /* UIColor+Custom.m */; };
 		AA6390D41A385DD1008462BF /* ImageManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6390D31A385DD1008462BF /* ImageManagement.m */; };
 		AA6390DB1A38670C008462BF /* NSString+URL_Shopify.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6390DA1A38670C008462BF /* NSString+URL_Shopify.m */; };
 		AA6390DE1A38880B008462BF /* SocialMedias.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6390DD1A38880B008462BF /* SocialMedias.m */; };
@@ -262,6 +263,8 @@
 		AA4F6DED1B1A13D60045E874 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		AA4F6DF01B1B96C70045E874 /* TabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarController.h; sourceTree = "<group>"; };
 		AA4F6DF11B1B96C70045E874 /* TabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarController.m; sourceTree = "<group>"; };
+		AA4F6DFE1B1CEFB70045E874 /* UIColor+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Custom.h"; sourceTree = "<group>"; };
+		AA4F6DFF1B1CEFB70045E874 /* UIColor+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Custom.m"; sourceTree = "<group>"; };
 		AA6390D21A385DD1008462BF /* ImageManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageManagement.h; sourceTree = "<group>"; };
 		AA6390D31A385DD1008462BF /* ImageManagement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageManagement.m; sourceTree = "<group>"; };
 		AA6390D91A38670C008462BF /* NSString+URL_Shopify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+URL_Shopify.h"; path = "../NSString+URL_Shopify.h"; sourceTree = "<group>"; };
@@ -600,6 +603,8 @@
 				AAAD436E1A60706900B8AB56 /* NSUserDefaultsMethods.m */,
 				AACFCDAB1B190A6900376132 /* CollectionsHelper.h */,
 				AACFCDAC1B190A6900376132 /* CollectionsHelper.m */,
+				AA4F6DFE1B1CEFB70045E874 /* UIColor+Custom.h */,
+				AA4F6DFF1B1CEFB70045E874 /* UIColor+Custom.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -914,6 +919,7 @@
 				AA2EB3231A693B4600AEA228 /* SBInstagramController.m in Sources */,
 				AA2EB3221A693B4600AEA228 /* SBInstagramHTTPRequestOperationManager.m in Sources */,
 				AA13FD4A1A0441D500696FE1 /* NavControllerViewController.m in Sources */,
+				AA4F6E001B1CEFB70045E874 /* UIColor+Custom.m in Sources */,
 				AA4B4B011B1633A100D943B6 /* UIWebView+AFNetworking.m in Sources */,
 				AA930A4919E9F00E0084A250 /* AppDelegate.m in Sources */,
 				AA2EB3331A693BB600AEA228 /* MediaWebViewController.m in Sources */,
