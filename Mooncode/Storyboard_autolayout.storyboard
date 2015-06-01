@@ -153,7 +153,7 @@ just wait a few seconds...
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="waiting" translatesAutoresizingMaskIntoConstraints="NO" id="vIk-07-TWq">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="waiting" translatesAutoresizingMaskIntoConstraints="NO" id="vIk-07-TWq">
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M3P-EZ-bGE">
@@ -170,12 +170,6 @@ just wait a few seconds...
                                         </textAttributes>
                                         <items>
                                             <navigationItem title="Let's shop" id="3qB-Hm-tOO">
-                                                <barButtonItem key="leftBarButtonItem" image="nav-icon-settings" id="6f2-cF-XFw">
-                                                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <connections>
-                                                        <action selector="goLeft:" destination="T1h-gT-lOV" id="ufF-OI-JLg"/>
-                                                    </connections>
-                                                </barButtonItem>
                                                 <barButtonItem key="rightBarButtonItem" image="nav-icon-cart" id="tmC-61-10z">
                                                     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <connections>
@@ -298,7 +292,6 @@ Make sure you are
                         <outlet property="imageBackgroundForLoading" destination="vIk-07-TWq" id="v66-Jf-JLB"/>
                         <outlet property="labelLoading" destination="303-5k-hVM" id="Q2R-Qr-UqM"/>
                         <outlet property="navBar" destination="79U-vg-ua7" id="osl-07-9Lj"/>
-                        <outlet property="navBarButtonLeft" destination="6f2-cF-XFw" id="eU7-2C-52v"/>
                         <outlet property="viewError" destination="c9Q-Xl-c4H" id="s1n-bM-EoZ"/>
                         <outlet property="viewNavBar" destination="M3P-EZ-bGE" id="AZ6-hS-rKI"/>
                     </connections>
@@ -1015,7 +1008,7 @@ Please come back later...</string>
                                     <rect key="frame" x="0.0" y="252" width="400" height="35"/>
                                 </variation>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gps-Yo-DJ7">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gps-Yo-DJ7">
                                 <rect key="frame" x="539" y="552" width="45" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="45" id="5XP-a6-qbS"/>
@@ -1028,7 +1021,7 @@ Please come back later...</string>
                                     <action selector="goRight:" destination="hzE-sX-deO" eventType="touchUpInside" id="7B6-5T-gTX"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nav-icon-settings" translatesAutoresizingMaskIntoConstraints="NO" id="8sM-YS-dTU">
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nav-icon-settings" translatesAutoresizingMaskIntoConstraints="NO" id="8sM-YS-dTU">
                                 <rect key="frame" x="289" y="561" width="23" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="23" id="RUk-ey-bIH"/>
@@ -1210,7 +1203,7 @@ Please come back later...</string>
         <scene sceneID="mam-aZ-Tag">
             <objects>
                 <tabBarController id="eCc-UV-4I9" customClass="TabBarController" sceneMemberID="viewController">
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="6Wx-nn-Ku7">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
