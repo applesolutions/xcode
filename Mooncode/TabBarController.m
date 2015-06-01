@@ -15,6 +15,7 @@
 @interface TabBarController ()
 
 @property(strong, nonatomic) SBInstagramController *instagram;
+@property(strong, nonatomic) CartViewController *cartVC;
 
 @end
 
@@ -46,33 +47,42 @@
                                              selector:@selector(updatePhoneSettings)
                                                  name:@"updatePhoneSettings"
                                                object:nil];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(cartUpdated)
                                                  name:@"cartUpdated"
                                                object:nil];
 
+    [[UITabBarItem appearance] setTitleTextAttributes:@{
+        NSForegroundColorAttributeName : [UIColor whiteColor],
+        NSFontAttributeName : [UIFont fontWithName:@"ProximaNova-Regular" size:0.0f],
+    }
+                                             forState:UIControlStateNormal];
+
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Storyboard_autolayout" bundle:nil];
 
     SettingsViewController *settingsVC = [sb instantiateViewControllerWithIdentifier:@"SettingsViewController"];
-    UITabBarItem *settingsItem = [[UITabBarItem alloc] initWithTitle:@"Settings" image:[UIImage imageNamed:@"nav-icon-settings"] tag:0];
+    UITabBarItem *settingsItem = [[UITabBarItem alloc] initWithTitle:@"Settings"
+                                                               image:[[UIImage imageNamed:@"nav-icon-settings"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+                                                       selectedImage:[[UIImage imageNamed:@"nav-icon-settings-full"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     settingsVC.tabBarItem = settingsItem;
 
     UINavigationController *navController = [sb instantiateViewControllerWithIdentifier:@"NavControllerViewController"];
-    UITabBarItem *collectionsItem = [[UITabBarItem alloc] initWithTitle:@"Collections" image:[UIImage imageNamed:@"nav-icon-collections"] tag:0];
+    UITabBarItem *collectionsItem = [[UITabBarItem alloc] initWithTitle:@"Collections"
+                                                                  image:[[UIImage imageNamed:@"nav-icon-collections"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+                                                          selectedImage:[[UIImage imageNamed:@"nav-icon-collections-full"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     navController.tabBarItem = collectionsItem;
 
-    CartViewController *cartVC = [sb instantiateViewControllerWithIdentifier:@"CartViewController"];
-    
-    NSData *dataFromMemory = [[NSUserDefaults standardUserDefaults] dataForKey:@"arrayProductsInCart"];
-    NSString*imageName = [[NSKeyedUnarchiver unarchiveObjectWithData:dataFromMemory] count] == 0 ? @"nav-icon-cart" : @"nav-icon-cart-full";
-    
-    UITabBarItem *cartItem = [[UITabBarItem alloc] initWithTitle:@"Cart" image:[UIImage imageNamed:imageName] tag:0];
+    self.cartVC = [sb instantiateViewControllerWithIdentifier:@"CartViewController"];
 
-    cartVC.tabBarItem = cartItem;
-    
-    
-    
+    NSData *dataFromMemory = [[NSUserDefaults standardUserDefaults] dataForKey:@"arrayProductsInCart"];
+    NSString *imageName = [[NSKeyedUnarchiver unarchiveObjectWithData:dataFromMemory] count] == 0 ? @"nav-icon-cart" : @"nav-icon-cart-green";
+
+    UITabBarItem *cartItem = [[UITabBarItem alloc] initWithTitle:@"Cart"
+                                                           image:[[UIImage imageNamed:imageName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+                                                   selectedImage:[[UIImage imageNamed:[imageName stringByAppendingString:@"-full"]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+
+    self.cartVC.tabBarItem = cartItem;
 
     self.instagram = [SBInstagramController instagram];
 
@@ -112,9 +122,9 @@
     NSArray *arrayVC;
 
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isInstagramIntegrated"] == YES) {
-        arrayVC = [NSArray arrayWithObjects:settingsVC, navController, self.instagram.feed, cartVC, nil];
+        arrayVC = [NSArray arrayWithObjects:settingsVC, navController, self.instagram.feed, self.cartVC, nil];
     } else {
-        arrayVC = [NSArray arrayWithObjects:settingsVC, navController, cartVC, nil];
+        arrayVC = [NSArray arrayWithObjects:settingsVC, navController, self.cartVC, nil];
     }
 
     [self setViewControllers:arrayVC animated:YES];
@@ -139,20 +149,24 @@
     });
 }
 
--(void)cartUpdated{
-    
-    for (UIViewController *viewController in self.viewControllers) {
-        if ([viewController isKindOfClass:[CartViewController class]]) {
-            NSData *dataFromMemory = [[NSUserDefaults standardUserDefaults] dataForKey:@"arrayProductsInCart"];
-            NSString*imageName = [[NSKeyedUnarchiver unarchiveObjectWithData:dataFromMemory] count] == 0 ? @"nav-icon-cart" : @"nav-icon-cart-full";
+- (void)cartUpdated {
+    //    for (UIViewController *viewController in self.viewControllers) {
+    //        if ([viewController isKindOfClass:[CartViewController class]]) {
 
-            dispatch_async(dispatch_get_main_queue(), ^{
-                UITabBarItem *cartItem = [[UITabBarItem alloc] initWithTitle:@"Cart" image:[UIImage imageNamed:imageName] tag:0];
-                viewController.tabBarItem = cartItem;
-            });
-        }
-    }
-    
+    NSData *dataFromMemory = [[NSUserDefaults standardUserDefaults] dataForKey:@"arrayProductsInCart"];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+      NSData *dataFromMemory = [[NSUserDefaults standardUserDefaults] dataForKey:@"arrayProductsInCart"];
+      NSString *imageName = [[NSKeyedUnarchiver unarchiveObjectWithData:dataFromMemory] count] == 0 ? @"nav-icon-cart" : @"nav-icon-cart-green";
+
+      UITabBarItem *cartItem = [[UITabBarItem alloc] initWithTitle:@"Cart"
+                                                             image:[[UIImage imageNamed:imageName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+                                                     selectedImage:[[UIImage imageNamed:[imageName stringByAppendingString:@"-full"]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+
+      self.cartVC.tabBarItem = cartItem;
+    });
+    //        }
+    //    }
 }
 
 @end
