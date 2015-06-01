@@ -79,22 +79,6 @@
     [super viewDidLoad];
     self.title = @"Instagram";
     
-    //set right button
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav-icon-right"]
-                                                             style:UIBarButtonItemStylePlain
-                                                            target:self
-                                                            action:@selector(goRight)];
-    item.tintColor = [UIColor whiteColor];
-    [self.navigationItem setRightBarButtonItem:item animated:YES];
-    
-    //set right button
-    UIBarButtonItem *itemSettings = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav-icon-settings"]
-                                                             style:UIBarButtonItemStylePlain
-                                                            target:self
-                                                            action:@selector(goLeft)];
-    itemSettings.tintColor = [UIColor whiteColor];
-    [self.navigationItem setLeftBarButtonItem:itemSettings animated:YES];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(updateColors)
                                                  name:@"updatePhoneSettings"
