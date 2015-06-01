@@ -85,6 +85,11 @@
     self.cartVC.tabBarItem = cartItem;
 
     self.instagram = [SBInstagramController instagram];
+    UINavigationController *navInstagram = [[UINavigationController alloc] initWithRootViewController:self.instagram.feed];
+    UITabBarItem *instagramItem = [[UITabBarItem alloc] initWithTitle:@"Instagram"
+                                                                  image:[[UIImage imageNamed:@"nav-icon-instagram"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+                                                          selectedImage:[[UIImage imageNamed:@"nav-icon-instagram-full"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    self.instagram.feed.tabBarItem = instagramItem;
 
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isInstagramIntegrated"] == YES) {
         //INSTAGRAM *********************************************************************************************
@@ -122,7 +127,7 @@
     NSArray *arrayVC;
 
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isInstagramIntegrated"] == YES) {
-        arrayVC = [NSArray arrayWithObjects:settingsVC, navController, self.instagram.feed, self.cartVC, nil];
+        arrayVC = [NSArray arrayWithObjects:settingsVC, navController, navInstagram, self.cartVC, nil];
     } else {
         arrayVC = [NSArray arrayWithObjects:settingsVC, navController, self.cartVC, nil];
     }
