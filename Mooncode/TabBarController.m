@@ -127,13 +127,13 @@
     NSArray *arrayVC;
 
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isInstagramIntegrated"] == YES) {
-        arrayVC = [NSArray arrayWithObjects:settingsVC, navController, navInstagram, self.cartVC, nil];
+        arrayVC = [NSArray arrayWithObjects:settingsVC, navInstagram, navController, self.cartVC, nil];
     } else {
         arrayVC = [NSArray arrayWithObjects:settingsVC, navController, self.cartVC, nil];
     }
 
     [self setViewControllers:arrayVC animated:YES];
-    [self setSelectedIndex:1];
+    [self setSelectedIndex:2];
 }
 
 - (void)instagramTokenChanged {
