@@ -71,6 +71,8 @@
 
     cartVC.tabBarItem = cartItem;
     
+    
+    
 
     self.instagram = [SBInstagramController instagram];
 
@@ -143,12 +145,12 @@
     
     for (UIViewController *viewController in self.viewControllers) {
         if ([viewController isKindOfClass:[CartViewController class]]) {
-            UITabBarItem *tabItem = viewController.tabBarItem;
-            
             NSData *dataFromMemory = [[NSUserDefaults standardUserDefaults] dataForKey:@"arrayProductsInCart"];
             NSString*imageName = [[NSKeyedUnarchiver unarchiveObjectWithData:dataFromMemory] count] == 0 ? @"nav-icon-cart" : @"nav-icon-cart-full";
+
             dispatch_async(dispatch_get_main_queue(), ^{
-                tabItem.image = [UIImage imageNamed:imageName];
+                UITabBarItem *cartItem = [[UITabBarItem alloc] initWithTitle:@"Cart" image:[UIImage imageNamed:imageName] tag:0];
+                viewController.tabBarItem = cartItem;
             });
         }
     }
