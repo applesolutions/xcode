@@ -46,6 +46,11 @@
                                              selector:@selector(updatePhoneSettings)
                                                  name:@"updatePhoneSettings"
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(cartUpdated)
+                                                 name:@"cartUpdated"
+                                               object:nil];
 
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Storyboard_autolayout" bundle:nil];
 
@@ -58,8 +63,14 @@
     navController.tabBarItem = collectionsItem;
 
     CartViewController *cartVC = [sb instantiateViewControllerWithIdentifier:@"CartViewController"];
-    UITabBarItem *cartItem = [[UITabBarItem alloc] initWithTitle:@"Cart" image:[UIImage imageNamed:@"nav-icon-cart"] tag:0];
+    
+    NSData *dataFromMemory = [[NSUserDefaults standardUserDefaults] dataForKey:@"arrayProductsInCart"];
+    NSString*imageName = [[NSKeyedUnarchiver unarchiveObjectWithData:dataFromMemory] count] == 0 ? @"nav-icon-cart" : @"nav-icon-cart-full";
+    
+    UITabBarItem *cartItem = [[UITabBarItem alloc] initWithTitle:@"Cart" image:[UIImage imageNamed:imageName] tag:0];
+
     cartVC.tabBarItem = cartItem;
+    
 
     self.instagram = [SBInstagramController instagram];
 
@@ -127,6 +138,23 @@
 
     //    [self colorFromMemoryWithName:@"colorNavBar"];
 }
+
+-(void)cartUpdated{
+    
+    for (UIViewController *viewController in self.viewControllers) {
+        if ([viewController isKindOfClass:[CartViewController class]]) {
+            UITabBarItem *tabItem = viewController.tabBarItem;
+            
+            NSData *dataFromMemory = [[NSUserDefaults standardUserDefaults] dataForKey:@"arrayProductsInCart"];
+            NSString*imageName = [[NSKeyedUnarchiver unarchiveObjectWithData:dataFromMemory] count] == 0 ? @"nav-icon-cart" : @"nav-icon-cart-full";
+            dispatch_async(dispatch_get_main_queue(), ^{
+                tabItem.image = [UIImage imageNamed:imageName];
+            });
+        }
+    }
+    
+}
+
 - (UIColor *)colorFromMemoryWithName:(NSString *)colorName {
     return [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:colorName] objectForKey:@"red"] floatValue] / 255
                            green:[[[[NSUserDefaults standardUserDefaults] objectForKey:colorName] objectForKey:@"green"] floatValue] / 255

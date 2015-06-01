@@ -87,6 +87,7 @@
         self.buttonCart.image = [[UIImage imageNamed:@"nav-icon-cart-full"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     }
     
+    
     //check for quantity
     self.buttonAddToCart.enabled = NO;
     self.buttonAddToCart.layer.opacity = 0.5f;
@@ -381,6 +382,8 @@
     }
     
     NSLog(@"cart : %@",[[[NSUserDefaults standardUserDefaults] objectForKey:@"arrayProductsInCart"] description]);
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"cartUpdated" object:nil];
     
     
     //ANIMATION ******************************************************************************

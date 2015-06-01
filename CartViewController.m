@@ -119,6 +119,7 @@
 
         if ([arrayProductsInCart count] == 0) {
             [self dismissViewControllerAnimated:YES completion:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"cartUpdated" object:nil];
         }
     }
 }
