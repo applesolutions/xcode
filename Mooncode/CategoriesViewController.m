@@ -90,13 +90,14 @@
 - (void)viewWillAppear:(BOOL)animated {
 //    [self.stlmMainViewController enableScrollView];
 
-    NSData *dataFromMemory = [[NSUserDefaults standardUserDefaults] dataForKey:@"arrayProductsInCart"];
-
-    if ([[NSKeyedUnarchiver unarchiveObjectWithData:dataFromMemory] count] == 0) {
-        self.buttonCart.image = [[UIImage imageNamed:@"nav-icon-cart"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    } else {
-        self.buttonCart.image = [[UIImage imageNamed:@"nav-icon-cart-full"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    }
+//    NSData *dataFromMemory = [[NSUserDefaults standardUserDefaults] dataForKey:@"arrayProductsInCart"];
+//
+//    if ([[NSKeyedUnarchiver unarchiveObjectWithData:dataFromMemory] count] == 0) {
+//        self.buttonCart.image = [[UIImage imageNamed:@"nav-icon-cart"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+//    } else {
+//        self.buttonCart.image = [[UIImage imageNamed:@"nav-icon-cart-full"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+//    }
+    self.buttonCart.image = nil;
 
     [self.collectionView reloadData];
 
@@ -613,11 +614,11 @@
 }
 
 - (IBAction)goToCart:(id)sender {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Storyboard_autolayout" bundle:nil];
-    CartViewController *vc1 = [sb instantiateViewControllerWithIdentifier:@"CartViewController"];
-    dispatch_async(dispatch_get_main_queue(), ^{
-      [self presentViewController:vc1 animated:YES completion:nil];
-    });
+//    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Storyboard_autolayout" bundle:nil];
+//    CartViewController *vc1 = [sb instantiateViewControllerWithIdentifier:@"CartViewController"];
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//      [self presentViewController:vc1 animated:YES completion:nil];
+//    });
 }
 - (IBAction)reload:(id)sender {
     [self showLoadingStateWithMessage:loadingMessage];

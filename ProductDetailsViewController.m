@@ -79,13 +79,14 @@
     [self.tabBarController.tabBar setHidden:YES];
     [self.view layoutIfNeeded];
     
-    NSData *dataFromMemory = [[NSUserDefaults standardUserDefaults]objectForKey:@"arrayProductsInCart"];
-    
-    if([[NSKeyedUnarchiver unarchiveObjectWithData:dataFromMemory] count] == 0 ){
-        self.buttonCart.image = [[UIImage imageNamed:@"nav-icon-cart"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    }else{
-        self.buttonCart.image = [[UIImage imageNamed:@"nav-icon-cart-full"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    }
+//    NSData *dataFromMemory = [[NSUserDefaults standardUserDefaults]objectForKey:@"arrayProductsInCart"];
+//    
+//    if([[NSKeyedUnarchiver unarchiveObjectWithData:dataFromMemory] count] == 0 ){
+//        self.buttonCart.image = [[UIImage imageNamed:@"nav-icon-cart"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+//    }else{
+//        self.buttonCart.image = [[UIImage imageNamed:@"nav-icon-cart-full"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+//    }
+    self.buttonCart.image = nil;
     
     
     //check for quantity
@@ -381,10 +382,7 @@
         [[NSUserDefaults standardUserDefaults]synchronize];
     }
     
-    NSLog(@"cart : %@",[[[NSUserDefaults standardUserDefaults] objectForKey:@"arrayProductsInCart"] description]);
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"cartUpdated" object:nil];
-    
     
     //ANIMATION ******************************************************************************
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
@@ -561,9 +559,9 @@
 }
 
 - (IBAction)shoppingCart:(id)sender {
-    UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"Storyboard_autolayout" bundle:nil];
-    CartViewController *vc1 = [sb instantiateViewControllerWithIdentifier:@"CartViewController"];
-    [self presentViewController:vc1 animated:YES completion:nil];
+//    UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"Storyboard_autolayout" bundle:nil];
+//    CartViewController *vc1 = [sb instantiateViewControllerWithIdentifier:@"CartViewController"];
+//    [self presentViewController:vc1 animated:YES completion:nil];
 }
 
 - (IBAction)back:(id)sender {

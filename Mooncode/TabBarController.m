@@ -133,7 +133,7 @@
     }
 
     [self setViewControllers:arrayVC animated:YES];
-    [self setSelectedIndex:2];
+    [self setSelectedIndex:[arrayVC indexOfObject:navController]];
 }
 
 - (void)instagramTokenChanged {

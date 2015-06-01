@@ -1168,7 +1168,7 @@ Please come back later...</string>
                             <constraint firstAttribute="trailing" secondItem="MNF-3L-89p" secondAttribute="trailing" constant="20" id="MIf-4r-QXU"/>
                             <constraint firstItem="dbz-Fw-ZGi" firstAttribute="top" secondItem="Ny3-JR-E5u" secondAttribute="bottom" constant="40" id="QIb-m8-2J3"/>
                             <constraint firstItem="Gps-Yo-DJ7" firstAttribute="trailing" secondItem="1I8-i4-5Fq" secondAttribute="trailingMargin" id="Qbl-ek-ZJG"/>
-                            <constraint firstItem="hnA-Lt-Z3m" firstAttribute="top" secondItem="Fth-LT-EOU" secondAttribute="bottom" constant="130" id="R6K-rW-jLn"/>
+                            <constraint firstItem="hnA-Lt-Z3m" firstAttribute="top" secondItem="Fth-LT-EOU" secondAttribute="bottom" constant="110" id="R6K-rW-jLn"/>
                             <constraint firstAttribute="centerX" secondItem="8sM-YS-dTU" secondAttribute="centerX" id="WS8-ff-6Ny"/>
                             <constraint firstItem="Fth-LT-EOU" firstAttribute="width" secondItem="1I8-i4-5Fq" secondAttribute="width" id="XkB-GJ-Xgn"/>
                             <constraint firstItem="Z9s-bT-alj" firstAttribute="top" secondItem="8sM-YS-dTU" secondAttribute="bottom" constant="16" id="YEh-K7-lxv"/>
@@ -1718,7 +1718,7 @@ Please come back later...</string>
         <image name="nav-icon-down" width="22" height="11"/>
         <image name="nav-icon-next" width="11" height="22"/>
         <image name="nav-icon-settings" width="20" height="20"/>
-        <image name="text-madeMooncode-white" width="173" height="13"/>
+        <image name="text-madeMooncode-white" width="171" height="13"/>
         <image name="waiting" width="320" height="507"/>
     </resources>
 </document>
