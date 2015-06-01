@@ -41,9 +41,13 @@
     self.buttonAddCart.frame = frame;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    self.tabBarController.delegate = self;
+- (void)viewDidAppear:(BOOL)animated {
+    if ([self.tabBarController.selectedViewController isKindOfClass:[CartViewController class]]) {
+        [self.closeButton setImage:nil];
+    }
+}
 
+- (void)viewWillAppear:(BOOL)animated {
     self.ViewNavBar.backgroundColor =
         [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"red"] floatValue] / 255
                         green:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"colorNavBar"] objectForKey:@"green"] floatValue] / 255
@@ -67,14 +71,6 @@
     }
 
     [self.TableView reloadData];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    self.tabBarController.delegate = nil;
-}
-
-- (void)tabBarController:(UITabBarController *)theTabBarController didSelectViewController:(UIViewController *)viewController {
-    [self.closeButton setImage:nil];
 }
 
 #pragma mark IBActions
