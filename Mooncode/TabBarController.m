@@ -50,15 +50,15 @@
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Storyboard_autolayout" bundle:nil];
 
     SettingsViewController *settingsVC = [sb instantiateViewControllerWithIdentifier:@"SettingsViewController"];
-    UITabBarItem *settingsItem = [[UITabBarItem alloc] initWithTitle:@"Settings" image:nil tag:0];
+    UITabBarItem *settingsItem = [[UITabBarItem alloc] initWithTitle:@"Settings" image:[UIImage imageNamed:@"nav-icon-settings"] tag:0];
     settingsVC.tabBarItem = settingsItem;
 
     UINavigationController *navController = [sb instantiateViewControllerWithIdentifier:@"NavControllerViewController"];
-    UITabBarItem *collectionsItem = [[UITabBarItem alloc] initWithTitle:@"Collections" image:nil tag:0];
+    UITabBarItem *collectionsItem = [[UITabBarItem alloc] initWithTitle:@"Collections" image:[UIImage imageNamed:@"nav-icon-collections"] tag:0];
     navController.tabBarItem = collectionsItem;
 
     CartViewController *cartVC = [sb instantiateViewControllerWithIdentifier:@"CartViewController"];
-    UITabBarItem *cartItem = [[UITabBarItem alloc] initWithTitle:@"Cart" image:nil tag:0];
+    UITabBarItem *cartItem = [[UITabBarItem alloc] initWithTitle:@"Cart" image:[UIImage imageNamed:@"nav-icon-cart"] tag:0];
     cartVC.tabBarItem = cartItem;
 
     self.instagram = [SBInstagramController instagram];
