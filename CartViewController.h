@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CartViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface CartViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITabBarControllerDelegate>
 
 @end
