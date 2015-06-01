@@ -106,7 +106,7 @@
                                                         }];
         
         [mailCont setSubject:@"Support - feedback"];
-        [mailCont setToRecipients:[NSArray arrayWithObject:[[NSUserDefaults standardUserDefaults]objectForKey:@"supportUrl"]]];
+        [mailCont setToRecipients:[NSArray arrayWithObject:[[NSUserDefaults standardUserDefaults]objectForKey:@"supportEmail"]]];
         
         [self presentViewController:mailCont animated:YES completion:nil];
     }

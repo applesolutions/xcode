@@ -37,6 +37,10 @@
                          NSString *twitter = (NSString *)settings[@"twitter"];
                          NSString *instagram = [settings[@"instagram_id"] stringValue];
 
+                         NSString *appCurrency = settings[@"app_currency"];
+                         NSString *supportEmail = settings[@"app_support_email"];
+                         NSString *supportUrl = settings[@"app_support_url"];
+
                          NSArray *displayedCollectionsFromServer = settings[@"displayed_collections"];
                          NSArray *featuredCollectionsFromServer = settings[@"featured_collections"];
                          [NSUserDefaultsMethods saveObjectInMemory:displayedCollectionsFromServer toFolder:@"displayedCollections"];
@@ -52,10 +56,26 @@
                          }
                          [[NSUserDefaults standardUserDefaults] setObject:arrayCustomCollectionsIds forKey:@"arrayCustomCollectionsIds"];
 
-                         if (twitter) {
+                         if ([NSNull null] != twitter && twitter != nil) {
                              twitter = [twitter stringByReplacingOccurrencesOfString:@"@" withString:@""];
                              [[NSUserDefaults standardUserDefaults] setObject:twitter forKey:@"twitterName"];
                          }
+                         if ([NSNull null] != appCurrency && appCurrency != nil) {
+                             NSLog(@"appcurrency");
+                             [[NSUserDefaults standardUserDefaults] setObject:appCurrency forKey:@"currency"];
+                         }
+                         
+                         if ([NSNull null] != supportEmail && supportEmail != nil) {
+                             NSLog(@"supportEmail");
+                             [[NSUserDefaults standardUserDefaults] setObject:supportEmail forKey:@"supportEmail"];
+                         }
+                         
+                         if ([NSNull null] != supportUrl && supportUrl != nil) {
+                             NSLog(@"supportUrl");
+                             [[NSUserDefaults standardUserDefaults] setObject:supportUrl forKey:@"supportUrl"];
+                         }
+                         
+                         
 
                          [[NSUserDefaults standardUserDefaults] synchronize];
 

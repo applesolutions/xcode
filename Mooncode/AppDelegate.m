@@ -37,8 +37,6 @@
 //    [[NSUserDefaults standardUserDefaults] setObject:@"https://adrift.myshopify.com" forKey:@"website_url"];
     [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_url"];
     [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_cart_url"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"supportUrl"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"$" forKey:@"currency"];
     
     [[NSUserDefaults standardUserDefaults] setObject:@"shopify" forKey:@"shopType"];
     [[NSUserDefaults standardUserDefaults] setObject:@"https://checkout.shopify.com" forKey:@"checkoutUrl"];
