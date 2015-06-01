@@ -31,7 +31,7 @@
     CGRect frame = CGRectMake(0.0, 0.0, self.view.bounds.size.width, 49);
     UIView *v = [[UIView alloc] initWithFrame:frame];
     v.tag = 500;
-    [v setBackgroundColor:[self colorFromMemoryWithName:@"colorNavBar"]];
+    [v setBackgroundColor:[UIColor colorFromMemoryNamed:@"colorNavBar"]];
     [[self tabBar] addSubview:v];
 
     //set the images of tab bar items
@@ -133,12 +133,10 @@
 
       for (UIView *subV in self.tabBar.subviews) {
           if (subV.tag == 500) {
-              subV.backgroundColor = [self colorFromMemoryWithName:@"colorNavBar"];
+              subV.backgroundColor = [UIColor colorFromMemoryNamed:@"colorNavBar"];
           }
       }
     });
-
-    //    [self colorFromMemoryWithName:@"colorNavBar"];
 }
 
 -(void)cartUpdated{
@@ -157,10 +155,4 @@
     
 }
 
-- (UIColor *)colorFromMemoryWithName:(NSString *)colorName {
-    return [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:colorName] objectForKey:@"red"] floatValue] / 255
-                           green:[[[[NSUserDefaults standardUserDefaults] objectForKey:colorName] objectForKey:@"green"] floatValue] / 255
-                            blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:colorName] objectForKey:@"blue"] floatValue] / 255
-                           alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:colorName] objectForKey:@"alpha"] floatValue]];
-}
 @end
