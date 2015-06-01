@@ -922,6 +922,7 @@ Please come back later...</string>
                         <outlet property="TableView" destination="cw6-RV-X35" id="oPi-HC-x1u"/>
                         <outlet property="ViewNavBar" destination="0Co-ON-5zU" id="hFS-wh-58h"/>
                         <outlet property="buttonAddCart" destination="rJ6-8x-RS9" id="Qyl-0A-Trm"/>
+                        <outlet property="closeButton" destination="yo3-n5-dUa" id="ZFe-ZK-IWb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gXA-fb-8KR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1706,17 +1707,17 @@ Please come back later...</string>
         </scene>
     </scenes>
     <resources>
-        <image name="button-share-twitter-blue" width="36" height="36"/>
+        <image name="button-share-twitter-blue" width="36" height="37"/>
         <image name="button-share-twitter-full" width="320" height="44"/>
         <image name="button-share-twitter-white" width="148" height="37"/>
         <image name="icon-reload" width="59" height="76"/>
         <image name="loading" width="768" height="960"/>
         <image name="nav-icon-back" width="11" height="22"/>
-        <image name="nav-icon-cancel-white" width="17" height="17"/>
-        <image name="nav-icon-cart" width="16" height="21"/>
-        <image name="nav-icon-down" width="22" height="12"/>
+        <image name="nav-icon-cancel-white" width="22" height="11"/>
+        <image name="nav-icon-cart" width="17" height="20"/>
+        <image name="nav-icon-down" width="22" height="11"/>
         <image name="nav-icon-next" width="11" height="22"/>
-        <image name="nav-icon-settings" width="22" height="24"/>
+        <image name="nav-icon-settings" width="20" height="20"/>
         <image name="text-madeMooncode-white" width="173" height="13"/>
         <image name="waiting" width="320" height="507"/>
     </resources>
