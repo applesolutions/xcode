@@ -34,14 +34,14 @@
 //        [[NSUserDefaults standardUserDefaults] setObject:@"https://piecebypiece.myshopify.com" forKey:@"website_url"];
     
     
-//    [[NSUserDefaults standardUserDefaults] setObject:@"https://adrift.myshopify.com" forKey:@"website_url"];
+//    [[NSUserDefaults standardUserDefaults] setObject:@"https://wall-society.myshopify.com" forKey:@"website_url"];
     [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_url"];
     [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_cart_url"];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"isInstagramIntegrated"];
     
     [[NSUserDefaults standardUserDefaults] setObject:@"shopify" forKey:@"shopType"];
     [[NSUserDefaults standardUserDefaults] setObject:@"https://checkout.shopify.com" forKey:@"checkoutUrl"];
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"areCollectionsDisplayed"];
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"isInstagramIntegrated"];
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"instagramId"] == nil) { //298508107
         [[NSUserDefaults standardUserDefaults] setObject:@[@""] forKey:@"instagramId"];
