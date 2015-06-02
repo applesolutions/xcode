@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "ScrollViewController.h"
 #import <Parse/Parse.h>
 #import "FCFileManager.h"
 #import "Store.h"

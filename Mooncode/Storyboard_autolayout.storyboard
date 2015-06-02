@@ -139,7 +139,7 @@ just wait a few seconds...
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jet-Ug-3En" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4314" y="1914"/>
+            <point key="canvasLocation" x="5019" y="1912"/>
         </scene>
         <!--Categories View Controller-->
         <scene sceneID="ZDD-kl-QsM">
@@ -298,7 +298,7 @@ Make sure you are
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CZY-xj-E0v" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2628" y="1247"/>
+            <point key="canvasLocation" x="2628" y="1122"/>
         </scene>
         <!--Product Details View Controller-->
         <scene sceneID="LNp-qr-or8">
@@ -589,7 +589,7 @@ Make sure you are
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3pi-BS-s53" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4331" y="1179"/>
+            <point key="canvasLocation" x="4243" y="1133"/>
         </scene>
         <!--Category Products View Controller-->
         <scene sceneID="zR5-G4-8bf">
@@ -704,7 +704,7 @@ Please come back later...</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ATl-Ip-WYN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3522" y="1122"/>
+            <point key="canvasLocation" x="3434" y="1122"/>
         </scene>
         <!--Cart View Controller-->
         <scene sceneID="Rsi-nL-tzR">
@@ -927,7 +927,7 @@ Please come back later...</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gXA-fb-8KR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2766" y="1914"/>
+            <point key="canvasLocation" x="3434" y="1912"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="Ptz-bt-Gdf">
@@ -1198,7 +1198,7 @@ Please come back later...</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YvU-Sg-tcE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1179.75" y="1128"/>
+            <point key="canvasLocation" x="409" y="1128"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="mam-aZ-Tag">
@@ -1210,66 +1210,10 @@ Please come back later...</string>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
-                    <connections>
-                        <segue destination="9Sy-t3-cDi" kind="relationship" relationship="viewControllers" id="34o-St-gWG"/>
-                    </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C4r-Kn-VhG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1274" y="388"/>
-        </scene>
-        <!--Scroll View Controller-->
-        <scene sceneID="tT7-q7-ZgO">
-            <objects>
-                <viewController storyboardIdentifier="ScrollViewController" id="jRv-Tz-4Bh" customClass="ScrollViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="5nS-f1-61Z"/>
-                        <viewControllerLayoutGuide type="bottom" id="V7V-Cs-Af8"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="ySu-zM-Ct9">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yB5-wy-WXf"/>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Ml-Dk-Eui">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" red="0.63529413940000001" green="0.76862752440000004" blue="0.93333339689999995" alpha="1" colorSpace="deviceRGB"/>
-                            </scrollView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="7Ml-Dk-Eui" firstAttribute="width" secondItem="ySu-zM-Ct9" secondAttribute="width" id="V3w-Sz-NMa"/>
-                            <constraint firstItem="7Ml-Dk-Eui" firstAttribute="height" secondItem="ySu-zM-Ct9" secondAttribute="height" id="inL-ls-zHB"/>
-                            <constraint firstAttribute="centerX" secondItem="7Ml-Dk-Eui" secondAttribute="centerX" id="klm-aJ-cUP"/>
-                            <constraint firstAttribute="centerY" secondItem="7Ml-Dk-Eui" secondAttribute="centerY" id="y1x-OU-5nZ"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="scrollView" destination="7Ml-Dk-Eui" id="zMw-cJ-w78"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Pgi-qd-YbG" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2748" y="352"/>
-        </scene>
-        <!--Item-->
-        <scene sceneID="PjS-zH-fF4">
-            <objects>
-                <navigationController storyboardIdentifier="NavControllerViewController" automaticallyAdjustsScrollViewInsets="NO" id="9Sy-t3-cDi" customClass="NavControllerViewController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="PsA-93-AqM"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="mZ2-jb-lf8">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="T1h-gT-lOV" kind="relationship" relationship="rootViewController" id="iFU-88-13T"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xcD-vU-2vi" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1854" y="1122"/>
+            <point key="canvasLocation" x="1818" y="486"/>
         </scene>
         <!--Modify Product In Cart View Controller-->
         <scene sceneID="g1a-o5-tct">
@@ -1552,7 +1496,7 @@ Please come back later...</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bq6-fK-ev7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3522" y="1914"/>
+            <point key="canvasLocation" x="4243" y="1912"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="U8P-Al-Wx3">
@@ -1627,7 +1571,7 @@ Please come back later...</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z7j-be-XRg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="400" y="735"/>
+            <point key="canvasLocation" x="-272" y="735"/>
         </scene>
         <!--Media Web View Controller-->
         <scene sceneID="1WU-4C-p41">
@@ -1703,7 +1647,7 @@ Please come back later...</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BQm-LP-BNq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="400" y="1398"/>
+            <point key="canvasLocation" x="-272" y="1398"/>
         </scene>
     </scenes>
     <resources>

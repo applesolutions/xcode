@@ -8,10 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		AA0F4B251A5D413100D5C7E1 /* ShopifyImages.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0F4B241A5D413100D5C7E1 /* ShopifyImages.m */; };
-		AA13FD4A1A0441D500696FE1 /* NavControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA13FD491A0441D500696FE1 /* NavControllerViewController.m */; };
 		AA13FD4D1A04B86600696FE1 /* PickerViewOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA13FD4C1A04B86600696FE1 /* PickerViewOptions.m */; };
 		AA13FD511A04B8A900696FE1 /* PickerViewForOptions.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA13FD501A04B8A900696FE1 /* PickerViewForOptions.xib */; };
-		AA13FD541A04F32700696FE1 /* Terms&conditionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA13FD531A04F32700696FE1 /* Terms&conditionsViewController.m */; };
 		AA13FD571A05752200696FE1 /* ModifyProductInCartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA13FD561A05752200696FE1 /* ModifyProductInCartViewController.m */; };
 		AA13FD5A1A05BB2500696FE1 /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = AA13FD591A05BB2500696FE1 /* NSString+HTML.m */; };
 		AA13FD5E1A05BB4600696FE1 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = AA13FD5D1A05BB4600696FE1 /* GTMNSString+HTML.m */; };
@@ -100,13 +98,11 @@
 		AA96651E19FCC1A80008ED03 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA96651D19FCC1A80008ED03 /* UIKit.framework */; };
 		AA9F65111A0099A300242FBA /* CategoryProductsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9F65101A0099A300242FBA /* CategoryProductsViewController.m */; };
 		AA9F651D1A02B8D300242FBA /* CategoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9F651C1A02B8D300242FBA /* CategoriesViewController.m */; };
-		AAA1C34819EF460800C257FE /* ScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA1C34719EF460800C257FE /* ScrollViewController.m */; };
 		AAA1C34A19F07F5600C257FE /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAA1C34919F07F5600C257FE /* Accounts.framework */; };
 		AAA1C34C19F07F5B00C257FE /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAA1C34B19F07F5B00C257FE /* Twitter.framework */; };
 		AAA1C34E19F082FB00C257FE /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAA1C34D19F082FB00C257FE /* Social.framework */; };
 		AAABB3D71A36F44E005B53E1 /* Storyboard_autolayout.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAABB3D61A36F44E005B53E1 /* Storyboard_autolayout.storyboard */; };
 		AAAD436F1A60706900B8AB56 /* NSUserDefaultsMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAD436E1A60706900B8AB56 /* NSUserDefaultsMethods.m */; };
-		AAAD43A51A61844100B8AB56 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AAAD43A71A61844100B8AB56 /* Localizable.strings */; };
 		AAAF917B1B10FB6500846CD4 /* ProductsDownlaodOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAF917A1B10FB6500846CD4 /* ProductsDownlaodOperation.m */; };
 		AAAF917F1B11330B00846CD4 /* CollectionsDownloaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAF917E1B11330B00846CD4 /* CollectionsDownloaderOperation.m */; };
 		AABE084219F1AC79009AF8D1 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABE084019F1AC79009AF8D1 /* Bolts.framework */; };
@@ -120,7 +116,6 @@
 		AABE085119F1ACB3009AF8D1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABE085019F1ACB3009AF8D1 /* QuartzCore.framework */; };
 		AABE085319F1ACBB009AF8D1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABE085219F1ACBB009AF8D1 /* Security.framework */; };
 		AABE085719F1ACCD009AF8D1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABE085619F1ACCD009AF8D1 /* SystemConfiguration.framework */; };
-		AAC89DDA1A375D8F00D33C36 /* LaunchImage.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC89DD91A375D8F00D33C36 /* LaunchImage.m */; };
 		AACFCDAD1B190A6900376132 /* CollectionsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AACFCDAC1B190A6900376132 /* CollectionsHelper.m */; };
 		AAD654CA1A894B94007EDE85 /* libFlurry_6.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAD654C91A894B94007EDE85 /* libFlurry_6.0.0.a */; };
 		AAF1838B1AE6E74A00A44A35 /* FCFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF1838A1AE6E74A00A44A35 /* FCFileManager.m */; };
@@ -139,13 +134,9 @@
 /* Begin PBXFileReference section */
 		AA0F4B231A5D413100D5C7E1 /* ShopifyImages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopifyImages.h; sourceTree = "<group>"; };
 		AA0F4B241A5D413100D5C7E1 /* ShopifyImages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopifyImages.m; sourceTree = "<group>"; };
-		AA13FD481A0441D500696FE1 /* NavControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NavControllerViewController.h; path = ../NavControllerViewController.h; sourceTree = "<group>"; };
-		AA13FD491A0441D500696FE1 /* NavControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NavControllerViewController.m; path = ../NavControllerViewController.m; sourceTree = "<group>"; };
 		AA13FD4B1A04B86600696FE1 /* PickerViewOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickerViewOptions.h; sourceTree = "<group>"; };
 		AA13FD4C1A04B86600696FE1 /* PickerViewOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerViewOptions.m; sourceTree = "<group>"; };
 		AA13FD501A04B8A900696FE1 /* PickerViewForOptions.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerViewForOptions.xib; sourceTree = "<group>"; };
-		AA13FD521A04F32700696FE1 /* Terms&conditionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Terms&conditionsViewController.h"; path = "../Terms&conditionsViewController.h"; sourceTree = "<group>"; };
-		AA13FD531A04F32700696FE1 /* Terms&conditionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Terms&conditionsViewController.m"; path = "../Terms&conditionsViewController.m"; sourceTree = "<group>"; };
 		AA13FD551A05752200696FE1 /* ModifyProductInCartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyProductInCartViewController.h; sourceTree = "<group>"; };
 		AA13FD561A05752200696FE1 /* ModifyProductInCartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyProductInCartViewController.m; sourceTree = "<group>"; };
 		AA13FD581A05BB2500696FE1 /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
@@ -306,8 +297,6 @@
 		AA9F65101A0099A300242FBA /* CategoryProductsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CategoryProductsViewController.m; path = ../CategoryProductsViewController.m; sourceTree = "<group>"; };
 		AA9F651B1A02B8D300242FBA /* CategoriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoriesViewController.h; sourceTree = "<group>"; };
 		AA9F651C1A02B8D300242FBA /* CategoriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoriesViewController.m; sourceTree = "<group>"; };
-		AAA1C34619EF460800C257FE /* ScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollViewController.h; sourceTree = "<group>"; };
-		AAA1C34719EF460800C257FE /* ScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewController.m; sourceTree = "<group>"; };
 		AAA1C34919F07F5600C257FE /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		AAA1C34B19F07F5B00C257FE /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		AAA1C34D19F082FB00C257FE /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -315,7 +304,6 @@
 		AAAD436D1A60706900B8AB56 /* NSUserDefaultsMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSUserDefaultsMethods.h; sourceTree = "<group>"; };
 		AAAD436E1A60706900B8AB56 /* NSUserDefaultsMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSUserDefaultsMethods.m; sourceTree = "<group>"; };
 		AAAD43A41A61841200B8AB56 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		AAAD43A61A61844100B8AB56 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AAAF91791B10FB6500846CD4 /* ProductsDownlaodOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductsDownlaodOperation.h; sourceTree = "<group>"; };
 		AAAF917A1B10FB6500846CD4 /* ProductsDownlaodOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductsDownlaodOperation.m; sourceTree = "<group>"; };
 		AAAF917D1B11330B00846CD4 /* CollectionsDownloaderOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionsDownloaderOperation.h; path = Mooncode/CollectionsDownloaderOperation.h; sourceTree = "<group>"; };
@@ -331,8 +319,6 @@
 		AABE085019F1ACB3009AF8D1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		AABE085219F1ACBB009AF8D1 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		AABE085619F1ACCD009AF8D1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		AAC89DD81A375D8F00D33C36 /* LaunchImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchImage.h; sourceTree = "<group>"; };
-		AAC89DD91A375D8F00D33C36 /* LaunchImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchImage.m; sourceTree = "<group>"; };
 		AACFCDAB1B190A6900376132 /* CollectionsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionsHelper.h; sourceTree = "<group>"; };
 		AACFCDAC1B190A6900376132 /* CollectionsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionsHelper.m; sourceTree = "<group>"; };
 		AAD654C81A894B94007EDE85 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
@@ -380,6 +366,8 @@
 		AA13FD5B1A05BB2B00696FE1 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				AA4F6DFE1B1CEFB70045E874 /* UIColor+Custom.h */,
+				AA4F6DFF1B1CEFB70045E874 /* UIColor+Custom.m */,
 				AA13FD5C1A05BB4600696FE1 /* GTMNSString+HTML.h */,
 				AA13FD5D1A05BB4600696FE1 /* GTMNSString+HTML.m */,
 				AA13FD581A05BB2500696FE1 /* NSString+HTML.h */,
@@ -411,7 +399,7 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
-		AA13FD631A05F83000696FE1 /* Customs Views */ = {
+		AA13FD631A05F83000696FE1 /* XibViews */ = {
 			isa = PBXGroup;
 			children = (
 				AA13FD4B1A04B86600696FE1 /* PickerViewOptions.h */,
@@ -420,7 +408,7 @@
 				AA13FD5F1A05F7E100696FE1 /* AcceptedPayementView.h */,
 				AA13FD601A05F7E100696FE1 /* AcceptedPayementView.m */,
 			);
-			name = "Customs Views";
+			name = XibViews;
 			path = ..;
 			sourceTree = "<group>";
 		};
@@ -477,6 +465,7 @@
 				AA2EB2AD1A693A5A00AEA228 /* InstagramPaginationInfo.m */,
 			);
 			name = InstagramKit;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		AA2EB32C1A693B6600AEA228 /* SBInstagram */ = {
@@ -506,6 +495,7 @@
 				AA2EB3141A693B4600AEA228 /* SBInstagramWebViewController.xib */,
 			);
 			name = SBInstagram;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		AA2EB32D1A693B8B00AEA228 /* Ressources */ = {
@@ -578,6 +568,7 @@
 				AA4B4AF01B1633A100D943B6 /* UIWebView+AFNetworking.m */,
 			);
 			name = AFNetworking;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		AA4F6DEF1B1A14640045E874 /* PCH + Constants */ = {
@@ -588,11 +579,104 @@
 				AA4F6DED1B1A13D60045E874 /* Constants.m */,
 			);
 			name = "PCH + Constants";
+			path = ..;
 			sourceTree = "<group>";
 		};
-		AA6390D51A385DE0008462BF /* Models */ = {
+		AA4F6E011B1E607E0045E874 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AA4F6E051B1E62020045E874 /* CategoriesViewController */,
+				AA4F6E061B1E62160045E874 /* CategoryProductsViewController */,
+				AA2EB3341A693BBC00AEA228 /* InstagramViewControllers */,
+				AA4F6E071B1E621E0045E874 /* CartViewController */,
+				AA4F6E081B1E624F0045E874 /* ProductDetails + ModifyVC */,
+				AA4F6E091B1E626D0045E874 /* BuyViewController */,
+				AA4F6E0A1B1E62760045E874 /* SettingsViewController */,
+				AA4F6E0B1B1E63330045E874 /* TabBarController */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		AA4F6E041B1E61A90045E874 /* CustomFonts */ = {
+			isa = PBXGroup;
+			children = (
+				AA3DFA3919EE3D1B003F4920 /* ProximaNova-Bold.otf */,
+				AA3DFA3A19EE3D1B003F4920 /* ProximaNova-Regular.otf */,
+				AA3DFA3B19EE3D1B003F4920 /* ProximaNova-Semibold.otf */,
+			);
+			name = CustomFonts;
+			sourceTree = "<group>";
+		};
+		AA4F6E051B1E62020045E874 /* CategoriesViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AA9F651B1A02B8D300242FBA /* CategoriesViewController.h */,
+				AA9F651C1A02B8D300242FBA /* CategoriesViewController.m */,
+			);
+			name = CategoriesViewController;
+			sourceTree = "<group>";
+		};
+		AA4F6E061B1E62160045E874 /* CategoryProductsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AA9F650F1A0099A300242FBA /* CategoryProductsViewController.h */,
+				AA9F65101A0099A300242FBA /* CategoryProductsViewController.m */,
+			);
+			name = CategoryProductsViewController;
+			sourceTree = "<group>";
+		};
+		AA4F6E071B1E621E0045E874 /* CartViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AA96650F19FCBB2F0008ED03 /* CartViewController.h */,
+				AA96651019FCBB2F0008ED03 /* CartViewController.m */,
+			);
+			name = CartViewController;
+			sourceTree = "<group>";
+		};
+		AA4F6E081B1E624F0045E874 /* ProductDetails + ModifyVC */ = {
+			isa = PBXGroup;
+			children = (
+				AA96650619FCAE6E0008ED03 /* ProductDetailsViewController.h */,
+				AA96650719FCAE6E0008ED03 /* ProductDetailsViewController.m */,
+				AA13FD551A05752200696FE1 /* ModifyProductInCartViewController.h */,
+				AA13FD561A05752200696FE1 /* ModifyProductInCartViewController.m */,
+			);
+			name = "ProductDetails + ModifyVC";
+			sourceTree = "<group>";
+		};
+		AA4F6E091B1E626D0045E874 /* BuyViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AA96650919FCAEA00008ED03 /* BuyWebViewViewController.h */,
+				AA96650A19FCAEA00008ED03 /* BuyWebViewViewController.m */,
+			);
+			name = BuyViewController;
+			sourceTree = "<group>";
+		};
+		AA4F6E0A1B1E62760045E874 /* SettingsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AA7EFFCB19ED051400CB3A2B /* SettingsViewController.h */,
+				AA7EFFCC19ED051400CB3A2B /* SettingsViewController.m */,
+			);
+			name = SettingsViewController;
+			sourceTree = "<group>";
+		};
+		AA4F6E0B1B1E63330045E874 /* TabBarController */ = {
+			isa = PBXGroup;
+			children = (
+				AA4F6DF01B1B96C70045E874 /* TabBarController.h */,
+				AA4F6DF11B1B96C70045E874 /* TabBarController.m */,
+			);
+			name = TabBarController;
+			sourceTree = "<group>";
+		};
+		AA6390D51A385DE0008462BF /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				AA481F2C1AE980D1008EE781 /* Store.h */,
+				AA481F2D1AE980D1008EE781 /* Store.m */,
 				AA6390D21A385DD1008462BF /* ImageManagement.h */,
 				AA6390D31A385DD1008462BF /* ImageManagement.m */,
 				AA0F4B231A5D413100D5C7E1 /* ShopifyImages.h */,
@@ -603,27 +687,17 @@
 				AAAD436E1A60706900B8AB56 /* NSUserDefaultsMethods.m */,
 				AACFCDAB1B190A6900376132 /* CollectionsHelper.h */,
 				AACFCDAC1B190A6900376132 /* CollectionsHelper.m */,
-				AA4F6DFE1B1CEFB70045E874 /* UIColor+Custom.h */,
-				AA4F6DFF1B1CEFB70045E874 /* UIColor+Custom.m */,
 			);
-			name = Models;
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 		AA930A3719E9F00E0084A250 = {
 			isa = PBXGroup;
 			children = (
-				AA4F6DEF1B1A14640045E874 /* PCH + Constants */,
-				AA4B4B021B1633AB00D943B6 /* AFNetworking */,
-				AAAF917C1B10FB6B00846CD4 /* Operations */,
-				AAAD43A71A61844100B8AB56 /* Localizable.strings */,
-				AAF183881AE6E74A00A44A35 /* FCFileManager */,
-				AAD654C71A894B94007EDE85 /* Flurry */,
-				AA2EB32C1A693B6600AEA228 /* SBInstagram */,
-				AA2EB2BD1A693A9B00AEA228 /* InstagramKit */,
 				AA930A4219E9F00E0084A250 /* Mooncode */,
 				AA930A5C19E9F00E0084A250 /* 208Tests */,
 				AA930A4119E9F00E0084A250 /* Products */,
-				AAB59BE119F3773B001F0EFA /* lib */,
+				AAB59BE119F3773B001F0EFA /* Libs */,
 			);
 			sourceTree = "<group>";
 		};
@@ -639,34 +713,13 @@
 		AA930A4219E9F00E0084A250 /* Mooncode */ = {
 			isa = PBXGroup;
 			children = (
-				AA6390D51A385DE0008462BF /* Models */,
-				AA13FD621A05F80600696FE1 /* Masonry CollectionView */,
-				AA13FD631A05F83000696FE1 /* Customs Views */,
-				AA13FD5B1A05BB2B00696FE1 /* Categories */,
 				AAABB3D61A36F44E005B53E1 /* Storyboard_autolayout.storyboard */,
-				AAA1C34619EF460800C257FE /* ScrollViewController.h */,
-				AAA1C34719EF460800C257FE /* ScrollViewController.m */,
-				AA4F6DF01B1B96C70045E874 /* TabBarController.h */,
-				AA4F6DF11B1B96C70045E874 /* TabBarController.m */,
-				AA9F651B1A02B8D300242FBA /* CategoriesViewController.h */,
-				AA9F651C1A02B8D300242FBA /* CategoriesViewController.m */,
-				AA9F650F1A0099A300242FBA /* CategoryProductsViewController.h */,
-				AA9F65101A0099A300242FBA /* CategoryProductsViewController.m */,
-				AA13FD551A05752200696FE1 /* ModifyProductInCartViewController.h */,
-				AA13FD561A05752200696FE1 /* ModifyProductInCartViewController.m */,
-				AA96650F19FCBB2F0008ED03 /* CartViewController.h */,
-				AA96651019FCBB2F0008ED03 /* CartViewController.m */,
-				AA96650619FCAE6E0008ED03 /* ProductDetailsViewController.h */,
-				AA96650719FCAE6E0008ED03 /* ProductDetailsViewController.m */,
-				AA96650919FCAEA00008ED03 /* BuyWebViewViewController.h */,
-				AA96650A19FCAEA00008ED03 /* BuyWebViewViewController.m */,
-				AA7EFFCB19ED051400CB3A2B /* SettingsViewController.h */,
-				AA7EFFCC19ED051400CB3A2B /* SettingsViewController.m */,
-				AA13FD521A04F32700696FE1 /* Terms&conditionsViewController.h */,
-				AA13FD531A04F32700696FE1 /* Terms&conditionsViewController.m */,
-				AA13FD481A0441D500696FE1 /* NavControllerViewController.h */,
-				AA13FD491A0441D500696FE1 /* NavControllerViewController.m */,
-				AA2EB3341A693BBC00AEA228 /* InstagramViewControllers */,
+				AAAF917C1B10FB6B00846CD4 /* NSOperations */,
+				AA4F6DEF1B1A14640045E874 /* PCH + Constants */,
+				AA6390D51A385DE0008462BF /* Controllers */,
+				AA13FD631A05F83000696FE1 /* XibViews */,
+				AA13FD5B1A05BB2B00696FE1 /* Categories */,
+				AA4F6E011B1E607E0045E874 /* Views */,
 				AA930A4319E9F00E0084A250 /* Supporting Files */,
 			);
 			path = Mooncode;
@@ -675,19 +728,19 @@
 		AA930A4319E9F00E0084A250 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				AA72E00B1A6439F5000D90FA /* Images.xcassets */,
 				AA930A4719E9F00E0084A250 /* AppDelegate.h */,
 				AA930A4819E9F00E0084A250 /* AppDelegate.m */,
-				AA481F2C1AE980D1008EE781 /* Store.h */,
-				AA481F2D1AE980D1008EE781 /* Store.m */,
-				AA3DFA3919EE3D1B003F4920 /* ProximaNova-Bold.otf */,
-				AA3DFA3A19EE3D1B003F4920 /* ProximaNova-Regular.otf */,
-				AA3DFA3B19EE3D1B003F4920 /* ProximaNova-Semibold.otf */,
 				AA930A4419E9F00E0084A250 /* Info.plist */,
+				AA72E00B1A6439F5000D90FA /* Images.xcassets */,
 				AA930A4519E9F00E0084A250 /* main.m */,
 				AA930A5219E9F00E0084A250 /* LaunchScreen.xib */,
-				AAC89DD81A375D8F00D33C36 /* LaunchImage.h */,
-				AAC89DD91A375D8F00D33C36 /* LaunchImage.m */,
+				AA13FD621A05F80600696FE1 /* Masonry CollectionView */,
+				AA2EB2BD1A693A9B00AEA228 /* InstagramKit */,
+				AAF183881AE6E74A00A44A35 /* FCFileManager */,
+				AA2EB32C1A693B6600AEA228 /* SBInstagram */,
+				AAD654C71A894B94007EDE85 /* Flurry */,
+				AA4B4B021B1633AB00D943B6 /* AFNetworking */,
+				AA4F6E041B1E61A90045E874 /* CustomFonts */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -709,7 +762,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		AAAF917C1B10FB6B00846CD4 /* Operations */ = {
+		AAAF917C1B10FB6B00846CD4 /* NSOperations */ = {
 			isa = PBXGroup;
 			children = (
 				AAAF91791B10FB6500846CD4 /* ProductsDownlaodOperation.h */,
@@ -717,10 +770,11 @@
 				AAAF917D1B11330B00846CD4 /* CollectionsDownloaderOperation.h */,
 				AAAF917E1B11330B00846CD4 /* CollectionsDownloaderOperation.m */,
 			);
-			name = Operations;
+			name = NSOperations;
+			path = ..;
 			sourceTree = "<group>";
 		};
-		AAB59BE119F3773B001F0EFA /* lib */ = {
+		AAB59BE119F3773B001F0EFA /* Libs */ = {
 			isa = PBXGroup;
 			children = (
 				AA82E3A21A2677AD00BFE601 /* StoreKit.framework */,
@@ -741,7 +795,7 @@
 				AAA1C34B19F07F5B00C257FE /* Twitter.framework */,
 				AAA1C34919F07F5600C257FE /* Accounts.framework */,
 			);
-			name = lib;
+			name = Libs;
 			sourceTree = "<group>";
 		};
 		AAD654C71A894B94007EDE85 /* Flurry */ = {
@@ -750,7 +804,8 @@
 				AAD654C81A894B94007EDE85 /* Flurry.h */,
 				AAD654C91A894B94007EDE85 /* libFlurry_6.0.0.a */,
 			);
-			path = Flurry;
+			name = Flurry;
+			path = ../Flurry;
 			sourceTree = "<group>";
 		};
 		AAF183881AE6E74A00A44A35 /* FCFileManager */ = {
@@ -759,7 +814,8 @@
 				AAF183891AE6E74A00A44A35 /* FCFileManager.h */,
 				AAF1838A1AE6E74A00A44A35 /* FCFileManager.m */,
 			);
-			path = FCFileManager;
+			name = FCFileManager;
+			path = ../FCFileManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -862,7 +918,6 @@
 				AA3DFA3D19EE3D1B003F4920 /* ProximaNova-Regular.otf in Resources */,
 				AA2EB3261A693B4600AEA228 /* SBInstagramLoading.png in Resources */,
 				AA2EB2AE1A693A5A00AEA228 /* InstagramKit.plist in Resources */,
-				AAAD43A51A61844100B8AB56 /* Localizable.strings in Resources */,
 				AAABB3D71A36F44E005B53E1 /* Storyboard_autolayout.storyboard in Resources */,
 				AA2EB3191A693B4600AEA228 /* InstaVidLoad2@2x.png in Resources */,
 				AA930A5419E9F00E0084A250 /* LaunchScreen.xib in Resources */,
@@ -888,12 +943,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAC89DDA1A375D8F00D33C36 /* LaunchImage.m in Sources */,
 				AA4B4AF51B1633A100D943B6 /* AFNetworkReachabilityManager.m in Sources */,
-				AA13FD541A04F32700696FE1 /* Terms&conditionsViewController.m in Sources */,
 				AA85EF4119FCCA4C00C06F60 /* CHTCollectionViewWaterfallLayout.m in Sources */,
 				AA3C33141B0BD3FC00644450 /* CHTCollectionViewWaterfallFeaturedCell.m in Sources */,
-				AAA1C34819EF460800C257FE /* ScrollViewController.m in Sources */,
 				AA2EB3321A693BB600AEA228 /* IKLoginViewController.m in Sources */,
 				AA481F2E1AE980D1008EE781 /* Store.m in Sources */,
 				AA7EFFCD19ED051400CB3A2B /* SettingsViewController.m in Sources */,
@@ -918,7 +970,6 @@
 				AA2EB2B51A693A5A00AEA228 /* InstagramModel.m in Sources */,
 				AA2EB3231A693B4600AEA228 /* SBInstagramController.m in Sources */,
 				AA2EB3221A693B4600AEA228 /* SBInstagramHTTPRequestOperationManager.m in Sources */,
-				AA13FD4A1A0441D500696FE1 /* NavControllerViewController.m in Sources */,
 				AA4F6E001B1CEFB70045E874 /* UIColor+Custom.m in Sources */,
 				AA4B4B011B1633A100D943B6 /* UIWebView+AFNetworking.m in Sources */,
 				AA930A4919E9F00E0084A250 /* AppDelegate.m in Sources */,
@@ -992,14 +1043,6 @@
 				AAAD43A41A61841200B8AB56 /* es */,
 			);
 			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-		AAAD43A71A61844100B8AB56 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AAAD43A61A61844100B8AB56 /* en */,
-			);
-			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

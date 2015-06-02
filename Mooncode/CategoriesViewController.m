@@ -15,7 +15,6 @@
 
 #import "ProductDetailsViewController.h"
 #import "CartViewController.h"
-#import "ScrollViewController.h"
 #import "CategoryProductsViewController.h"
 
 #import "ImageManagement.h"
@@ -50,7 +49,6 @@
 @property(strong, nonatomic) IBOutlet UIButton *buttonReload;
 
 @property(strong, nonatomic) UICollectionView *collectionView;
-@property(nonatomic, strong) ScrollViewController *stlmMainViewController;
 @property(strong, nonatomic) UIRefreshControl *refreshControl;
 
 //GLOBAL PROPERTIES
@@ -119,8 +117,6 @@
                                                object:nil];
 
     [[self navigationController] setNavigationBarHidden:YES animated:YES];  //do not remove
-
-    self.stlmMainViewController = (ScrollViewController *)self.parentViewController.parentViewController;
 
     self.productsOperationQueue = [[NSOperationQueue alloc] init];
     self.productsOperationQueue.maxConcurrentOperationCount = 1;
@@ -606,12 +602,6 @@
 }
 
 #pragma mark - IBActions
-
-- (IBAction)goLeft:(id)sender {
-    //access the parent view controller
-    self.stlmMainViewController = (ScrollViewController *)self.parentViewController.parentViewController;
-    [self.stlmMainViewController pageLeft];
-}
 
 - (IBAction)goToCart:(id)sender {
 //    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Storyboard_autolayout" bundle:nil];

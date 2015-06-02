@@ -7,15 +7,10 @@
 //
 
 #import "SettingsViewController.h"
-
-
-#import "ScrollViewController.h"
-
 #import "SocialMedias.h"
 
 
 @interface SettingsViewController ()
-@property (nonatomic, strong) ScrollViewController *stlmMainViewController;
 
 @property (strong, nonatomic) IBOutlet UIImageView *iconSettings;
 @property (strong, nonatomic) IBOutlet UIButton *buttonRight;
@@ -76,8 +71,6 @@
 
 - (IBAction)goRight:(id)sender {
     //access the parent view controller
-    self.stlmMainViewController= (ScrollViewController *) self.parentViewController;
-    [self.stlmMainViewController pageRight];
 }
 
 - (IBAction)tweet:(UIButton *)sender {

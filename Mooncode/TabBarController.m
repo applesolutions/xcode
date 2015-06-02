@@ -11,6 +11,7 @@
 #import "SettingsViewController.h"
 #import "CartViewController.h"
 #import "SBInstagramController.h"
+#import "CategoriesViewController.h"
 
 @interface TabBarController ()
 
@@ -67,7 +68,9 @@
                                                        selectedImage:[[UIImage imageNamed:@"nav-icon-settings-full"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     settingsVC.tabBarItem = settingsItem;
 
-    UINavigationController *navController = [sb instantiateViewControllerWithIdentifier:@"NavControllerViewController"];
+    CategoriesViewController *categoriesViewController = [sb instantiateViewControllerWithIdentifier:@"CategoriesViewController"];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:categoriesViewController];
+    //link the navController and the collectionCV
     UITabBarItem *collectionsItem = [[UITabBarItem alloc] initWithTitle:@"Collections"
                                                                   image:[[UIImage imageNamed:@"nav-icon-collections"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
                                                           selectedImage:[[UIImage imageNamed:@"nav-icon-collections-full"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
@@ -87,8 +90,8 @@
     self.instagram = [SBInstagramController instagram];
     UINavigationController *navInstagram = [[UINavigationController alloc] initWithRootViewController:self.instagram.feed];
     UITabBarItem *instagramItem = [[UITabBarItem alloc] initWithTitle:@"Instagram"
-                                                                  image:[[UIImage imageNamed:@"nav-icon-instagram"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
-                                                          selectedImage:[[UIImage imageNamed:@"nav-icon-instagram-full"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+                                                                image:[[UIImage imageNamed:@"nav-icon-instagram"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+                                                        selectedImage:[[UIImage imageNamed:@"nav-icon-instagram-full"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     self.instagram.feed.tabBarItem = instagramItem;
 
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isInstagramIntegrated"] == YES) {
@@ -143,7 +146,6 @@
 
 - (void)updatePhoneSettings {
     //change the color of the tabBar
-
     dispatch_async(dispatch_get_main_queue(), ^{
 
       for (UIView *subV in self.tabBar.subviews) {
@@ -155,9 +157,6 @@
 }
 
 - (void)cartUpdated {
-    //    for (UIViewController *viewController in self.viewControllers) {
-    //        if ([viewController isKindOfClass:[CartViewController class]]) {
-
     NSData *dataFromMemory = [[NSUserDefaults standardUserDefaults] dataForKey:@"arrayProductsInCart"];
 
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -170,8 +169,6 @@
 
       self.cartVC.tabBarItem = cartItem;
     });
-    //        }
-    //    }
 }
 
 @end

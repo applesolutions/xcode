@@ -15,8 +15,6 @@
 #import "ProductDetailsViewController.h"
 #import "CartViewController.h"
 
-#import "ScrollViewController.h"
-
 #import "ImageManagement.h"
 
 @interface CategoryProductsViewController ()
@@ -25,7 +23,6 @@
 #define HEADER_IDENTIFIER @"WaterfallHeader"
 #define FOOTER_IDENTIFIER @"WaterfallFooter"
 
-@property (nonatomic, strong) ScrollViewController *stlmMainViewController;
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *buttonCart;
 @property (strong, nonatomic) IBOutlet UINavigationBar *navBar;

@@ -14,8 +14,6 @@
 #import "IKLoginViewController.h"
 #import "MediaWebViewController.h"
 
-#import "ScrollViewController.h"
-
 @interface SBInstagramCollectionViewController()
 {
     NSString *currentVideoURL_;
@@ -37,8 +35,6 @@
 @property (nonatomic, strong) NSTimer *timerVideo;
 @property (nonatomic, assign) BOOL loadCompleteVideo;
 @property (nonatomic, strong) UIImageView *videoPlayImage;
-
-@property (nonatomic, strong) ScrollViewController *stlmMainViewController;
 
 
 @end
@@ -64,15 +60,11 @@
 -(void)goRight{
     NSLog(@"right ");
     //access the parent view controller
-    self.stlmMainViewController= (ScrollViewController *) self.parentViewController.parentViewController;
-    [self.stlmMainViewController pageRight];
 }
 
 -(void)goLeft{
     NSLog(@"left ");
     //access the parent view controller
-    self.stlmMainViewController= (ScrollViewController *) self.parentViewController.parentViewController;
-    [self.stlmMainViewController pageLeft];
 }
 
 - (void)viewDidLoad {
