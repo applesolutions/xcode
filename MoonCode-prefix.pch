@@ -14,5 +14,6 @@
 
 #include "Constants.h"
 #import "UIColor+Custom.h"
+#import "MOONAnalytics.h"
 
 #endif

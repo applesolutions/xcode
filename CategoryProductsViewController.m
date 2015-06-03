@@ -107,6 +107,8 @@
         self.imageWaiting.hidden = YES;
         [self.view addSubview:self.collectionView];
     }
+    
+    [[MOONAnalytics sharedManager] sendAnalyticsForVisitedCollectionWithId:self.categoryName];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
