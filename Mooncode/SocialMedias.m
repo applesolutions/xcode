@@ -19,15 +19,14 @@
     NSString *twitterName = [[NSUserDefaults standardUserDefaults] objectForKey:@"twitterName"];
 
     if ([NSNull null] == twitterName || twitterName == nil || [twitterName isEqualToString:@""]) {
-        NSString *websiteUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"website_url"];
-        NSString *shopName = [[websiteUrl stringByReplacingOccurrencesOfString:@"https://" withString:@""] stringByReplacingOccurrencesOfString:@".myshopify.com" withString:@""];
-        twitterName = [shopName stringByAppendingString:@"'s iPhone App"];
+        NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+        twitterName = [appName stringByAppendingString:@" iPhone App"];
     }
 
     if (state == kMOONShareOnTwitterFromSettings) {
-        twitterMessage = [NSString stringWithFormat:@"Amazing products & app from %@. Download it !", twitterName];
+        twitterMessage = [NSString stringWithFormat:@"Amazing products from the %@. Download it !", twitterName];
     } else if (state == kMOONShareOnTwitterFromProductDetails) {
-        twitterMessage = [NSString stringWithFormat:@"Found this on %@ ! What do you think about it ?", twitterName];
+        twitterMessage = [NSString stringWithFormat:@"Found this on the %@ ! What do you think about it ?", twitterName];
     }
 
     [SocialMedias tweetWithMessage:twitterMessage image:image url:url viewController:vc];
