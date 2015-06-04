@@ -74,11 +74,7 @@
 }
 
 - (IBAction)tweet:(UIButton *)sender {
-
-    [SocialMedias tweetWithMessage:[NSString stringWithFormat:@"Amazing products & app from @%@. Download it !", [[NSUserDefaults standardUserDefaults]objectForKey:@"twitterName"]]
-                             image:nil
-                               url:nil
-                    viewController:self];
+    [SocialMedias shareOnTwitterForState:kMOONShareOnTwitterFromSettings image:nil url:nil viewController:self];
 }
 
 #pragma mark send mail

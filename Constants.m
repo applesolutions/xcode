@@ -34,3 +34,8 @@ NSString *const kMOONdicShopifyProducts = @"dicProducts";
 //NSUserDefaults
 
 //storyboard names ( storyboard + ViewControllers )
+
+
+//sahring keys
+NSInteger const kMOONShareOnTwitterFromSettings = 0;
+NSInteger const kMOONShareOnTwitterFromProductDetails = 1;

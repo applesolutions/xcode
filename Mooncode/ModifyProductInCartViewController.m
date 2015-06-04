@@ -519,11 +519,7 @@
 }
 
 - (IBAction)tweet:(UIButton *)sender {
-    
-    [SocialMedias tweetWithMessage:[NSString stringWithFormat:@"Found this on @%@ ! What do you think about it ?", [[NSUserDefaults standardUserDefaults]objectForKey:@"twitterName"]]
-                             image:self.image
-                               url:nil
-                    viewController:self];
+    [SocialMedias shareOnTwitterForState:kMOONShareOnTwitterFromProductDetails image:self.image url:nil viewController:self];
 }
 
 @end

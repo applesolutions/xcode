@@ -21,4 +21,11 @@ extern NSString *const noCollectionToDisplayMessage;
 extern NSString *const website_url;
 extern NSString *const website_cart_url;
 
+
+//sahring keys
+extern NSInteger const kMOONShareOnTwitterFromSettings;
+extern NSInteger const kMOONShareOnTwitterFromProductDetails;
+
+
 #endif
+
