@@ -13,7 +13,7 @@
 #import "SBInstagramController.h"
 #import "CategoriesViewController.h"
 
-@interface TabBarController ()
+@interface TabBarController () <UITabBarControllerDelegate>
 
 @property(strong, nonatomic) SBInstagramController *instagram;
 @property(strong, nonatomic) CartViewController *cartVC;
@@ -29,6 +29,7 @@
     //    self.tabBar.translucent = NO; // set NO -> cuts the view
 
     self.tabBar.tintColor = [UIColor whiteColor];
+    self.delegate = self;
 
     CGRect frame = CGRectMake(0.0, 0.0, self.view.bounds.size.width, 49);
     UIView *v = [[UIView alloc] initWithFrame:frame];
@@ -170,5 +171,17 @@
       self.cartVC.tabBarItem = cartItem;
     });
 }
+
+#pragma mark tabBarDelegate
+
+-(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{ //be sure on the collections
+    if ([viewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navController = (UINavigationController*)viewController;
+        if ([navController.viewControllers.firstObject isKindOfClass:[CategoriesViewController class]]) {
+            [navController popToRootViewControllerAnimated:NO];
+        }
+    }
+}
+
 
 @end

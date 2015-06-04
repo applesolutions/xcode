@@ -11,6 +11,8 @@
 
 @interface SocialMedias : NSObject
 
++ (void)shareOnTwitterForState:(NSInteger)state image:(UIImage *)image url:(NSURL *)url viewController:(UIViewController *)vc;
+
 +(void)tweetWithMessage : (NSString*)twitterMessage image:(UIImage*) image url:(NSURL*)url viewController : (UIViewController*)UIViewController;
 
 

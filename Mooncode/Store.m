@@ -57,8 +57,9 @@
                          [[NSUserDefaults standardUserDefaults] setObject:arrayCustomCollectionsIds forKey:@"arrayCustomCollectionsIds"];
 
                          if ([NSNull null] != twitter && twitter != nil) {
-                             twitter = [twitter stringByReplacingOccurrencesOfString:@"@" withString:@""];
                              [[NSUserDefaults standardUserDefaults] setObject:twitter forKey:@"twitterName"];
+                         }else{
+                             [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"twitterName"]; // if no twitter -> set empty string
                          }
                          if ([NSNull null] != appCurrency && appCurrency != nil) {
                              NSLog(@"appcurrency");

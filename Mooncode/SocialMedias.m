@@ -8,41 +8,54 @@
 
 #import "SocialMedias.h"
 
-#import <Twitter/Twitter.h>
-#import <Accounts/Accounts.h>
-#import <Social/Social.h>
-
-
+@import Twitter;
+@import Accounts;
+@import Social;
 
 @implementation SocialMedias
 
-+(void)tweetWithMessage : (NSString*)twitterMessage image:(UIImage*) image url:(NSURL*)url viewController : (UIViewController*)UIViewController{
-   
-    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
-    {
++ (void)shareOnTwitterForState:(NSInteger)state image:(UIImage *)image url:(NSURL *)url viewController:(UIViewController *)vc {
+    NSString *twitterMessage;
+    NSString *twitterName = [[NSUserDefaults standardUserDefaults] objectForKey:@"twitterName"];
+
+    if ([NSNull null] == twitterName || twitterName == nil || [twitterName isEqualToString:@""]) {
+        NSString *websiteUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"website_url"];
+        NSString *shopName = [[websiteUrl stringByReplacingOccurrencesOfString:@"https://" withString:@""] stringByReplacingOccurrencesOfString:@".myshopify.com" withString:@""];
+        twitterName = [shopName stringByAppendingString:@"'s iPhone App"];
+    }
+
+    if (state == kMOONShareOnTwitterFromSettings) {
+        twitterMessage = [NSString stringWithFormat:@"Amazing products & app from %@. Download it !", twitterName];
+    } else if (state == kMOONShareOnTwitterFromProductDetails) {
+        twitterMessage = [NSString stringWithFormat:@"Found this on %@ ! What do you think about it ?", twitterName];
+    }
+
+    [SocialMedias tweetWithMessage:twitterMessage image:image url:url viewController:vc];
+}
+
++ (void)tweetWithMessage:(NSString *)twitterMessage image:(UIImage *)image url:(NSURL *)url viewController:(UIViewController *)UIViewController {
+    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
         SLComposeViewController *tweetSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
-        
-        if(twitterMessage)
+
+        if (twitterMessage)
             [tweetSheet setInitialText:twitterMessage];
-        
-        if(image)
+
+        if (image)
             [tweetSheet addImage:image];
-        
-        if(url)
+
+        if (url)
             [tweetSheet addURL:url];
-        
 
         [UIViewController presentViewController:tweetSheet animated:YES completion:nil];
-    }else{
+    } else {
         UIAlertView *alertView = [[UIAlertView alloc]
-                                  initWithTitle:@"Sorry"
-                                  message:@"You can't send a tweet right now, make sure your device has an internet connection and you have at least one Twitter account setup"
-                                  delegate:self
-                                  cancelButtonTitle:@"OK"
-                                  otherButtonTitles:nil];
+                initWithTitle:@"Sorry"
+                      message:@"You can't send a tweet right now, make sure your device has an internet connection and you have at least one Twitter account setup"
+                     delegate:self
+            cancelButtonTitle:@"OK"
+            otherButtonTitles:nil];
         [alertView show];
     }
 }
-
 
 @end
