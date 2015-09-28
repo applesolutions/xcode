@@ -281,31 +281,27 @@
     
     NSString * actualPrice = [[dicVariant objectForKey:@"price"] stringAmountWithThousandsSeparator];
     NSString *priceBefore = [dicVariant objectForKey:@"compare_at_price"];
-    
+    NSString *currency = [[NSUserDefaults standardUserDefaults] objectForKey:@"currency"];
     
     
     if ( ! [priceBefore isKindOfClass:[NSNull class]] && ! [priceBefore isEqualToString:@"0"] ) { //there is a discount
         self.ViewSpecialPrice.hidden = NO;
         self.LabelPrice.hidden = YES;
         
-        
         priceBefore = [priceBefore stringAmountWithThousandsSeparator];
         
-        self.labelPriceNow.text =[[NSString stringWithFormat:@"%@ ", [[NSUserDefaults standardUserDefaults] objectForKey:@"currency"]] stringByAppendingString: actualPrice];
-        self.labelPriceBefore.text =[[NSString stringWithFormat:@"%@ ", [[NSUserDefaults standardUserDefaults] objectForKey:@"currency"]] stringByAppendingString: priceBefore];
+        self.labelPriceNow.text = [NSString stringWithFormat:@"%@ %@", actualPrice, currency];
+        self.labelPriceBefore.text = [NSString stringWithFormat:@"%@ %@", priceBefore, currency];
         
         CGRect frame = self.viewRed.frame;
-        //    frame.size.width = [self widthOfString:priceBefore withFont:[UIFont fontWithName:@"ProximaNova-Regular" size:17]] + 20;
         frame.size.width = [priceBefore getWidthWithFont:[UIFont fontWithName:@"ProximaNova-Regular" size:17]] + 20;
-        
         self.viewRed.frame = frame;
-        
         self.viewRed.center = self.labelPriceBefore.center;
         
     }else{
         self.ViewSpecialPrice.hidden = YES;
         self.LabelPrice.hidden = NO;
-        self.LabelPrice.text = [[NSString stringWithFormat:@"%@ ", [[NSUserDefaults standardUserDefaults] objectForKey:@"currency"]] stringByAppendingString:actualPrice];
+        self.LabelPrice.text = [NSString stringWithFormat:@"%@ %@", actualPrice, currency];
     }
 }
 

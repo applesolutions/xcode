@@ -13,7 +13,7 @@
 #import "SBInstagramController.h"
 #import "CategoriesViewController.h"
 
-@interface TabBarController () <UITabBarControllerDelegate>
+@interface TabBarController ()<UITabBarControllerDelegate>
 
 @property(strong, nonatomic) SBInstagramController *instagram;
 @property(strong, nonatomic) CartViewController *cartVC;
@@ -67,6 +67,9 @@
     UITabBarItem *settingsItem = [[UITabBarItem alloc] initWithTitle:@"Settings"
                                                                image:[[UIImage imageNamed:@"nav-icon-settings"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
                                                        selectedImage:[[UIImage imageNamed:@"nav-icon-settings-full"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    settingsItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0);
+    settingsItem.title = nil;
+
     settingsVC.tabBarItem = settingsItem;
 
     CategoriesViewController *categoriesViewController = [sb instantiateViewControllerWithIdentifier:@"CategoriesViewController"];
@@ -75,6 +78,8 @@
     UITabBarItem *collectionsItem = [[UITabBarItem alloc] initWithTitle:@"Collections"
                                                                   image:[[UIImage imageNamed:@"nav-icon-collections"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
                                                           selectedImage:[[UIImage imageNamed:@"nav-icon-collections-full"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    collectionsItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0);
+    collectionsItem.title = nil;
     navController.tabBarItem = collectionsItem;
 
     self.cartVC = [sb instantiateViewControllerWithIdentifier:@"CartViewController"];
@@ -86,6 +91,9 @@
                                                            image:[[UIImage imageNamed:imageName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
                                                    selectedImage:[[UIImage imageNamed:[imageName stringByAppendingString:@"-full"]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
 
+    cartItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0);
+    cartItem.title = nil;
+
     self.cartVC.tabBarItem = cartItem;
 
     self.instagram = [SBInstagramController instagram];
@@ -93,6 +101,8 @@
     UITabBarItem *instagramItem = [[UITabBarItem alloc] initWithTitle:@"Instagram"
                                                                 image:[[UIImage imageNamed:@"nav-icon-instagram"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
                                                         selectedImage:[[UIImage imageNamed:@"nav-icon-instagram-full"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    instagramItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0);
+    instagramItem.title = nil;
     self.instagram.feed.tabBarItem = instagramItem;
 
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isInstagramIntegrated"] == YES) {
@@ -168,20 +178,22 @@
                                                              image:[[UIImage imageNamed:imageName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
                                                      selectedImage:[[UIImage imageNamed:[imageName stringByAppendingString:@"-full"]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
 
+      cartItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0);
+      cartItem.title = nil;
+
       self.cartVC.tabBarItem = cartItem;
     });
 }
 
 #pragma mark tabBarDelegate
 
--(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{ //be sure on the collections
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {  //be sure on the collections
     if ([viewController isKindOfClass:[UINavigationController class]]) {
-        UINavigationController *navController = (UINavigationController*)viewController;
+        UINavigationController *navController = (UINavigationController *)viewController;
         if ([navController.viewControllers.firstObject isKindOfClass:[CategoriesViewController class]]) {
             [navController popToRootViewControllerAnimated:NO];
         }
     }
 }
-
 
 @end

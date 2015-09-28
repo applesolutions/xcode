@@ -22,7 +22,7 @@
         NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
         [numberFormatter setFormatterBehavior: NSNumberFormatterBehavior10_4];
         [numberFormatter setNumberStyle: NSNumberFormatterDecimalStyle];
-        [numberFormatter setGroupingSeparator:@"'"];
+        [numberFormatter setGroupingSeparator:@"."];
         return [numberFormatter stringFromNumber: number];
     }
     @catch (NSException *exception) {

@@ -34,8 +34,8 @@
     
     
 //    [[NSUserDefaults standardUserDefaults] setObject:@"https://wall-society.myshopify.com" forKey:@"website_url"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_url"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"https://buyonesnap.myshopify.com" forKey:@"website_cart_url"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"https://applesolutions.myshopify.com" forKey:@"website_url"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"http://applesolutions.dk" forKey:@"website_cart_url"];
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"isInstagramIntegrated"];
     
     [[NSUserDefaults standardUserDefaults] setObject:@"shopify" forKey:@"shopType"];
@@ -121,8 +121,8 @@
 }
 
 -(void) setParse{
-    [Parse setApplicationId:@"zWbyL5uCm51clRDfDqwZrdie1DoLb2akmKgeJB0o"
-                  clientKey:@"JSVHvXKv6VI9Ce3syrNDk9irFmLxTfYdYsRfqtSl"];
+    [Parse setApplicationId:@"iuIKM3lp6AQ4pjbUUhBAbvmju9BkH7UbtUVuauio"
+                  clientKey:@"OhqF9MJOYvXwghJ7j5reJ46SIGyJG5mlwwy4O2qT"];
 }
 
 -(void) setNotificationsWithApplication: (UIApplication *)application{

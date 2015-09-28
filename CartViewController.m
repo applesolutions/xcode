@@ -163,12 +163,12 @@
     @try {
         imageView.image = [ImageManagement getImageFromMemoryWithName:itemIdForPicture];
         LabelTitle.text = title;
-        LabeSize.text = [@"Details : " stringByAppendingString:[DicItem objectForKey:@"option1"]];
-        LabeQte.text = [@"Quantity : " stringByAppendingString:qte];
+        LabeSize.text = [@"Detailjer : " stringByAppendingString:[DicItem objectForKey:@"option1"]];
+        LabeQte.text = [@"Antal : " stringByAppendingString:qte];
 
         if ([[DicItem objectForKey:@"option1"] isEqualToString:@"Default Title"] ||
             [[DicItem objectForKey:@"option1"] isEqualToString:@"Default"]) {
-            LabeSize.text = @"Details : one size";
+            LabeSize.text = @"Detailjer : one size";
         }
 
         if (![[DicItem objectForKey:@"option2"] isKindOfClass:[NSNull class]]) {
@@ -182,13 +182,13 @@
         NSString *total_price_string = [[NSString stringWithFormat:@"%f", total_price_float] stringAmountWithThousandsSeparator];
 
         if ([qte isEqualToString:@"1"]) {
-            LabelPrice.text = [NSString stringWithFormat:@"%@ %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"currency"], total_price_string];
+            LabelPrice.text = [NSString stringWithFormat:@"%@ %@", total_price_string, [[NSUserDefaults standardUserDefaults] objectForKey:@"currency"]];
         } else {
             LabelPrice.text = [[[[[[qte stringAmountWithThousandsSeparator] stringByAppendingString:@" x"]
                 stringByAppendingString:[NSString stringWithFormat:@" %@ ", [[NSUserDefaults standardUserDefaults] objectForKey:@"currency"]]]
                 stringByAppendingString:[[DicItem objectForKey:@"price"] stringAmountWithThousandsSeparator]]
                 stringByAppendingString:@" = "]
-                stringByAppendingString:[NSString stringWithFormat:@"%@ %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"currency"], total_price_string]];
+                stringByAppendingString:[NSString stringWithFormat:@"%@ %@", total_price_string, [[NSUserDefaults standardUserDefaults] objectForKey:@"currency"]]];
         }
     }
     @catch (NSException *exception) {

@@ -380,6 +380,9 @@
 
     for (NSString *key in self.dicProductsCorrespondingToCollections.allKeys) {  //ENUMERATE ALL THE PRODUCTS TO KNOW IF UPDATED !
         for (NSDictionary *dicProduct in self.dicProductsCorrespondingToCollections[key]) {
+
+            if ([dicProduct objectForKey:@"image"] == (id)[NSNull null]) continue; //never remove this line.
+            
             NSString *stringDateProductUpdate = [dicProduct objectForKey:@"updated_at"];
 
             if (![productImagesToDownload.allKeys containsObject:[dicProduct objectForKey:@"id"]] &&

@@ -163,32 +163,32 @@
         }];
 //        NSLog(@"description array indexes : %@", [arrayIndexesActiclesOnSales description] );
         
-        NSString *productId = [[dicProduct objectForKey:@"id"] stringValue];
+//        NSString *productId = [[dicProduct objectForKey:@"id"] stringValue];
         
-        CGSize imageSize = [ImageManagement getImageFromMemoryWithName:productId].size;
-        float image_ratio = 157/imageSize.width;
-        float image_newHeight = image_ratio * imageSize.height;
-        
-        CGSize size;
-        if ([arrayIds_memory indexOfObject:productId] == 0) {
-            size = CGSizeMake(157, (int)image_newHeight);
-        }else if ([arrayIds_memory indexOfObject:productId] == 1){
-            size = CGSizeMake(157, (int)image_newHeight * 0.85);
-        }else if ([arrayIds_memory indexOfObject:productId] == 2) {
-            size = CGSizeMake(157, (int)image_newHeight * 0.85);
-        }else if ([arrayIds_memory indexOfObject:productId] == 3){
-            size = CGSizeMake(157, (int)image_newHeight);
-        }
-        else{
-            int lowerBound = 85;
-            int upperBound = 100;
-            float randRatio = (int)(lowerBound + arc4random() % (upperBound - lowerBound))/100.0;
-            size = CGSizeMake(157, (int)(image_newHeight * randRatio));
-        }
+//        CGSize imageSize = [ImageManagement getImageFromMemoryWithName:productId].size;
+//        float image_ratio = 157/imageSize.width;
+//        float image_newHeight = image_ratio * imageSize.height;
+//
+//        CGSize size;
+//        if ([arrayIds_memory indexOfObject:productId] == 0) {
+//            size = CGSizeMake(157, (int)image_newHeight);
+//        }else if ([arrayIds_memory indexOfObject:productId] == 1){
+//            size = CGSizeMake(157, (int)image_newHeight * 0.85);
+//        }else if ([arrayIds_memory indexOfObject:productId] == 2) {
+//            size = CGSizeMake(157, (int)image_newHeight * 0.85);
+//        }else if ([arrayIds_memory indexOfObject:productId] == 3){
+//            size = CGSizeMake(157, (int)image_newHeight);
+//        }
+//        else{
+//            int lowerBound = 85;
+//            int upperBound = 100;
+//            float randRatio = (int)(lowerBound + arc4random() % (upperBound - lowerBound))/100.0;
+//            size = CGSizeMake(157, (int)(image_newHeight * randRatio));
+//        }
         
 //        NSLog(@"size : %@", NSStringFromCGSize(size));
         
-        [self.cellSizes addObject:[NSValue valueWithCGSize:size]];
+//        [self.cellSizes addObject:[NSValue valueWithCGSize:size]];
     }];
     
 }
@@ -200,14 +200,38 @@
     return [arrayProductsForCategory count];
 }
 
+//- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+//    
+//    CHTCollectionViewWaterfallCell *cell = (CHTCollectionViewWaterfallCell *)[collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER forIndexPath:indexPath];
+//    NSString *product_id = [[arrayProductsForCategory objectAtIndex:indexPath.row] objectForKey:@"id"];
+//
+//    cell.viewWhite.hidden = YES;
+//    cell.imageView.image = [ImageManagement getImageFromMemoryWithName:product_id];
+//    
+//    if ([arrayIndexesActiclesOnSales containsObject:[NSNumber numberWithInteger:indexPath.row]]) {
+//        
+//        cell.imageViewSale.image = [UIImage imageNamed:@"icon-sale"];
+//    }else{
+//        
+//        cell.imageViewSale.image = nil;
+//    }
+//    
+//    return cell;
+//}
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     CHTCollectionViewWaterfallCell *cell = (CHTCollectionViewWaterfallCell *)[collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER forIndexPath:indexPath];
     NSString *product_id = [[arrayProductsForCategory objectAtIndex:indexPath.row] objectForKey:@"id"];
-
-    cell.viewWhite.hidden = YES;
+    NSString *title = [[arrayProductsForCategory objectAtIndex:indexPath.row] objectForKey:@"title"];
+    cell.displayLabel.text = title;
+    //    cell.viewWhite.hidden = YES;
+    
     cell.imageView.image = [ImageManagement getImageFromMemoryWithName:product_id];
     
+    cell.imageView.contentMode = UIViewContentModeScaleAspectFit; // added !
+    cell.viewWhite.backgroundColor = [self colorFromMemoryWithName:@"colorViewTitleCollection"];
+
     if ([arrayIndexesActiclesOnSales containsObject:[NSNumber numberWithInteger:indexPath.row]]) {
         
         cell.imageViewSale.image = [UIImage imageNamed:@"icon-sale"];
@@ -218,6 +242,7 @@
     
     return cell;
 }
+
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"Storyboard_autolayout" bundle:nil];
@@ -254,7 +279,8 @@
 #pragma mark - CHTCollectionViewDelegateWaterfallLayout
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return [self.cellSizes[indexPath.item] CGSizeValue];
+//    return [self.cellSizes[indexPath.item] CGSizeValue];
+    return CGSizeMake(50, 50);
 }
 
 - (UICollectionView *)collectionView {
@@ -291,5 +317,16 @@
     }
     return _collectionView;
 }
+
+
+#pragma mark - Helpers
+
+- (UIColor *)colorFromMemoryWithName:(NSString *)colorName {
+    return [UIColor colorWithRed:[[[[NSUserDefaults standardUserDefaults] objectForKey:colorName] objectForKey:@"red"] floatValue] / 255
+                           green:[[[[NSUserDefaults standardUserDefaults] objectForKey:colorName] objectForKey:@"green"] floatValue] / 255
+                            blue:[[[[NSUserDefaults standardUserDefaults] objectForKey:colorName] objectForKey:@"blue"] floatValue] / 255
+                           alpha:[[[[NSUserDefaults standardUserDefaults] objectForKey:colorName] objectForKey:@"alpha"] floatValue]];
+}
+
 
 @end

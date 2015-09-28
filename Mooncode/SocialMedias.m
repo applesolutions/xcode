@@ -21,7 +21,10 @@
     if ([NSNull null] == twitterName || twitterName == nil || [twitterName isEqualToString:@""]) {
         NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
         twitterName = [appName stringByAppendingString:@" iPhone App"];
+    }else{
+        twitterName = [twitterName stringByAppendingString:@" iPhone App"];
     }
+    
 
     if (state == kMOONShareOnTwitterFromSettings) {
         twitterMessage = [NSString stringWithFormat:@"Amazing products from the %@. Download it !", twitterName];
