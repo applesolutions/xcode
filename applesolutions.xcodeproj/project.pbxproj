@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02B518100BB9680ED4701A07 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00D481E17EBD45E7DE6E7E12 /* QuartzCore.framework */; };
+		089C90F6F5FD334A54980558 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 284F8FFD82146F13F94BB0ED /* CoreText.framework */; };
+		5803EBA2AF7F944155E6E508 /* BuddyBuildSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE59078FF394C3603B80881D /* BuddyBuildSDK.framework */; };
+		5A583BDB4223A04119E57946 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4B527F9C9B1C751A29D7FD3 /* CoreMedia.framework */; };
+		5D7B65A093511AD53E8AD08E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44A951D1585047555C3B105E /* CoreTelephony.framework */; };
+		67A74F47FCEF61BF9F5F74F4 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3622BA4CD7ECD7DDFF3C23C2 /* CoreVideo.framework */; };
+		A0FABFC0F134F4E6FC05F0F0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 305FF99F889058DE8CAB9AC3 /* AssetsLibrary.framework */; };
+		A81CAFE7C78040340CFE8644 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFD4A767900C8E37545CEE2 /* SystemConfiguration.framework */; };
 		AA0F4B251A5D413100D5C7E1 /* ShopifyImages.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0F4B241A5D413100D5C7E1 /* ShopifyImages.m */; };
 		AA13FD4D1A04B86600696FE1 /* PickerViewOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA13FD4C1A04B86600696FE1 /* PickerViewOptions.m */; };
 		AA13FD511A04B8A900696FE1 /* PickerViewForOptions.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA13FD501A04B8A900696FE1 /* PickerViewForOptions.xib */; };
@@ -121,6 +129,7 @@
 		AACFCDAD1B190A6900376132 /* CollectionsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AACFCDAC1B190A6900376132 /* CollectionsHelper.m */; };
 		AAD654CA1A894B94007EDE85 /* libFlurry_6.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAD654C91A894B94007EDE85 /* libFlurry_6.0.0.a */; };
 		AAF1838B1AE6E74A00A44A35 /* FCFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF1838A1AE6E74A00A44A35 /* FCFileManager.m */; };
+		B53B74D71C2EC5BFA49BD7F1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 826D91FB93749C8ABC708E08 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,6 +143,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		00D481E17EBD45E7DE6E7E12 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		284F8FFD82146F13F94BB0ED /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		305FF99F889058DE8CAB9AC3 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		3622BA4CD7ECD7DDFF3C23C2 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		44A951D1585047555C3B105E /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		4CFD4A767900C8E37545CEE2 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		826D91FB93749C8ABC708E08 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		AA0F4B231A5D413100D5C7E1 /* ShopifyImages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopifyImages.h; sourceTree = "<group>"; };
 		AA0F4B241A5D413100D5C7E1 /* ShopifyImages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopifyImages.m; sourceTree = "<group>"; };
 		AA13FD4B1A04B86600696FE1 /* PickerViewOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickerViewOptions.h; sourceTree = "<group>"; };
@@ -332,6 +348,8 @@
 		AAF183891AE6E74A00A44A35 /* FCFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCFileManager.h; sourceTree = "<group>"; };
 		AAF1838A1AE6E74A00A44A35 /* FCFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCFileManager.m; sourceTree = "<group>"; };
 		BAD4C51D1BB8C6360076A292 /* Mooncode.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Mooncode.entitlements; sourceTree = "<group>"; };
+		EE59078FF394C3603B80881D /* BuddyBuildSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BuddyBuildSDK.framework; sourceTree = "<group>"; };
+		F4B527F9C9B1C751A29D7FD3 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -357,6 +375,15 @@
 				AAA1C34A19F07F5600C257FE /* Accounts.framework in Frameworks */,
 				AABE084219F1AC79009AF8D1 /* Bolts.framework in Frameworks */,
 				AABE084319F1AC79009AF8D1 /* Parse.framework in Frameworks */,
+				5803EBA2AF7F944155E6E508 /* BuddyBuildSDK.framework in Frameworks */,
+				A0FABFC0F134F4E6FC05F0F0 /* AssetsLibrary.framework in Frameworks */,
+				089C90F6F5FD334A54980558 /* CoreText.framework in Frameworks */,
+				5D7B65A093511AD53E8AD08E /* CoreTelephony.framework in Frameworks */,
+				A81CAFE7C78040340CFE8644 /* SystemConfiguration.framework in Frameworks */,
+				02B518100BB9680ED4701A07 /* QuartzCore.framework in Frameworks */,
+				B53B74D71C2EC5BFA49BD7F1 /* AVFoundation.framework in Frameworks */,
+				5A583BDB4223A04119E57946 /* CoreMedia.framework in Frameworks */,
+				67A74F47FCEF61BF9F5F74F4 /* CoreVideo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,6 +397,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		820A2CEBF937EE983E32D153 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EE59078FF394C3603B80881D /* BuddyBuildSDK.framework */,
+				305FF99F889058DE8CAB9AC3 /* AssetsLibrary.framework */,
+				284F8FFD82146F13F94BB0ED /* CoreText.framework */,
+				44A951D1585047555C3B105E /* CoreTelephony.framework */,
+				4CFD4A767900C8E37545CEE2 /* SystemConfiguration.framework */,
+				00D481E17EBD45E7DE6E7E12 /* QuartzCore.framework */,
+				826D91FB93749C8ABC708E08 /* AVFoundation.framework */,
+				F4B527F9C9B1C751A29D7FD3 /* CoreMedia.framework */,
+				3622BA4CD7ECD7DDFF3C23C2 /* CoreVideo.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		AA13FD5B1A05BB2B00696FE1 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -709,6 +752,7 @@
 				AA930A5C19E9F00E0084A250 /* 208Tests */,
 				AA930A4119E9F00E0084A250 /* Products */,
 				AAB59BE119F3773B001F0EFA /* Libs */,
+				820A2CEBF937EE983E32D153 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
